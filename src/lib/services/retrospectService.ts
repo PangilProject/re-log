@@ -28,12 +28,13 @@ export interface RetrospectData {
  */
 export async function saveRetrospect(data: RetrospectData) {
 	try {
-		await addDoc(collection(db, 'retrospectives'), {
+		const docRef = await addDoc(collection(db, 'retrospectives'), {
 			...data,
 			createdAt: serverTimestamp(),
 			userId: 'temp-userId'
 		});
-		return { success: true };
+
+		return { success: true, id: docRef.id };
 	} catch (error) {
 		console.error('Firestore 저장 오류:', error);
 		return { success: false, error };

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { renderMarkdown } from '$lib/markdown';
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 	import EditorTitle from '$lib/components/write/EditorTitle.svelte';
 	import RetrospectSection from '$lib/components/write/RetrospectSection.svelte';
 	import { saveRetrospect } from '$lib/services/retrospectService';
@@ -55,12 +56,10 @@
 			if (!confirm(`${missing} 항목이 비어 있습니다. 그래도 저장할까요?`)) return;
 		}
 
-		const { success, error } = await saveRetrospect({ title, answers });
-		if (success) {
-			alert('✅ 회고가 성공적으로 저장되었습니다!');
-			title = '';
-			for (const key in answers) answers[key as keyof typeof answers] = '';
-			for (const key in previews) previews[key as keyof typeof previews] = '';
+		const { success, error, id } = await saveRetrospect({ title, answers });
+		if (success && id) {
+			alert('회고가 성공적으로 저장되었습니다!');
+			await goto(`/detail/${id}`);
 		} else {
 			console.error(error);
 			alert('저장 중 오류가 발생했습니다.');
