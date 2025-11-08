@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import EditorTitle from '$lib/components/write/EditorTitle.svelte';
 	import RetrospectSection from '$lib/components/write/RetrospectSection.svelte';
+	import { saveRetrospect } from '$lib/services/retrospectService';
 
 	let title = '';
 
@@ -40,6 +41,31 @@
 			updatePreview(key as keyof typeof answers, value)
 		);
 	});
+
+	// ✅ 작성 완료 버튼 클릭 시 Firestore 저장
+	async function handleSubmit() {
+		if (!title.trim()) {
+			alert('제목을 입력해주세요.');
+			return;
+		}
+
+		const emptyFields = Object.entries(answers).filter(([_, v]) => !v.trim());
+		if (emptyFields.length > 0) {
+			const missing = emptyFields.map(([k]) => k).join(', ');
+			if (!confirm(`${missing} 항목이 비어 있습니다. 그래도 저장할까요?`)) return;
+		}
+
+		const { success, error } = await saveRetrospect({ title, answers });
+		if (success) {
+			alert('✅ 회고가 성공적으로 저장되었습니다!');
+			title = '';
+			for (const key in answers) answers[key as keyof typeof answers] = '';
+			for (const key in previews) previews[key as keyof typeof previews] = '';
+		} else {
+			console.error(error);
+			alert('저장 중 오류가 발생했습니다.');
+		}
+	}
 </script>
 
 <div class="editor-container">
@@ -54,6 +80,10 @@
 			onInput={(v) => updatePreview(key, v)}
 		/>
 	{/each}
+
+	<div class="submit-box">
+		<button on:click={handleSubmit}>💾 작성 완료</button>
+	</div>
 </div>
 
 <style>
@@ -68,5 +98,23 @@
 		font-size: 1.6rem;
 		font-weight: bold;
 		margin-bottom: 0.5rem;
+	}
+	.submit-box {
+		display: flex;
+		justify-content: center;
+		margin-top: 1rem;
+	}
+	button {
+		background: #0070f3;
+		color: white;
+		padding: 0.8rem 2rem;
+		border: none;
+		border-radius: 8px;
+		font-size: 1rem;
+		cursor: pointer;
+		transition: 0.2s ease;
+	}
+	button:hover {
+		background: #0059c9;
 	}
 </style>
