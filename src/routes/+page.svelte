@@ -5,3 +5,6 @@
 <div>
 	<a href="/list">회고 리스트</a>
 </div>
+<div>
+	<a href="/login">로그인</a>
+</div>
