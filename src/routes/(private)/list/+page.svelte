@@ -5,12 +5,21 @@
 	let retrospects: { id: string; title: string; createdAt?: any }[] = [];
 	let loading = true;
 	let error: string | null = null;
-
-	const userId = 'temp-userId'; // 추후 Firebase Auth 적용 시 교체
+	import { currentUser } from '$lib/stores/user';
+	import { get } from 'svelte/store';
 
 	onMount(async () => {
 		try {
+			const user = get(currentUser);
+			if (!user) {
+				error = '로그인이 필요합니다.';
+				loading = false;
+				return;
+			}
+
+			const userId = user.uid;
 			const { success, retrospects: data, error: err } = await getRetrospectListByUser(userId);
+
 			if (success) retrospects = data ?? [];
 			else error = (err as any)?.message ?? '데이터를 불러오는 중 오류 발생';
 		} catch (e) {

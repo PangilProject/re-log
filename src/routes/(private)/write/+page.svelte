@@ -5,6 +5,8 @@
 	import EditorTitle from '$lib/components/write/EditorTitle.svelte';
 	import RetrospectSection from '$lib/components/write/RetrospectSection.svelte';
 	import { saveRetrospect } from '$lib/services/retrospectService';
+	import { currentUser } from '$lib/stores/user';
+	import { get } from 'svelte/store';
 
 	let title = '';
 
@@ -43,7 +45,6 @@
 		);
 	});
 
-	// ✅ 작성 완료 버튼 클릭 시 Firestore 저장
 	async function handleSubmit() {
 		if (!title.trim()) {
 			alert('제목을 입력해주세요.');
@@ -56,7 +57,15 @@
 			if (!confirm(`${missing} 항목이 비어 있습니다. 그래도 저장할까요?`)) return;
 		}
 
-		const { success, error, id } = await saveRetrospect({ title, answers });
+		const user = get(currentUser);
+		if (!user) {
+			alert('로그인이 필요합니다.');
+			return;
+		}
+
+		const userId = user.uid;
+
+		const { success, error, id } = await saveRetrospect({ title, answers }, userId);
 		if (success && id) {
 			alert('회고가 성공적으로 저장되었습니다!');
 			await goto(`/detail/${id}`);

@@ -9,7 +9,6 @@
 	import { logout } from '$lib/services/userService';
 	import { goto } from '$app/navigation';
 
-	// ✅ 로그아웃 처리
 	async function handleLogout() {
 		const { success, error } = await logout();
 		if (success) {
@@ -25,7 +24,6 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<!-- ✅ 로그인 상태 헤더 -->
 {#if $currentUser}
 	<header class="header">
 		<div class="user-info">
@@ -35,7 +33,6 @@
 	</header>
 {/if}
 
-<!-- ✅ 보호된 페이지 콘텐츠 영역 -->
 <main class="main-container">
 	{@render children()}
 </main>

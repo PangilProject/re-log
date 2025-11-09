@@ -26,12 +26,12 @@ export interface RetrospectData {
 /**
  * Firestore에 회고 데이터를 추가하는 함수
  */
-export async function saveRetrospect(data: RetrospectData) {
+export async function saveRetrospect(data: RetrospectData, userId: string) {
 	try {
 		const docRef = await addDoc(collection(db, 'retrospectives'), {
 			...data,
 			createdAt: serverTimestamp(),
-			userId: 'temp-userId'
+			userId: userId
 		});
 
 		return { success: true, id: docRef.id };
