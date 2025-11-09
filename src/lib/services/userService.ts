@@ -1,8 +1,11 @@
 import {
+	browserLocalPersistence,
+	setPersistence,
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signInWithPopup,
-	updateProfile
+	updateProfile,
+	signOut
 } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp, getDoc } from 'firebase/firestore';
 import { auth, db, provider } from '$lib/firebase';
@@ -44,6 +47,8 @@ export async function registerWithEmail(name: string, email: string, password: s
  */
 export async function loginWithEmail(email: string, password: string) {
 	try {
+		await setPersistence(auth, browserLocalPersistence);
+
 		const userCredential = await signInWithEmailAndPassword(auth, email, password);
 		return { success: true, user: userCredential.user };
 	} catch (error) {
@@ -58,6 +63,8 @@ export async function loginWithEmail(email: string, password: string) {
  */
 export async function loginWithGoogle() {
 	try {
+		await setPersistence(auth, browserLocalPersistence);
+
 		const result = await signInWithPopup(auth, provider);
 		const user = result.user;
 
@@ -76,6 +83,19 @@ export async function loginWithGoogle() {
 		return { success: true, user };
 	} catch (error) {
 		console.error('구글 로그인 오류:', error);
+		return { success: false, error };
+	}
+}
+
+/**
+ * 로그아웃 기능
+ */
+export async function logout() {
+	try {
+		await signOut(auth);
+		return { success: true };
+	} catch (error) {
+		console.error('로그아웃 오류:', error);
 		return { success: false, error };
 	}
 }

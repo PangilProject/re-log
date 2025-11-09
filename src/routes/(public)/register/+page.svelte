@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { registerWithEmail, loginWithGoogle } from '$lib/services/userService';
 	import { goto } from '$app/navigation';
+	import { getErrorMessage } from '$lib/utils/firebaseError';
+	import { validatePassword } from '$lib/utils/validatePassword';
 
 	let name = '';
 	let email = '';
@@ -9,38 +11,18 @@
 	let error: string | null = null;
 	let loading = false;
 
-	// ✅ 비밀번호 유효성 검증 함수
-	function validatePassword(pw: string) {
-		if (pw.length < 6) {
-			return '비밀번호는 최소 6자 이상이어야 합니다.';
-		}
-		if (!/[A-Za-z]/.test(pw) || !/[0-9]/.test(pw)) {
-			return '비밀번호는 영문과 숫자를 모두 포함해야 합니다.';
-		}
-		if (/\s/.test(pw)) {
-			return '비밀번호에는 공백을 포함할 수 없습니다.';
-		}
-		if (/^(?:123456|abcdef|password)$/i.test(pw)) {
-			return '너무 단순한 비밀번호입니다. 다른 비밀번호를 사용해주세요.';
-		}
-		return null;
-	}
-
 	async function handleRegister() {
-		// ✅ 필수 입력 검증
 		if (!name || !email || !password || !confirmPassword) {
 			error = '모든 필드를 입력해주세요.';
 			return;
 		}
 
-		// ✅ 비밀번호 검증
 		const pwError = validatePassword(password);
 		if (pwError) {
 			error = pwError;
 			return;
 		}
 
-		// ✅ 비밀번호 일치 확인
 		if (password !== confirmPassword) {
 			error = '비밀번호가 일치하지 않습니다.';
 			return;
@@ -50,25 +32,14 @@
 		const { success, error: err } = await registerWithEmail(name, email, password);
 		loading = false;
 
-		if (success) {
-			goto('/list');
-		} else {
-			// ✅ Firebase 에러코드 기반 처리
-			const msg = typeof err === 'string' ? err : ((err as any)?.message ?? '회원가입 실패');
-			if (msg.includes('weak-password')) {
-				error = '비밀번호는 최소 6자 이상이어야 합니다.';
-			} else if (msg.includes('email-already-in-use')) {
-				error = '이미 사용 중인 이메일입니다.';
-			} else {
-				error = msg;
-			}
-		}
+		if (success) goto('/list');
+		else error = getErrorMessage(err);
 	}
 
 	async function handleGoogleRegister() {
 		const { success, error: err } = await loginWithGoogle();
 		if (success) goto('/list');
-		else error = (err as any)?.message ?? '구글 회원가입 실패';
+		else error = getErrorMessage(err);
 	}
 </script>
 
