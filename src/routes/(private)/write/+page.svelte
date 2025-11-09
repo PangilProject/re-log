@@ -8,9 +8,11 @@
 	import { currentUser } from '$lib/stores/user';
 	import { get } from 'svelte/store';
 
+	type AnswerKey = 'today' | 'problem' | 'learned' | 'tomorrow' | 'summary';
+
 	let title = '';
 
-	let answers = {
+	let answers: Record<AnswerKey, string> = {
 		today: '',
 		problem: '',
 		learned: '',
@@ -18,7 +20,7 @@
 		summary: ''
 	};
 
-	let previews = {
+	let previews: Record<AnswerKey, string> = {
 		today: '',
 		problem: '',
 		learned: '',
@@ -26,7 +28,7 @@
 		summary: ''
 	};
 
-	const questions: { key: keyof typeof answers; title: string }[] = [
+	const questions: { key: AnswerKey; title: string }[] = [
 		{ key: 'today', title: '1️⃣ 오늘 한 일' },
 		{ key: 'problem', title: '2️⃣ 어려웠던 점' },
 		{ key: 'learned', title: '3️⃣ 배운 점' },
@@ -34,27 +36,19 @@
 		{ key: 'summary', title: '5️⃣ 총평' }
 	];
 
-	function updatePreview(key: keyof typeof answers, value: string) {
+	function updatePreview(key: AnswerKey, value: string) {
 		answers[key] = value;
 		previews[key] = renderMarkdown(value);
 	}
 
 	onMount(() => {
-		Object.entries(answers).forEach(([key, value]) =>
-			updatePreview(key as keyof typeof answers, value)
-		);
+		Object.entries(answers).forEach(([key, value]) => updatePreview(key as AnswerKey, value));
 	});
 
 	async function handleSubmit() {
 		if (!title.trim()) {
 			alert('제목을 입력해주세요.');
 			return;
-		}
-
-		const emptyFields = Object.entries(answers).filter(([_, v]) => !v.trim());
-		if (emptyFields.length > 0) {
-			const missing = emptyFields.map(([k]) => k).join(', ');
-			if (!confirm(`${missing} 항목이 비어 있습니다. 그래도 저장할까요?`)) return;
 		}
 
 		const user = get(currentUser);
@@ -64,8 +58,8 @@
 		}
 
 		const userId = user.uid;
-
 		const { success, error, id } = await saveRetrospect({ title, answers }, userId);
+
 		if (success && id) {
 			alert('회고가 성공적으로 저장되었습니다!');
 			await goto(`/detail/${id}`);
@@ -76,53 +70,89 @@
 	}
 </script>
 
-<div class="editor-container">
-	<h2>✏️ 회고 작성</h2>
-	<EditorTitle {title} onInput={(v: string) => (title = v)} />
+<div class="page-container">
+	<div class="page-inner">
+		<div class="write-card">
+			<h2>✏️ 회고 작성</h2>
 
-	{#each questions as { key, title }}
-		<RetrospectSection
-			{title}
-			value={answers[key]}
-			html={previews[key]}
-			onInput={(v) => updatePreview(key, v)}
-		/>
-	{/each}
+			<div class="title-box">
+				<EditorTitle {title} onInput={(v) => (title = v)} />
+			</div>
 
-	<div class="submit-box">
-		<button on:click={handleSubmit}>💾 작성 완료</button>
+			<div class="section-list">
+				{#each questions as { key, title }}
+					<RetrospectSection
+						{title}
+						value={answers[key]}
+						html={previews[key]}
+						onInput={(v) => updatePreview(key, v)}
+					/>
+				{/each}
+			</div>
+
+			<div class="submit-box">
+				<button on:click={handleSubmit}>💾 작성 완료</button>
+			</div>
+		</div>
 	</div>
 </div>
 
 <style>
-	.editor-container {
-		max-width: 800px;
-		margin: 2rem auto;
+	.page-container {
+		min-height: 100vh;
+		background: linear-gradient(to bottom, #eff6ff, #ffffff);
+		padding: 6rem 1rem 4rem;
+	}
+
+	.page-inner {
+		max-width: 1000px;
+		margin: 0 auto;
+	}
+
+	.write-card {
+		background: white;
+		border: 1px solid #e5e7eb;
+		border-radius: 16px;
+		padding: 2.5rem;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+	}
+
+	h2 {
+		font-size: 1.8rem;
+		font-weight: 700;
+		color: #1e3a8a;
+		text-align: center;
+		margin-bottom: 2rem;
+	}
+
+	.title-box {
+		margin-bottom: 2.5rem;
+	}
+
+	.section-list {
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
 	}
-	h2 {
-		font-size: 1.6rem;
-		font-weight: bold;
-		margin-bottom: 0.5rem;
-	}
+
 	.submit-box {
+		margin-top: 3rem;
 		display: flex;
 		justify-content: center;
-		margin-top: 1rem;
 	}
+
 	button {
-		background: #0070f3;
-		color: white;
-		padding: 0.8rem 2rem;
+		background-color: #2563eb;
+		color: #fff;
 		border: none;
 		border-radius: 8px;
-		font-size: 1rem;
+		padding: 0.8rem 2rem;
+		font-weight: 600;
 		cursor: pointer;
 		transition: 0.2s ease;
 	}
+
 	button:hover {
-		background: #0059c9;
+		background-color: #1e40af;
 	}
 </style>

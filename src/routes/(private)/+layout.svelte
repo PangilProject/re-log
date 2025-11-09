@@ -24,66 +24,50 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
+<!-- ✅ 고정 헤더 (공통 스타일) -->
 {#if $currentUser}
-	<header class="header">
-		<div class="user-info">
-			<p class="user-name">{$currentUser.displayName ?? $currentUser.email}</p>
+	<header
+		class="fixed top-0 left-0 z-50 flex h-16 w-full items-center bg-white/80 shadow-sm backdrop-blur-md"
+	>
+		<div class="mx-auto flex w-full max-w-6xl items-center justify-between px-6">
+			<!-- 로고 -->
+			<a href="/list" class="cursor-pointer text-2xl font-bold text-blue-600">Re:Log</a>
+
+			<!-- 사용자 정보 + 로그아웃 -->
+			<div class="flex items-center gap-4">
+				<p class="text-sm font-semibold text-gray-700">
+					{$currentUser.displayName ?? $currentUser.email}
+				</p>
+				<button
+					onclick={handleLogout}
+					class="rounded-lg bg-red-500 px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-red-600"
+				>
+					로그아웃
+				</button>
+			</div>
 		</div>
-		<button class="logout-btn" onclick={handleLogout}>로그아웃</button>
 	</header>
 {/if}
 
-<main class="main-container">
-	{@render children()}
+<!-- ✅ 메인 콘텐츠 -->
+<main>
+	<div class="mx-auto w-full max-w-5xl">
+		{@render children()}
+	</div>
 </main>
 
+<!-- ✅ 푸터 (선택적으로 추가 가능, 현재는 비워둠) -->
+<footer class="mt-16 py-8 text-center text-sm text-gray-400">
+	<p>© 2025 Re:Log. All rights reserved.</p>
+</footer>
+
 <style>
-	.header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 1rem 2rem;
-		background-color: #f8f9fc;
-		border-bottom: 1px solid #e5e7eb;
-		position: sticky;
-		top: 0;
-		z-index: 10;
+	:global(html) {
+		scroll-behavior: smooth;
 	}
-
-	.user-info {
-		font-size: 0.95rem;
-		color: #333;
-	}
-
-	.user-name {
-		font-weight: 600;
-		margin: 0;
-	}
-
-	.logout-btn {
-		background-color: #e74c3c;
-		color: white;
-		border: none;
-		border-radius: 6px;
-		padding: 0.5rem 1rem;
-		cursor: pointer;
-		font-weight: 600;
-		transition: background 0.2s ease;
-	}
-
-	.logout-btn:hover {
-		background-color: #c0392b;
-	}
-
-	.main-container {
-		max-width: 900px;
-		margin: 2rem auto;
-		padding: 0 1rem;
-	}
-
 	:global(body) {
 		font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
-		background-color: #fafafa;
+		background: linear-gradient(to bottom, #eff6ff, #ffffff);
 		margin: 0;
 		padding: 0;
 	}

@@ -25,97 +25,121 @@
 	});
 </script>
 
-<div class="detail-container">
-	{#if loading}
-		<p>불러오는 중...</p>
-	{:else if error}
-		<p class="error">{error}</p>
-	{:else if data}
-		<h2>📝 {data.title}</h2>
-		<p class="date">
-			{data.createdAt
-				? new Date(data.createdAt.seconds * 1000).toLocaleDateString()
-				: '작성일 없음'}
-		</p>
+<div class="page-container">
+	<div class="page-inner">
+		{#if loading}
+			<p class="loading">불러오는 중...</p>
+		{:else if error}
+			<p class="error">{error}</p>
+		{:else if data}
+			<div class="detail-card">
+				<h2>📝 {data.title}</h2>
+				<p class="date">
+					{data.createdAt
+						? new Date(data.createdAt.seconds * 1000).toLocaleDateString()
+						: '작성일 없음'}
+				</p>
 
-		<div class="section">
-			<h3>1️⃣ 오늘 한 일</h3>
-			<div class="preview">
-				{@html renderMarkdown(data.answers?.today)}
+				{#each [['1️⃣ 오늘 한 일', data.answers?.today], ['2️⃣ 어려웠던 점', data.answers?.problem], ['3️⃣ 배운 점', data.answers?.learned], ['4️⃣ 내일 할 일', data.answers?.tomorrow], ['5️⃣ 총평', data.answers?.summary]] as [title, content]}
+					<div class="section">
+						<h3>{title}</h3>
+						<div class="preview">
+							{@html renderMarkdown(content)}
+						</div>
+					</div>
+				{/each}
+
+				<div class="back-box">
+					<a href="/list">← 목록으로 돌아가기</a>
+				</div>
 			</div>
-		</div>
-
-		<div class="section">
-			<h3>2️⃣ 어려웠던 점</h3>
-			<div class="preview">
-				{@html renderMarkdown(data.answers?.problem)}
-			</div>
-		</div>
-
-		<div class="section">
-			<h3>3️⃣ 배운 점</h3>
-			<div class="preview">
-				{@html renderMarkdown(data.answers?.learned)}
-			</div>
-		</div>
-
-		<div class="section">
-			<h3>4️⃣ 내일 할 일</h3>
-			<div class="preview">
-				{@html renderMarkdown(data.answers?.tomorrow)}
-			</div>
-		</div>
-
-		<div class="section">
-			<h3>5️⃣ 총평</h3>
-			<div class="preview">
-				{@html renderMarkdown(data.answers?.summary)}
-			</div>
-		</div>
-
-		<div class="back-box">
-			<a href="/list">← 목록으로 돌아가기</a>
-		</div>
-	{/if}
+		{/if}
+	</div>
 </div>
 
 <style>
-	.detail-container {
-		max-width: 800px;
-		margin: 2rem auto;
-		padding: 1rem;
+	.page-container {
+		min-height: 100vh;
+		background: linear-gradient(to bottom, #eff6ff, #ffffff);
+		padding: 6rem 1rem 4rem;
 	}
+
+	.page-inner {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	.detail-card {
+		background: #ffffff;
+		border: 1px solid #e5e7eb;
+		border-radius: 16px;
+		padding: 2.5rem;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+	}
+
 	h2 {
 		font-size: 1.8rem;
-		margin-bottom: 0.5rem;
+		font-weight: 700;
+		color: #1e3a8a;
+		text-align: center;
+		margin-bottom: 0.3rem;
 	}
+
 	.date {
-		color: #888;
-		margin-bottom: 1.5rem;
+		text-align: center;
+		color: #6b7280;
 		font-size: 0.9rem;
+		margin-bottom: 2rem;
 	}
+
+	h3 {
+		font-size: 1.1rem;
+		font-weight: 600;
+		color: #2563eb;
+		margin-bottom: 0.6rem;
+	}
+
+	.preview {
+		border: 1px solid #e2e8f0;
+		border-radius: 12px;
+		background: #f9fafb;
+		padding: 1rem 1.2rem;
+		color: #111827;
+		line-height: 1.7;
+	}
+
 	.section {
 		margin-bottom: 2rem;
 	}
-	h3 {
-		font-size: 1.1rem;
-		margin-bottom: 0.5rem;
-		color: #0070f3;
-	}
+
 	.back-box {
 		text-align: center;
 		margin-top: 2rem;
 	}
+
 	a {
+		display: inline-block;
+		background-color: #2563eb;
+		color: #fff;
+		font-weight: 600;
+		padding: 0.6rem 1.2rem;
+		border-radius: 8px;
 		text-decoration: none;
-		color: #0070f3;
-		font-weight: bold;
+		transition: 0.2s ease;
 	}
+
 	a:hover {
-		text-decoration: underline;
+		background-color: #1e40af;
 	}
+
+	.loading,
+	.error {
+		text-align: center;
+		color: #6b7280;
+		margin-top: 2rem;
+	}
+
 	.error {
 		color: #e74c3c;
-		text-align: center;
 	}
 </style>
