@@ -7,6 +7,27 @@
 	let error: string | null = null;
 	let loading = false;
 
+	// ✅ Firebase 에러 코드별 사용자 메시지 매핑 함수
+	function getErrorMessage(err: any): string {
+		const code = err?.code ?? '';
+		switch (code) {
+			case 'auth/invalid-email':
+				return '이메일 형식이 올바르지 않습니다.';
+			case 'auth/missing-password':
+				return '비밀번호를 입력해주세요.';
+			case 'auth/invalid-credential':
+			case 'auth/wrong-password':
+			case 'auth/user-not-found':
+				return '존재하지 않는 아이디 또는 잘못된 비밀번호입니다.';
+			case 'auth/too-many-requests':
+				return '로그인 시도가 너무 많습니다. 잠시 후 다시 시도해주세요.';
+			case 'auth/user-disabled':
+				return '비활성화된 계정입니다. 관리자에게 문의하세요.';
+			default:
+				return err?.message ?? '로그인 중 오류가 발생했습니다.';
+		}
+	}
+
 	async function handleLogin() {
 		if (!email || !password) {
 			error = '이메일과 비밀번호를 입력해주세요.';
@@ -19,7 +40,7 @@
 		if (success) {
 			goto('/list');
 		} else {
-			error = (err as any)?.message ?? '로그인 실패';
+			error = getErrorMessage(err);
 		}
 	}
 
@@ -28,7 +49,7 @@
 		if (success) {
 			goto('/list');
 		} else {
-			error = (err as any)?.message ?? '구글 로그인 실패';
+			error = getErrorMessage(err);
 		}
 	}
 </script>
