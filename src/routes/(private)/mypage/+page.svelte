@@ -7,6 +7,8 @@
 	import { db } from '$lib/firebase';
 	import { Loader2 } from 'lucide-svelte';
 	import toast, { Toaster } from 'svelte-5-french-toast';
+	import { openConfirm } from '$lib/utils/confirm';
+	import { openPrompt } from '$lib/utils/prompt';
 
 	let name = '';
 	let originalName = '';
@@ -58,7 +60,10 @@
 		}
 	}
 
-	function handleCancel() {
+	async function handleCancel() {
+		if (!(await openConfirm('수정 내용을 취소하시겠어요?'))) {
+			return;
+		}
 		name = originalName;
 		editing = false;
 	}
@@ -67,23 +72,24 @@
 		const user = $currentUser;
 		if (!user) return;
 
-		const confirmDelete = confirm('정말 탈퇴하시겠습니까? 모든 데이터가 삭제됩니다.');
-		if (!confirmDelete) return;
-
-		let password: string | undefined;
+		if (!(await openConfirm('정말 탈퇴하시겠습니까? 모든 데이터가 삭제됩니다.'))) {
+			return;
+		}
 
 		// 이메일 로그인인 경우 비밀번호 요청
+		let password;
 		if (user.providerData[0]?.providerId === 'password') {
-			password = prompt('계정 삭제를 위해 비밀번호를 입력해주세요.') ?? undefined;
+			password = await openPrompt('계정 삭제를 위해 비밀번호를 입력해주세요.', '비밀번호 입력');
 			if (!password) {
-				alert('비밀번호가 입력되지 않았습니다.');
+				toast.error('비밀번호가 입력되지 않았습니다.');
 				return;
 			}
 		}
 
+		toast('서비스를 이용해주셔서 감사합니다.', { icon: '👋' });
 		const { success, error } = await deleteUserAccount(user, password);
 		if (success) {
-			goto('/login');
+			goto('/');
 		} else {
 			console.error(error);
 			alert('회원 탈퇴 중 문제가 발생했습니다.');
