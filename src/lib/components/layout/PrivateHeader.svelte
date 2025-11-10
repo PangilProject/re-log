@@ -4,14 +4,16 @@
 	import { goto } from '$app/navigation';
 	import { User } from 'lucide-svelte';
 	import { goToMyPage } from '$lib/utils/navigation';
+	import toast from 'svelte-5-french-toast';
 
 	async function handleLogout() {
 		const { success, error } = await logout();
 		if (success) {
-			alert('로그아웃 되었습니다.');
-			goto('/login');
+			toast('로그아웃 되었습니다.', { icon: '👋' });
+			goto('/');
 		} else {
-			alert('로그아웃 실패: ' + (error as any)?.message);
+			toast.success('로그아웃 실패');
+			console.error('로그아웃 실패: ' + (error as any)?.message);
 		}
 	}
 </script>

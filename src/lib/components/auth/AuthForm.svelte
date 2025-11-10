@@ -45,6 +45,12 @@
 			placeholder="비밀번호"
 			value={fields.password}
 			on:input={(e) => setFields('password', (e.target as HTMLInputElement).value)}
+			on:keydown={(e) => {
+				if (e.key === 'Enter') {
+					e.preventDefault();
+					onSubmit();
+				}
+			}}
 			class="rounded-lg border border-gray-300 px-4 py-3 text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:outline-none"
 		/>
 
@@ -54,6 +60,12 @@
 				placeholder="비밀번호 확인"
 				value={fields.confirmPassword}
 				on:input={(e) => setFields('confirmPassword', (e.target as HTMLInputElement).value)}
+				on:keydown={(e) => {
+					if (e.key === 'Enter') {
+						e.preventDefault();
+						onSubmit();
+					}
+				}}
 				class="rounded-lg border border-gray-300 px-4 py-3 text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:outline-none"
 			/>
 		{/if}
