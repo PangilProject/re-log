@@ -7,3 +7,7 @@ export function goToLogin() {
 export function goToWrite() {
 	goto('/write');
 }
+
+export function goToMyPage() {
+	goto('/mypage');
+}

@@ -2,6 +2,8 @@
 	import { currentUser } from '$lib/stores/user';
 	import { logout } from '$lib/services/userService';
 	import { goto } from '$app/navigation';
+	import { User } from 'lucide-svelte';
+	import { goToMyPage } from '$lib/utils/navigation';
 
 	async function handleLogout() {
 		const { success, error } = await logout();
@@ -22,9 +24,17 @@
 			<a href="/list" class="cursor-pointer text-2xl font-bold text-blue-600">Re:Log</a>
 
 			<div class="flex items-center gap-4">
-				<p class="text-sm font-semibold text-gray-700">
-					{$currentUser.displayName ?? $currentUser.email}
-				</p>
+				<div class="flex items-center gap-2">
+					<p class="hidden truncate text-sm font-medium text-gray-800 sm:block">
+						반갑습니다, {$currentUser.displayName ?? $currentUser.email}님
+					</p>
+					<button
+						class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100"
+						onclick={goToMyPage}
+					>
+						<User class="h-5 w-5 text-blue-600" />
+					</button>
+				</div>
 				<button
 					onclick={handleLogout}
 					class="rounded-lg bg-red-500 px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-red-600"
