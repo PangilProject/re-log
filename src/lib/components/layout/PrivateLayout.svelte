@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let padding: string = '6rem 1rem 4rem';
+	export let padding: string = '1rem 1rem 1rem 1rem';
 </script>
 
 <div class="page-container" style={`padding: ${padding}`}>
