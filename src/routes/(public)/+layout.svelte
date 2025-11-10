@@ -1,4 +1,12 @@
 <script lang="ts">
+	import PublicPageLayout from '$lib/components/layout/PublicPageLayout.svelte';
+</script>
+
+<PublicPageLayout>
+	<slot />
+</PublicPageLayout>
+
+<!-- <script lang="ts">
 	import '../../app.css';
 	import '../../lib/styles/preview.css';
 	import favicon from '$lib/assets/favicon.svg';
@@ -19,4 +27,4 @@
 		margin: 0;
 		padding: 0;
 	}
-</style>
+</style> -->

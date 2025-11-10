@@ -2,22 +2,22 @@
 	import '../../../app.css';
 	import '../../../lib/styles/preview.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import PrivateHeader from './PrivateHeader.svelte';
-	import PrivateLayout from './PrivateLayout.svelte';
+	import PublicLayout from './PublicLayout.svelte';
 	import Footer from './Footer.svelte';
+	// optional: import PublicHeader from './PublicHeader.svelte';
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="flex min-h-screen flex-col bg-linear-to-b from-blue-50 to-white">
-	<PrivateHeader />
+<div class="flex min-h-screen flex-col bg-[#fafafa]">
+	<!-- 비로그인 페이지 전용 헤더 -->
 
-	<main class="mt-16 grow">
-		<PrivateLayout>
+	<main class="grow">
+		<PublicLayout>
 			<slot />
-		</PrivateLayout>
+		</PublicLayout>
 	</main>
 
 	<Footer />
