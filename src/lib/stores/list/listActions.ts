@@ -4,6 +4,7 @@ import { get } from 'svelte/store';
 import { errorMessage, isLoading, retrospectsData } from './listStore';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '$lib/firebase';
+import { deleteToast } from '$lib/utils/toast';
 
 export async function loadRetrospects() {
 	isLoading.set(true);
@@ -37,8 +38,6 @@ export async function deleteRetrospects(ids: string[]) {
 
 		// 클라이언트 스토어에서도 제거
 		retrospectsData.update((items) => items.filter((item) => !ids.includes(item.id)));
-
-		alert('삭제가 완료되었습니다.');
 	} catch (err) {
 		console.error('삭제 오류:', err);
 		alert('삭제 중 오류가 발생했습니다.');

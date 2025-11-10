@@ -9,6 +9,7 @@
 	import { deleteRetrospects } from '$lib/stores/list/listActions';
 	import { Trash } from 'lucide-svelte';
 	import { deleteToast, errorChoiceToast } from '$lib/utils/toast';
+	import { openConfirm } from '$lib/utils/confirm';
 
 	let isDeleting = false;
 
@@ -19,7 +20,10 @@
 			return;
 		}
 
-		if (!confirm(`${ids.length}개의 회고를 삭제하시겠습니까?`)) return;
+		if (!(await openConfirm(`${ids.length}개의 회고를 삭제하시겠습니까?`))) {
+			return;
+		}
+
 		deleteToast();
 		isDeleting = true;
 		await deleteRetrospects(ids);
