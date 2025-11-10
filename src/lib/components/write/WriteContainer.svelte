@@ -3,14 +3,8 @@
 	import EditorTitle from './EditorTitle.svelte';
 	import RetrospectSection from './RetrospectSection.svelte';
 	import { RETROSPECT_SECTIONS } from '$lib/constants/retrospect_sections';
-	import {
-		title,
-		answers,
-		previews,
-		updatePreview,
-		initPreviews,
-		submitRetrospect
-	} from '$lib/stores/writeStore';
+	import { title, answers, previews } from '$lib/stores/write/writeStore';
+	import { initPreviews, submitRetrospect, updatePreview } from '$lib/stores/write/writeActions';
 
 	onMount(initPreviews);
 </script>
