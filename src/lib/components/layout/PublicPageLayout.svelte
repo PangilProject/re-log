@@ -19,8 +19,6 @@
 			<slot />
 		</PublicLayout>
 	</main>
-
-	<Footer />
 </div>
 
 <style>

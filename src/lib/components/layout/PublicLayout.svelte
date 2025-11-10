@@ -9,7 +9,6 @@
 	<main class="grow">
 		<slot />
 	</main>
-	<Footer />
 </div>
 
 <style>
