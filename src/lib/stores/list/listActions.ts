@@ -2,6 +2,8 @@ import { currentUser } from '$lib/stores/user';
 import { getRetrospectListByUser } from '$lib/services/retrospectService';
 import { get } from 'svelte/store';
 import { errorMessage, isLoading, retrospectsData } from './listStore';
+import { deleteDoc, doc } from 'firebase/firestore';
+import { db } from '$lib/firebase';
 
 export async function loadRetrospects() {
 	isLoading.set(true);
@@ -25,5 +27,20 @@ export async function loadRetrospects() {
 		errorMessage.set('서버 오류가 발생했습니다.');
 	} finally {
 		isLoading.set(false);
+	}
+}
+
+export async function deleteRetrospects(ids: string[]) {
+	try {
+		const promises = ids.map((id) => deleteDoc(doc(db, 'retrospectives', id)));
+		await Promise.all(promises);
+
+		// 클라이언트 스토어에서도 제거
+		retrospectsData.update((items) => items.filter((item) => !ids.includes(item.id)));
+
+		alert('삭제가 완료되었습니다.');
+	} catch (err) {
+		console.error('삭제 오류:', err);
+		alert('삭제 중 오류가 발생했습니다.');
 	}
 }
