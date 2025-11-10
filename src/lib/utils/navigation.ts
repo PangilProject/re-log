@@ -11,3 +11,7 @@ export function goToWrite() {
 export function goToMyPage() {
 	goto('/mypage');
 }
+
+export function goToList() {
+	goto('/list');
+}
