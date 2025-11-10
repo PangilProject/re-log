@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EditorTitle from '../EditorTitle.svelte';
+	import EditorTitle from '../ui/EditorTitle.svelte';
 	import { title } from '$lib/stores/write/writeStore';
 </script>
 

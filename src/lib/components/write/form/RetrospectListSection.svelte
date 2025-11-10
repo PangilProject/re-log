@@ -1,5 +1,5 @@
 <script lang="ts">
-	import RetrospectSection from '../RetrospectSection.svelte';
+	import RetrospectSection from '../ui/RetrospectSection.svelte';
 	import { RETROSPECT_SECTIONS } from '$lib/constants/retrospect_sections';
 	import { answers, previews } from '$lib/stores/write/writeStore';
 	import { updatePreview } from '$lib/stores/write/writeActions';

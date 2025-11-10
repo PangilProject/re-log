@@ -1,6 +1,6 @@
 <script lang="ts">
-	import EditorTextarea from '$lib/components/write/EditorTextarea.svelte';
-	import MarkdownPreview from '$lib/components/write/MarkdownPreview.svelte';
+	import EditorTextarea from './EditorTextarea.svelte';
+	import MarkdownPreview from './MarkdownPreview.svelte';
 
 	export let title: string;
 	export let value: string;

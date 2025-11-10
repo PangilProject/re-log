@@ -1,14 +1,14 @@
 <script lang="ts">
 	import TitleSection from './form/TitleSection.svelte';
-	import RetrospectList from './form/RetrospectList.svelte';
-	import SubmitButton from './form/SubmitButton.svelte';
+	import RetrospectListSection from './form/RetrospectListSection.svelte';
+	import SubmitButton from './form/SubmitButtonSection.svelte';
 </script>
 
 <div class="write-card">
 	<h2>✏️ 회고 작성</h2>
 
 	<TitleSection />
-	<RetrospectList />
+	<RetrospectListSection />
 	<SubmitButton />
 </div>
 
