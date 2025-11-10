@@ -5,9 +5,10 @@ import {
 	signInWithEmailAndPassword,
 	signInWithPopup,
 	updateProfile,
-	signOut
+	signOut,
+	deleteUser
 } from 'firebase/auth';
-import { doc, setDoc, serverTimestamp, getDoc } from 'firebase/firestore';
+import { doc, setDoc, serverTimestamp, getDoc, deleteDoc } from 'firebase/firestore';
 import { auth, db, provider } from '$lib/firebase';
 
 /**
@@ -96,6 +97,48 @@ export async function logout() {
 		return { success: true };
 	} catch (error) {
 		console.error('로그아웃 오류:', error);
+		return { success: false, error };
+	}
+}
+
+/**
+ * 🔧 사용자 프로필 업데이트 (이름 변경 등)
+ * @param user - Firebase User 객체
+ * @param newProfile - { displayName?: string, photoURL?: string }
+ */
+export async function updateUserProfile(
+	user: any,
+	newProfile: { displayName?: string; photoURL?: string }
+) {
+	try {
+		await updateProfile(user, newProfile);
+
+		// Firestore의 users 문서도 동기화
+		const userRef = doc(db, 'users', user.uid);
+		await setDoc(userRef, { ...newProfile, updatedAt: serverTimestamp() }, { merge: true });
+
+		return { success: true };
+	} catch (error) {
+		console.error('프로필 업데이트 오류:', error);
+		return { success: false, error };
+	}
+}
+
+/**
+ * 🧨 회원 탈퇴 (Auth + Firestore 동시 삭제)
+ * @param user - Firebase User 객체
+ */
+export async function deleteUserAccount(user: any) {
+	try {
+		// Firestore 사용자 문서 삭제
+		await deleteDoc(doc(db, 'users', user.uid));
+
+		// Firebase Auth 사용자 삭제
+		await deleteUser(user);
+
+		return { success: true };
+	} catch (error) {
+		console.error('회원 탈퇴 오류:', error);
 		return { success: false, error };
 	}
 }
