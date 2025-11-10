@@ -70,10 +70,24 @@
 		const confirmDelete = confirm('정말 탈퇴하시겠습니까? 모든 데이터가 삭제됩니다.');
 		if (!confirmDelete) return;
 
-		await deleteDoc(doc(db, 'users', user.uid));
-		await deleteUserAccount(user);
-		alert('회원 탈퇴가 완료되었습니다.');
-		goto('/login');
+		let password: string | undefined;
+
+		// 이메일 로그인인 경우 비밀번호 요청
+		if (user.providerData[0]?.providerId === 'password') {
+			password = prompt('계정 삭제를 위해 비밀번호를 입력해주세요.') ?? undefined;
+			if (!password) {
+				alert('비밀번호가 입력되지 않았습니다.');
+				return;
+			}
+		}
+
+		const { success, error } = await deleteUserAccount(user, password);
+		if (success) {
+			goto('/login');
+		} else {
+			console.error(error);
+			alert('회원 탈퇴 중 문제가 발생했습니다.');
+		}
 	}
 </script>
 

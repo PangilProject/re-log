@@ -6,9 +6,23 @@ import {
 	signInWithPopup,
 	updateProfile,
 	signOut,
-	deleteUser
+	deleteUser,
+	EmailAuthProvider,
+	reauthenticateWithCredential,
+	GoogleAuthProvider,
+	reauthenticateWithPopup
 } from 'firebase/auth';
-import { doc, setDoc, serverTimestamp, getDoc, deleteDoc } from 'firebase/firestore';
+import {
+	doc,
+	setDoc,
+	serverTimestamp,
+	getDoc,
+	deleteDoc,
+	collection,
+	query,
+	where,
+	getDocs
+} from 'firebase/firestore';
 import { auth, db, provider } from '$lib/firebase';
 
 /**
@@ -102,7 +116,7 @@ export async function logout() {
 }
 
 /**
- * 🔧 사용자 프로필 업데이트 (이름 변경 등)
+ * 사용자 프로필 업데이트 (이름 변경 등)
  * @param user - Firebase User 객체
  * @param newProfile - { displayName?: string, photoURL?: string }
  */
@@ -125,20 +139,51 @@ export async function updateUserProfile(
 }
 
 /**
- * 🧨 회원 탈퇴 (Auth + Firestore 동시 삭제)
+ * 회원 탈퇴 (Auth + Firestore 동시 삭제)
  * @param user - Firebase User 객체
  */
-export async function deleteUserAccount(user: any) {
+export async function deleteUserAccount(user: any, password?: string) {
 	try {
-		// Firestore 사용자 문서 삭제
-		await deleteDoc(doc(db, 'users', user.uid));
+		const userId = user.uid;
 
-		// Firebase Auth 사용자 삭제
+		// 1️⃣ Firestore - retrospectives 컬렉션의 해당 사용자 문서 삭제
+		const retrospectivesRef = collection(db, 'retrospectives');
+		const q = query(retrospectivesRef, where('userId', '==', userId));
+		const querySnapshot = await getDocs(q);
+
+		const deletePromises = querySnapshot.docs.map((docSnap) => deleteDoc(docSnap.ref));
+		await Promise.all(deletePromises);
+
+		// 2️⃣ Firestore - users 컬렉션 문서 삭제
+		await deleteDoc(doc(db, 'users', userId));
+
+		// 3️⃣ Auth - 계정 삭제 전 재인증
+		const providerId = user.providerData[0]?.providerId;
+
+		if (providerId === 'password') {
+			// 이메일/비밀번호 계정인 경우
+			if (!password) {
+				throw new Error('비밀번호가 필요합니다.');
+			}
+			const credential = EmailAuthProvider.credential(user.email, password);
+			await reauthenticateWithCredential(user, credential);
+		} else if (providerId === 'google.com') {
+			// 구글 로그인 계정인 경우
+			const googleProvider = new GoogleAuthProvider();
+			await reauthenticateWithPopup(user, googleProvider);
+		}
+
+		// 4️⃣ Firebase Auth 사용자 삭제
 		await deleteUser(user);
 
 		return { success: true };
-	} catch (error) {
+	} catch (error: any) {
 		console.error('회원 탈퇴 오류:', error);
+		if (error.code === 'auth/requires-recent-login') {
+			alert('계정을 삭제하려면 다시 로그인해야 합니다.');
+		} else {
+			alert('회원 탈퇴 중 문제가 발생했습니다.');
+		}
 		return { success: false, error };
 	}
 }
