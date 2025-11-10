@@ -1,8 +1,7 @@
 // src/lib/components/auth/AuthLogic.ts
-import { goto } from '$app/navigation';
 import { loginWithEmail, registerWithEmail, loginWithGoogle } from '$lib/services/userService';
-import { getErrorMessage } from '$lib/utils/firebaseError';
 import { validatePassword } from '$lib/utils/validatePassword';
+import { handleAuthResult } from '$lib/utils/authHandler';
 
 export async function handleLogin({
 	email,
@@ -19,12 +18,12 @@ export async function handleLogin({
 		setError('이메일과 비밀번호를 입력해주세요.');
 		return;
 	}
+
 	setLoading(true);
 	const { success, error } = await loginWithEmail(email, password);
 	setLoading(false);
 
-	if (success) goto('/list');
-	else setError(getErrorMessage(error));
+	await handleAuthResult({ success, error, setError });
 }
 
 export async function handleRegister({
@@ -62,12 +61,10 @@ export async function handleRegister({
 	const { success, error } = await registerWithEmail(name, email, password);
 	setLoading(false);
 
-	if (success) goto('/list');
-	else setError(getErrorMessage(error));
+	await handleAuthResult({ success, error, setError });
 }
 
 export async function handleGoogleAuth(setError: (msg: string | null) => void) {
 	const { success, error } = await loginWithGoogle();
-	if (success) goto('/list');
-	else setError(getErrorMessage(error));
+	await handleAuthResult({ success, error, setError });
 }
