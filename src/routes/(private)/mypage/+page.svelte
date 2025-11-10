@@ -86,8 +86,9 @@
 
 			<div class="flex flex-col gap-4">
 				<div>
-					<label class="mb-1 block text-sm text-gray-600">이메일</label>
+					<label class="mb-1 block text-sm text-gray-600" for="email">이메일</label>
 					<input
+						id="eamil"
 						type="email"
 						value={email}
 						readonly
@@ -96,8 +97,9 @@
 				</div>
 
 				<div>
-					<label class="mb-1 block text-sm text-gray-600">이름</label>
+					<label class="mb-1 block text-sm text-gray-600" for="name">이름</label>
 					<input
+						id="name"
 						type="text"
 						bind:value={name}
 						readonly={!editing}
