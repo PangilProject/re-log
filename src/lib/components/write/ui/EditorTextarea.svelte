@@ -20,28 +20,23 @@
 <style>
 	.editor-textarea {
 		width: 100%;
-		min-height: 240px;
+		height: 100%;
 		padding: 1rem 1.2rem;
-		border-radius: 12px;
-		border: 1px solid #d1d5db;
-		background-color: #f9fafb;
 		font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
 		font-size: 0.95rem;
-		line-height: 1.6;
+		line-height: 1.7;
 		color: #111827;
-		resize: vertical;
-		transition:
-			border 0.2s ease,
-			box-shadow 0.2s ease,
-			background 0.2s ease;
-		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03);
+		resize: none;
+		border: none;
+		border: 1px solid #e2e8f0; /* gray-200 */
+		border-radius: 12px;
+		transition: border 0.5s ease;
 	}
 
 	.editor-textarea:focus {
 		outline: none;
-		border-color: #2563eb; /* blue-600 */
-		box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-		background-color: #ffffff;
+		box-shadow: none;
+		border: 1px solid #2563eb; /* gray-200 */
 	}
 
 	.editor-textarea::placeholder {

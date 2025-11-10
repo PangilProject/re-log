@@ -9,17 +9,16 @@
 <style>
 	.preview {
 		width: 100%;
-		min-height: 240px;
+		height: 100%;
 		padding: 1rem 1.2rem;
-		border: 1px solid #e5e7eb;
-		border-radius: 12px;
-		background-color: #ffffff;
+		border: none;
 		color: #1f2937;
 		font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
 		font-size: 0.95rem;
 		line-height: 1.7;
 		overflow-y: auto;
-		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03);
+		box-shadow: none;
+		border: 1px solid #e2e8f0;
 	}
 
 	.empty {

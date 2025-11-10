@@ -24,6 +24,9 @@
 		border: 1px solid #e5e7eb;
 		border-radius: 16px;
 		padding: 2.5rem;
+		@media (width < 40rem) {
+			padding: 1rem;
+		}
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 	}
 	.back-box {

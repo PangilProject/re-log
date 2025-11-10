@@ -26,20 +26,15 @@
 
 <style>
 	.retrospect-section {
+		min-width: 100%;
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		padding: 1.5rem;
-		background: #ffffff;
-		border-radius: 16px;
-		box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+		margin-bottom: 2rem;
 		transition:
 			box-shadow 0.2s ease,
 			transform 0.2s ease;
-	}
-	.retrospect-section:hover {
-		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-		transform: translateY(-2px);
+		margin-right: 20px;
 	}
 
 	h3 {
@@ -63,16 +58,8 @@
 
 	.editor-input,
 	.editor-preview {
-		border: 1px solid #e2e8f0; /* gray-200 */
-		border-radius: 12px;
-		background-color: #f9fafb;
-		padding: 1rem;
 		overflow-y: auto;
 		min-height: 250px;
 		max-height: 400px;
-	}
-
-	.editor-preview {
-		background: #ffffff;
 	}
 </style>

@@ -17,3 +17,14 @@
 		/>
 	{/each}
 </div>
+
+<style>
+	.section-list {
+		@media (width <= 40rem) {
+			display: flex;
+			flex-direction: row;
+			overflow-x: scroll;
+			width: 100%;
+		}
+	}
+</style>
