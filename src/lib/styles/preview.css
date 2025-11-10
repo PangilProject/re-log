@@ -73,8 +73,8 @@
 
 /* 인용문 */
 .preview blockquote {
-	margin: 1rem 0;
-	padding: 0.6rem 1rem;
+	margin: 0rem 0;
+	padding: 0rem 1rem;
 	border-left: 4px solid #ccc;
 	background: #f9f9f9;
 	color: #555;
