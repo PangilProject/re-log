@@ -1,0 +1,14 @@
+<!-- src/lib/components/sections/HeroSection.svelte -->
+<script lang="ts">
+	import StartButton from '$lib/components/common/StartButton.svelte';
+</script>
+
+<section class="bg-linear-to-b from-blue-50 to-white px-4 py-32 pt-60 text-center">
+	<h2 class="mb-6 text-4xl font-bold text-gray-800">당신의 성장을 기록하세요, Re:Log</h2>
+	<p class="mx-auto max-w-2xl text-lg leading-relaxed text-gray-600">
+		Re:Log는 단순한 회고 서비스가 아닙니다. 매일의 배움과 도전을 기록하고, 감정과 생각을 정리하며 <b
+			>자기 인식과 성장 루틴을 만들어가는 공간</b
+		>입니다.
+	</p>
+	<div class="mt-10"><StartButton /></div>
+</section>
