@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { RETROSPECT_SECTIONS } from '$lib/constants/retrospect_sections';
 	import DetailHeader from './DetailHeader.svelte';
 	import DetailSection from './DetailSection.svelte';
 
@@ -8,8 +9,8 @@
 <div class="detail-card">
 	<DetailHeader title={data.title} createdAt={data.createdAt} />
 
-	{#each [['1️⃣ 오늘 한 일', data.answers?.today], ['2️⃣ 어려웠던 점', data.answers?.problem], ['3️⃣ 배운 점', data.answers?.learned], ['4️⃣ 내일 할 일', data.answers?.tomorrow], ['5️⃣ 총평', data.answers?.summary]] as [title, content]}
-		<DetailSection {title} {content} />
+	{#each RETROSPECT_SECTIONS as section}
+		<DetailSection title={section.label} content={data.answers?.[section.key] || ''} />
 	{/each}
 
 	<div class="back-box">

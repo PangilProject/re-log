@@ -7,6 +7,7 @@
 	import { saveRetrospect } from '$lib/services/retrospectService';
 	import { currentUser } from '$lib/stores/user';
 	import { get } from 'svelte/store';
+	import { RETROSPECT_SECTIONS } from '$lib/constants/retrospect_sections';
 
 	type AnswerKey = 'today' | 'problem' | 'learned' | 'tomorrow' | 'summary';
 
@@ -27,14 +28,6 @@
 		tomorrow: '',
 		summary: ''
 	};
-
-	const questions: { key: AnswerKey; title: string }[] = [
-		{ key: 'today', title: '1️⃣ 오늘 한 일' },
-		{ key: 'problem', title: '2️⃣ 어려웠던 점' },
-		{ key: 'learned', title: '3️⃣ 배운 점' },
-		{ key: 'tomorrow', title: '4️⃣ 내일 할 일' },
-		{ key: 'summary', title: '5️⃣ 총평' }
-	];
 
 	function updatePreview(key: AnswerKey, value: string) {
 		answers[key] = value;
@@ -80,9 +73,9 @@
 			</div>
 
 			<div class="section-list">
-				{#each questions as { key, title }}
+				{#each RETROSPECT_SECTIONS as { key, label }}
 					<RetrospectSection
-						{title}
+						title={label}
 						value={answers[key]}
 						html={previews[key]}
 						onInput={(v) => updatePreview(key, v)}
