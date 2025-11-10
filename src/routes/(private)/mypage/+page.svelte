@@ -86,7 +86,6 @@
 			}
 		}
 
-		toast('서비스를 이용해주셔서 감사합니다.', { icon: '👋' });
 		const { success, error } = await deleteUserAccount(user, password);
 		if (success) {
 			goto('/');

@@ -24,6 +24,7 @@ import {
 	getDocs
 } from 'firebase/firestore';
 import { auth, db, provider } from '$lib/firebase';
+import toast from 'svelte-5-french-toast';
 
 /**
  * 이메일로 회원가입하는 기능
@@ -176,6 +177,7 @@ export async function deleteUserAccount(user: any, password?: string) {
 		// 4️⃣ Firebase Auth 사용자 삭제
 		await deleteUser(user);
 
+		toast('서비스를 이용해주셔서 감사합니다.', { icon: '👋' });
 		return { success: true };
 	} catch (error: any) {
 		console.error('회원 탈퇴 오류:', error);
