@@ -7,6 +7,7 @@ import { renderMarkdown } from '$lib/markdown';
 import { answers, previews, title } from './writeStore';
 import { RETROSPECT_MESSAGES } from '$lib/constants/retrospectMessages';
 import type { AnswerKey } from '$lib/constants/retrospectKeys';
+import toast from 'svelte-5-french-toast';
 
 export function updatePreview(key: AnswerKey, value: string) {
 	answers.update((currentAnswers) => ({ ...currentAnswers, [key]: value }));
@@ -21,13 +22,13 @@ export function initPreviews() {
 export async function submitRetrospect() {
 	const currentTitle = get(title).trim();
 	if (!currentTitle) {
-		alert(RETROSPECT_MESSAGES.EMPTY_TITLE);
+		toast.error(RETROSPECT_MESSAGES.EMPTY_TITLE);
 		return;
 	}
 
 	const user = get(currentUser);
 	if (!user) {
-		alert(RETROSPECT_MESSAGES.NEED_LOGIN);
+		toast.error(RETROSPECT_MESSAGES.NEED_LOGIN);
 		return;
 	}
 
@@ -36,10 +37,10 @@ export async function submitRetrospect() {
 	const { success, error, id } = await saveRetrospect(retrospectData, userId);
 
 	if (success && id) {
-		alert(RETROSPECT_MESSAGES.SAVE_SUCCESS);
+		toast.error(RETROSPECT_MESSAGES.SAVE_SUCCESS);
 		await goto(`/detail/${id}`);
 	} else {
 		console.error(error);
-		alert(RETROSPECT_MESSAGES.SAVE_ERROR);
+		toast.error(RETROSPECT_MESSAGES.SAVE_ERROR);
 	}
 }

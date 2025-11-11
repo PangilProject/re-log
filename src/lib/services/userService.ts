@@ -182,9 +182,9 @@ export async function deleteUserAccount(user: any, password?: string) {
 	} catch (error: any) {
 		console.error('회원 탈퇴 오류:', error);
 		if (error.code === 'auth/requires-recent-login') {
-			alert('계정을 삭제하려면 다시 로그인해야 합니다.');
+			toast.error('계정을 삭제하려면 다시 로그인해야 합니다.');
 		} else {
-			alert('회원 탈퇴 중 문제가 발생했습니다.');
+			toast.error('회원 탈퇴 중 문제가 발생했습니다.');
 		}
 		return { success: false, error };
 	}

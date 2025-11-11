@@ -34,7 +34,7 @@
 
 	async function handleUpdate() {
 		if (!name.trim()) {
-			alert('이름을 입력해주세요.');
+			toast.error('이름을 입력해주세요.');
 			return;
 		}
 		const user = $currentUser;
@@ -49,12 +49,11 @@
 				displayName: name
 			});
 			toast.success('프로필이 수정되었습니다!');
-			// alert('프로필이 수정되었습니다.');
 			originalName = name;
 			editing = false;
 		} catch (error) {
 			console.error('업데이트 오류:', error);
-			alert('프로필 수정 중 문제가 발생했습니다.');
+			toast.error('프로필 수정 중 문제가 발생했습니다.');
 		} finally {
 			isSaving = false;
 		}
@@ -91,7 +90,7 @@
 			goto('/');
 		} else {
 			console.error(error);
-			alert('회원 탈퇴 중 문제가 발생했습니다.');
+			toast.error('회원 탈퇴 중 문제가 발생했습니다.');
 		}
 	}
 </script>

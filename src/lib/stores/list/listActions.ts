@@ -6,6 +6,7 @@ import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '$lib/firebase';
 import { deleteToast } from '$lib/utils/toast';
 import { goToList } from '$lib/utils/navigation';
+import toast from 'svelte-5-french-toast';
 
 export async function loadRetrospects() {
 	isLoading.set(true);
@@ -41,7 +42,7 @@ export async function deleteRetrospects(ids: string[]) {
 		retrospectsData.update((items) => items.filter((item) => !ids.includes(item.id)));
 	} catch (err) {
 		console.error('삭제 오류:', err);
-		alert('삭제 중 오류가 발생했습니다.');
+		toast.error('삭제 중 오류가 발생했습니다.');
 	}
 }
 
@@ -52,6 +53,6 @@ export async function deleteRetrospect(id: string) {
 		goToList();
 	} catch (err) {
 		console.error('삭제 오류:', err);
-		alert('삭제 중 오류가 발생했습니다.');
+		toast.error('삭제 중 오류가 발생했습니다.');
 	}
 }
