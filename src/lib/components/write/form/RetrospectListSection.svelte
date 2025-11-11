@@ -7,12 +7,15 @@
 </script>
 
 <div class="section-list">
-	{#each RETROSPECT_SECTIONS as section}
+	{#each RETROSPECT_SECTIONS as section, i}
 		{@const key = section.key as AnswerKey}
 		<RetrospectSection
 			title={section.label}
 			value={$answers[key]}
 			html={$previews[key]}
+			beforeTitle={RETROSPECT_SECTIONS[i - 1]?.label}
+			nextTitle={RETROSPECT_SECTIONS[i + 1]?.label}
+			index={i}
 			onInput={(value: string) => updatePreview(key, value)}
 		/>
 	{/each}

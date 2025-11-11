@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { submitRetrospect } from '$lib/stores/write/writeActions';
+	const isMobile = window.innerWidth < 640;
 </script>
 
-<div class="submit-box">
-	<button on:click={submitRetrospect}>💾 작성 완료</button>
-</div>
+{#if !isMobile}
+	<div class="submit-box">
+		<button on:click={submitRetrospect}>💾 작성 완료</button>
+	</div>
+{/if}
 
 <style>
 	.submit-box {
