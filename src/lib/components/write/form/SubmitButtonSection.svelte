@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { submitRetrospect } from '$lib/stores/write/writeActions';
-	const isMobile = window.innerWidth < 640;
+	import { isMobile } from '$lib/stores/write/writeStore';
 </script>
 
-{#if !isMobile}
+{#if !$isMobile}
 	<div class="submit-box">
 		<button on:click={submitRetrospect}>💾 작성 완료</button>
 	</div>

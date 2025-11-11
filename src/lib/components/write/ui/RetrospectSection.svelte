@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { ArrowBigLeft, ArrowBigRight } from 'lucide-svelte';
+	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
 	import EditorTextarea from './EditorTextarea.svelte';
 	import MarkdownPreview from './MarkdownPreview.svelte';
 	import { submitRetrospect } from '$lib/stores/write/writeActions';
+	import { isMobile } from '$lib/stores/write/writeStore';
 
 	export let title: string;
 	export let value: string;
@@ -10,25 +13,33 @@
 	export let onInput: (v: string) => void;
 	export let beforeTitle: string;
 	export let nextTitle: string;
-	export const isMobile = window.innerWidth < 640;
 	export let index: number;
 
+	onMount(() => {
+		if (browser) {
+			const check = () => isMobile.set(window.innerWidth < 640);
+			check();
+			window.addEventListener('resize', check);
+			return () => window.removeEventListener('resize', check);
+		}
+	});
+
 	function scrollToSection(id: string) {
+		if (!browser) return;
+
 		const el = document.getElementById(id);
 		if (!el) return;
 
-		const offset = 80; // 헤더 높이 고려
-		const isMobile = window.innerWidth < 640; // sm 기준 (640px 이하)
+		const offset = 80;
+		const isMobileNow = window.innerWidth < 640;
 
-		if (isMobile) {
-			// ✅ 모바일(가로 스크롤)
+		if (isMobileNow) {
 			const container = document.querySelector('.section-list');
 			if (container instanceof HTMLElement) {
-				const left = el.offsetLeft - 50; // 약간의 마진 고려
+				const left = el.offsetLeft - 50;
 				container.scrollTo({ left, behavior: 'smooth' });
 			}
 		} else {
-			// ✅ 데스크탑(세로 스크롤)
 			const top = el.getBoundingClientRect().top + window.scrollY - offset;
 			window.scrollTo({ top, behavior: 'smooth' });
 		}
@@ -53,7 +64,7 @@
 					><ArrowBigRight size="18" /></button
 				>
 			{/if}
-			{#if !nextTitle && isMobile}
+			{#if !nextTitle && $isMobile}
 				<button
 					class="flex items-center gap-2 rounded-md bg-[#1e3a8a] px-2 py-0.5 leading-none text-white hover:bg-[#4771e7]"
 					on:click={submitRetrospect}>💾 작성 완료</button

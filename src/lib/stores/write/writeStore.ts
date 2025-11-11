@@ -8,3 +8,5 @@ export const answers = writable<Record<AnswerKey, string>>(
 export const previews = writable<Record<AnswerKey, string>>(
 	Object.fromEntries(RETROSPECT_KEYS.map((key) => [key, ''])) as Record<AnswerKey, string>
 );
+
+export const isMobile = writable(false);
