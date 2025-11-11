@@ -37,7 +37,7 @@ export async function submitRetrospect() {
 	const { success, error, id } = await saveRetrospect(retrospectData, userId);
 
 	if (success && id) {
-		toast.error(RETROSPECT_MESSAGES.SAVE_SUCCESS);
+		toast.success(RETROSPECT_MESSAGES.SAVE_SUCCESS);
 		await goto(`/detail/${id}`);
 	} else {
 		console.error(error);
