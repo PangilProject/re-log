@@ -21,11 +21,6 @@ export function initPreviews() {
 
 export async function submitRetrospect() {
 	const currentTitle = get(title).trim();
-	if (!currentTitle) {
-		toast.error(RETROSPECT_MESSAGES.EMPTY_TITLE);
-		return;
-	}
-
 	const user = get(currentUser);
 	if (!user) {
 		toast.error(RETROSPECT_MESSAGES.NEED_LOGIN);
@@ -37,6 +32,14 @@ export async function submitRetrospect() {
 	const { success, error, id } = await saveRetrospect(retrospectData, userId);
 
 	if (success && id) {
+		title.set('');
+		answers.set({
+			today: '',
+			problem: '',
+			learned: '',
+			tomorrow: '',
+			summary: ''
+		});
 		toast.success(RETROSPECT_MESSAGES.SAVE_SUCCESS);
 		await goto(`/detail/${id}`);
 	} else {

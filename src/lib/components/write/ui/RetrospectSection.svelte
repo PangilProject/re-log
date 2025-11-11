@@ -4,8 +4,8 @@
 	import { browser } from '$app/environment';
 	import EditorTextarea from './EditorTextarea.svelte';
 	import MarkdownPreview from './MarkdownPreview.svelte';
-	import { submitRetrospect } from '$lib/stores/write/writeActions';
 	import { isMobile } from '$lib/stores/write/writeStore';
+	import { handleSubmitRetrospect } from '$lib/utils/retrospectHandler';
 
 	export let title: string;
 	export let value: string;
@@ -52,22 +52,28 @@
 		<div class="flex gap-2">
 			{#if index > 0}
 				<button
+					tabindex="-1"
 					class="flex items-center gap-2 rounded-md bg-[#1e3a8a] px-2 py-0.5 leading-none text-white hover:bg-[#4771e7]"
-					on:click|preventDefault={() => scrollToSection(beforeTitle)}
-					><ArrowBigLeft size="18" /></button
+					on:click|preventDefault={(e) => {
+						scrollToSection(beforeTitle);
+						(e.currentTarget as HTMLButtonElement).blur();
+					}}><ArrowBigLeft size="18" /></button
 				>
 			{/if}
 			{#if nextTitle}
 				<button
+					tabindex="-1"
 					class="flex items-center gap-2 rounded-md bg-[#1e3a8a] px-2 py-0.5 leading-none text-white hover:bg-[#4771e7]"
-					on:click|preventDefault={() => scrollToSection(nextTitle)}
-					><ArrowBigRight size="18" /></button
+					on:click|preventDefault={(e) => {
+						scrollToSection(nextTitle);
+						(e.currentTarget as HTMLButtonElement).blur();
+					}}><ArrowBigRight size="18" /></button
 				>
 			{/if}
 			{#if !nextTitle && $isMobile}
 				<button
 					class="flex items-center gap-2 rounded-md bg-[#1e3a8a] px-2 py-0.5 leading-none text-white hover:bg-[#4771e7]"
-					on:click={submitRetrospect}>💾 작성 완료</button
+					on:click={handleSubmitRetrospect}>💾 작성 완료</button
 				>
 			{/if}
 		</div>

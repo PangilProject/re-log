@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { submitRetrospect } from '$lib/stores/write/writeActions';
 	import { isMobile } from '$lib/stores/write/writeStore';
+	import { handleSubmitRetrospect } from '$lib/utils/retrospectHandler';
 </script>
 
 {#if !$isMobile}
 	<div class="submit-box">
-		<button on:click={submitRetrospect}>💾 작성 완료</button>
+		<button on:click={handleSubmitRetrospect}>💾 작성 완료</button>
 	</div>
 {/if}
 
