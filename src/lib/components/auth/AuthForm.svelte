@@ -70,11 +70,11 @@
 			/>
 		{/if}
 
-		<LoginButton label={type === 'login' ? '로그인' : '회원가입'} {loading} onClick={onSubmit} />
+		<LoginButton label={type === 'login' ? '로그인' : '회원가입'} onClick={onSubmit} />
 
 		<LoginButton
+			variant="google"
 			label={type === 'login' ? 'Google로 로그인' : 'Google로 회원가입'}
-			color="bg-[#db4437] hover:bg-[#c23321]"
 			onClick={onGoogle}
 		/>
 	</div>
