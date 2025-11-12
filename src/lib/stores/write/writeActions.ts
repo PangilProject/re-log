@@ -1,17 +1,15 @@
-// src/lib/stores/write/writeActions.ts
 import { get } from 'svelte/store';
 import { goto } from '$app/navigation';
 import { currentUser } from '$lib/stores/user';
-import { saveRetrospect } from '$lib/services/retrospectService';
+import { saveRetrospect, updateRetrospect } from '$lib/services/retrospectService';
 import { renderMarkdown } from '$lib/markdown';
-import { answers, previews, title } from './writeStore';
-import { RETROSPECT_MESSAGES } from '$lib/constants/retrospectMessages';
-import type { AnswerKey } from '$lib/constants/retrospectKeys';
+import { answers, previews, title, resetWriteStore } from './writeStore';
 import toast from 'svelte-5-french-toast';
+import type { AnswerKey } from '$lib/constants/retrospectKeys';
 
 export function updatePreview(key: AnswerKey, value: string) {
-	answers.update((currentAnswers) => ({ ...currentAnswers, [key]: value }));
-	previews.update((currentPreviews) => ({ ...currentPreviews, [key]: renderMarkdown(value) }));
+	answers.update((ans) => ({ ...ans, [key]: value }));
+	previews.update((pre) => ({ ...pre, [key]: renderMarkdown(value) }));
 }
 
 export function initPreviews() {
@@ -20,30 +18,34 @@ export function initPreviews() {
 }
 
 export async function submitRetrospect() {
-	const currentTitle = get(title).trim();
 	const user = get(currentUser);
 	if (!user) {
-		toast.error(RETROSPECT_MESSAGES.NEED_LOGIN);
+		toast.error('로그인이 필요합니다.');
 		return;
 	}
 
-	const userId = user.uid;
-	const retrospectData = { title: currentTitle, answers: get(answers) };
-	const { success, error, id } = await saveRetrospect(retrospectData, userId);
+	const retrospectData = { title: get(title), answers: get(answers) };
+	const { success, id } = await saveRetrospect(retrospectData, user.uid);
 
-	if (success && id) {
-		title.set('');
-		answers.set({
-			today: '',
-			problem: '',
-			learned: '',
-			tomorrow: '',
-			summary: ''
-		});
-		toast.success(RETROSPECT_MESSAGES.SAVE_SUCCESS);
-		await goto(`/detail/${id}`);
-	} else {
-		console.error(error);
-		toast.error(RETROSPECT_MESSAGES.SAVE_ERROR);
+	if (success) {
+		resetWriteStore();
+		toast.success('회고가 저장되었습니다!');
+		goto(`/detail/${id}`);
+	}
+}
+
+export async function submitModifyRetrospect(id: string) {
+	const user = get(currentUser);
+	if (!user) {
+		toast.error('로그인이 필요합니다.');
+		return;
+	}
+
+	const retrospectData = { title: get(title), answers: get(answers) };
+	const { success } = await updateRetrospect(id, retrospectData, user.uid);
+
+	if (success) {
+		toast.success('회고가 수정되었습니다!');
+		goto(`/detail/${id}`);
 	}
 }

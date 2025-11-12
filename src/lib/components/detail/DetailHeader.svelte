@@ -4,6 +4,8 @@
 	import { page } from '$app/stores';
 	import { deleteRetrospect } from '$lib/stores/list/listActions';
 	import toast from 'svelte-5-french-toast';
+	import { goToModify } from '$lib/utils/navigation';
+	import { RETROSPECT_MESSAGES } from '$lib/constants/retrospectMessages';
 
 	export let title: string;
 	export let createdAt: any;
@@ -18,7 +20,13 @@
 	}
 
 	function handleUpdate() {
-		toast('준비중입니다.', { icon: '⚙️' });
+		// toast('준비중입니다.', { icon: '⚙️' });
+		const docId = $page?.params?.id;
+		if (docId) {
+			goToModify(docId);
+		} else {
+			toast.error(RETROSPECT_MESSAGES.EMPTY_DOCID);
+		}
 	}
 </script>
 

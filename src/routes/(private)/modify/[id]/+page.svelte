@@ -4,5 +4,5 @@
 </script>
 
 <PrivateLayout>
-	<WriteContainer mode="write" />
+	<WriteContainer mode="modify" />
 </PrivateLayout>

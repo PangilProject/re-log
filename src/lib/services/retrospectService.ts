@@ -8,9 +8,11 @@ import {
 	where,
 	orderBy,
 	doc,
-	getDoc
+	getDoc,
+	updateDoc
 } from 'firebase/firestore';
 import { db } from '$lib/firebase';
+import type { RetrospectDocument } from '$lib/types/retrospect';
 
 export interface RetrospectData {
 	title: string;
@@ -66,7 +68,12 @@ export async function getRetrospectListByUser(userId: string) {
 	}
 }
 
-export async function getRetrospectById(docId: string) {
+export async function getRetrospectById(docId: string): Promise<{
+	success: boolean;
+	id?: string;
+	data?: RetrospectDocument;
+	error?: unknown;
+}> {
 	try {
 		const docRef = doc(db, 'retrospectives', docId);
 		const snapshot = await getDoc(docRef);
@@ -75,9 +82,29 @@ export async function getRetrospectById(docId: string) {
 			throw new Error('해당 문서를 찾을 수 없습니다.');
 		}
 
-		return { success: true, id: snapshot.id, data: snapshot.data() };
+		return {
+			success: true,
+			id: snapshot.id,
+			data: snapshot.data() as RetrospectDocument
+		};
 	} catch (error) {
-		console.error('회고 상세 조회 실패:', error);
+		return { success: false, error };
+	}
+}
+
+export async function updateRetrospect(docId: string, data: RetrospectData, userId: string) {
+	try {
+		const docRef = doc(db, 'retrospectives', docId);
+
+		await updateDoc(docRef, {
+			...data,
+			updatedAt: serverTimestamp(),
+			userId: userId
+		});
+
+		return { success: true };
+	} catch (error) {
+		console.error('회고 수정 실패:', error);
 		return { success: false, error };
 	}
 }

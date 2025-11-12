@@ -15,3 +15,7 @@ export function goToMyPage() {
 export function goToList() {
 	goto('/list');
 }
+
+export function goToModify(docId: string) {
+	goto(`/modify/${docId}`);
+}

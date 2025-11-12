@@ -2,10 +2,12 @@
 	import TitleSection from './form/TitleSection.svelte';
 	import RetrospectListSection from './form/RetrospectListSection.svelte';
 	import SubmitButton from './form/SubmitButtonSection.svelte';
+
+	export let mode: 'write' | 'modify' = 'write';
 </script>
 
 <div class="write-card">
-	<h2>✏️ 회고 작성</h2>
+	<h2>{mode === 'write' ? '✏️ 회고 작성' : '✍🏻 회고 수정'}</h2>
 
 	<TitleSection />
 	<RetrospectListSection />
