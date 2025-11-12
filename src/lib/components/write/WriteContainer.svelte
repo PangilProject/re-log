@@ -9,6 +9,7 @@
 	import { currentUser } from '$lib/stores/user';
 	import { get } from 'svelte/store';
 	import { openConfirm } from '$lib/utils/confirm';
+	import DraftButton from './DraftButton.svelte';
 
 	let isLoading = true;
 
@@ -18,7 +19,7 @@
 		timeoutId = setTimeout(func, delay);
 	}
 
-	async function autosave() {
+	async function handleSaveDraft() {
 		const user = get(currentUser);
 		if (!user) return;
 
@@ -32,7 +33,6 @@
 		}
 
 		await saveDraft(user.uid, draftData);
-		console.log('임시저장 완료');
 	}
 
 	onMount(async () => {
@@ -63,10 +63,14 @@
 
 	$: if (mode === 'write') {
 		const combined = [$title, $answers];
-		debounce(autosave, 3000);
+		debounce(handleSaveDraft, 3000);
 	}
 </script>
 
 <PageContainer {isLoading} errorMessage={null}>
 	<WriteForm {mode} />
 </PageContainer>
+
+{#if mode === 'write'}
+	<DraftButton onClick={handleSaveDraft} />
+{/if}

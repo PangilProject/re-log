@@ -7,7 +7,6 @@
 	export let setFields: (name: string, value: string) => void;
 	export let onSubmit: () => void;
 	export let onGoogle: () => void;
-	export let loading = false;
 	export let error: string | null = null;
 </script>
 
