@@ -9,7 +9,9 @@ import {
 	orderBy,
 	doc,
 	getDoc,
-	updateDoc
+	updateDoc,
+	setDoc,
+	deleteDoc
 } from 'firebase/firestore';
 import { db } from '$lib/firebase';
 import type { RetrospectDocument } from '$lib/types/retrospect';
@@ -105,6 +107,49 @@ export async function updateRetrospect(docId: string, data: RetrospectData, user
 		return { success: true };
 	} catch (error) {
 		console.error('회고 수정 실패:', error);
+		return { success: false, error };
+	}
+}
+
+export async function saveDraft(userId: string, draftData: RetrospectData) {
+	try {
+		const draftRef = doc(db, 'drafts', userId);
+		await setDoc(draftRef, {
+			...draftData,
+			updatedAt: serverTimestamp()
+		});
+		return { success: true };
+	} catch (error) {
+		console.error('임시저장 실패:', error);
+		return { success: false, error };
+	}
+}
+
+export async function getDraft(userId: string): Promise<{
+	success: boolean;
+	data?: RetrospectDocument;
+	error?: unknown;
+}> {
+	try {
+		const draftRef = doc(db, 'drafts', userId);
+		const docSnap = await getDoc(draftRef);
+		if (docSnap.exists()) {
+			return { success: true, data: docSnap.data() as RetrospectDocument };
+		}
+		return { success: true, data: undefined };
+	} catch (error) {
+		console.error('임시저장 불러오기 실패:', error);
+		return { success: false, error };
+	}
+}
+
+export async function deleteDraft(userId: string) {
+	try {
+		const draftRef = doc(db, 'drafts', userId);
+		await deleteDoc(draftRef);
+		return { success: true };
+	} catch (error) {
+		console.error('임시저장 삭제 실패:', error);
 		return { success: false, error };
 	}
 }
