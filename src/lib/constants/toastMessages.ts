@@ -14,6 +14,7 @@ export const TOAST_MESSAGES = {
 	RETROSPECT_DELETE_ERROR: '삭제 중 오류가 발생했습니다.',
 	RETROSPECT_SELECT_REQUIRED: '삭제할 회고를 선택해주세요.',
 	RETROSPECT_EMPTY_ID: '유효하지 않는 회고입니다.',
+	RETROSPECT_EMPTY_TITLE: '제목을 입력해주세요.',
 
 	// 임시저장
 	DRAFT_SAVED: '임시저장 되었습니다.',

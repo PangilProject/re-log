@@ -79,3 +79,7 @@ export function customWelcome(user: any) {
 export function errorEmptyDocID() {
 	toast.error(TOAST_MESSAGES.RETROSPECT_EMPTY_ID);
 }
+
+export function errorEmptyTitle() {
+	toast.error(TOAST_MESSAGES.RETROSPECT_EMPTY_TITLE);
+}
