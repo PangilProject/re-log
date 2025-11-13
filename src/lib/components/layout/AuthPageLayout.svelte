@@ -1,6 +1,5 @@
 <script lang="ts">
 	import LoginRegisterHeader from '$lib/components/layout/LoginRegisterHeader.svelte';
-	import Footer from '$lib/components/layout/Footer.svelte';
 
 	// slot으로 폼(LoginForm or RegisterForm)을 전달받음
 </script>
@@ -11,8 +10,6 @@
 	<main class="flex grow items-center justify-center px-4 pt-24">
 		<slot />
 	</main>
-
-	<Footer />
 </div>
 
 <style>

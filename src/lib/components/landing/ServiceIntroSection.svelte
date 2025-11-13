@@ -1,6 +1,6 @@
 <!-- src/lib/components/sections/ServiceIntroSection.svelte -->
 <section class="bg-(--white) py-24">
-	<div class="mx-auto max-w-6xl px-6">
+	<div class="mx-auto max-w-[1000px] px-0 max-[1000px]:px-8">
 		<h3 class="mb-12 text-center text-3xl font-bold text-(--text-primary)">
 			Re:Log는 이런 서비스입니다
 		</h3>

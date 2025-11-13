@@ -20,7 +20,6 @@
 <AuthForm
 	type="register"
 	{fields}
-	{loading}
 	{error}
 	{setFields}
 	onSubmit={() => handleRegister({ ...fields, setError, setLoading })}

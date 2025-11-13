@@ -2,7 +2,6 @@
 	import '../../../app.css';
 	import '../../../lib/styles/preview.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import PublicLayout from './PublicLayout.svelte';
 	import Footer from './Footer.svelte';
 	// optional: import PublicHeader from './PublicHeader.svelte';
 </script>
@@ -15,10 +14,11 @@
 	<!-- 비로그인 페이지 전용 헤더 -->
 
 	<main class="grow">
-		<PublicLayout>
+		<div>
 			<slot />
-		</PublicLayout>
+		</div>
 	</main>
+	<Footer />
 </div>
 
 <style>
