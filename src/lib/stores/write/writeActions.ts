@@ -4,8 +4,8 @@ import { currentUser } from '$lib/stores/user';
 import { saveRetrospect, updateRetrospect, deleteDraft } from '$lib/services/retrospectService';
 import { renderMarkdown } from '$lib/markdown';
 import { answers, previews, title, resetWriteStore } from './writeStore';
-import toast from 'svelte-5-french-toast';
 import type { AnswerKey } from '$lib/constants/retrospectKeys';
+import { errorNeedLogin, successModifyRetrospect, successSaveRetrospect } from '$lib/utils/toast';
 
 export function updatePreview(key: AnswerKey, value: string) {
 	answers.update((ans) => ({ ...ans, [key]: value }));
@@ -20,7 +20,7 @@ export function initPreviews() {
 export async function submitRetrospect() {
 	const user = get(currentUser);
 	if (!user) {
-		toast.error('로그인이 필요합니다.');
+		errorNeedLogin();
 		return;
 	}
 
@@ -30,7 +30,7 @@ export async function submitRetrospect() {
 	if (success) {
 		await deleteDraft(user.uid);
 		resetWriteStore();
-		toast.success('회고가 저장되었습니다!');
+		successSaveRetrospect();
 		goto(`/detail/${id}`);
 	}
 }
@@ -38,7 +38,7 @@ export async function submitRetrospect() {
 export async function submitModifyRetrospect(id: string) {
 	const user = get(currentUser);
 	if (!user) {
-		toast.error('로그인이 필요합니다.');
+		errorNeedLogin();
 		return;
 	}
 
@@ -46,7 +46,7 @@ export async function submitModifyRetrospect(id: string) {
 	const { success } = await updateRetrospect(id, retrospectData, user.uid);
 
 	if (success) {
-		toast.success('회고가 수정되었습니다!');
+		successModifyRetrospect();
 		goto(`/detail/${id}`);
 	}
 }

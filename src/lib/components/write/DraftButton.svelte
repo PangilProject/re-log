@@ -1,11 +1,11 @@
 <script lang="ts">
-	import toast from 'svelte-5-french-toast';
+	import { successDraftSave } from '$lib/utils/toast';
 
 	export let onClick: () => Promise<void>;
 
 	async function handleClick() {
 		await onClick();
-		toast.success('임시저장 되었습니다.');
+		successDraftSave();
 	}
 </script>
 

@@ -24,7 +24,7 @@ import {
 	getDocs
 } from 'firebase/firestore';
 import { auth, db, provider } from '$lib/firebase';
-import toast from 'svelte-5-french-toast';
+import { customGoodBye, errorDeleteAccount, errorNeedReLogin } from '$lib/utils/toast';
 
 /**
  * 이메일로 회원가입하는 기능
@@ -177,14 +177,14 @@ export async function deleteUserAccount(user: any, password?: string) {
 		// 4️⃣ Firebase Auth 사용자 삭제
 		await deleteUser(user);
 
-		toast('서비스를 이용해주셔서 감사합니다.', { icon: '👋' });
+		customGoodBye();
 		return { success: true };
 	} catch (error: any) {
 		console.error('회원 탈퇴 오류:', error);
 		if (error.code === 'auth/requires-recent-login') {
-			toast.error('계정을 삭제하려면 다시 로그인해야 합니다.');
+			errorNeedReLogin();
 		} else {
-			toast.error('회원 탈퇴 중 문제가 발생했습니다.');
+			errorDeleteAccount();
 		}
 		return { success: false, error };
 	}

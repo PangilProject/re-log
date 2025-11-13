@@ -6,9 +6,15 @@
 	import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 	import { db } from '$lib/firebase';
 	import { Loader2 } from 'lucide-svelte';
-	import toast, { Toaster } from 'svelte-5-french-toast';
 	import { openConfirm } from '$lib/utils/confirm';
 	import { openPrompt } from '$lib/utils/prompt';
+	import {
+		errorDeleteAccount,
+		errorEmptyName,
+		errorEmptyPassword,
+		errorModifyProfile,
+		successModifyProfile
+	} from '$lib/utils/toast';
 
 	let name = '';
 	let originalName = '';
@@ -34,7 +40,7 @@
 
 	async function handleUpdate() {
 		if (!name.trim()) {
-			toast.error('이름을 입력해주세요.');
+			errorEmptyName();
 			return;
 		}
 		const user = $currentUser;
@@ -48,12 +54,12 @@
 				...user,
 				displayName: name
 			});
-			toast.success('프로필이 수정되었습니다!');
+			successModifyProfile();
 			originalName = name;
 			editing = false;
 		} catch (error) {
+			errorModifyProfile();
 			console.error('업데이트 오류:', error);
-			toast.error('프로필 수정 중 문제가 발생했습니다.');
 		} finally {
 			isSaving = false;
 		}
@@ -80,7 +86,7 @@
 		if (user.providerData[0]?.providerId === 'password') {
 			password = await openPrompt('계정 삭제를 위해 비밀번호를 입력해주세요.', '비밀번호 입력');
 			if (!password) {
-				toast.error('비밀번호가 입력되지 않았습니다.');
+				errorEmptyPassword();
 				return;
 			}
 		}
@@ -90,7 +96,7 @@
 			goto('/');
 		} else {
 			console.error(error);
-			toast.error('회원 탈퇴 중 문제가 발생했습니다.');
+			errorDeleteAccount();
 		}
 	}
 </script>
@@ -165,8 +171,6 @@
 		</section>
 	{/if}
 </main>
-
-<Toaster />
 
 <style>
 	.mypage-container {

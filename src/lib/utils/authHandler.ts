@@ -1,8 +1,8 @@
 import { goto } from '$app/navigation';
 import { currentUser } from '$lib/stores/user';
 import { getErrorMessage } from '$lib/utils/firebaseError';
-import toast from 'svelte-5-french-toast';
 import { get } from 'svelte/store';
+import { customWelcome } from './toast';
 
 export async function handleAuthResult({
 	success,
@@ -18,7 +18,7 @@ export async function handleAuthResult({
 	const user = get(currentUser);
 
 	if (success) {
-		toast(`${user?.displayName}님 어서오세요!`, { icon: '🙋🏻', position: 'top-right' });
+		customWelcome(user);
 		await goto(redirect);
 	} else {
 		setError(getErrorMessage(error));

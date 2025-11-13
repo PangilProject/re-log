@@ -8,7 +8,7 @@
 	} from '$lib/stores/list/listSelectionStore';
 	import { deleteRetrospects } from '$lib/stores/list/listActions';
 	import { Trash } from 'lucide-svelte';
-	import { deleteToast, errorChoiceToast } from '$lib/utils/toast';
+	import { successDeleteRetrospect, errorChoiceToast } from '$lib/utils/toast';
 	import { openConfirm } from '$lib/utils/confirm';
 
 	let isDeleting = false;
@@ -24,7 +24,7 @@
 			return;
 		}
 
-		deleteToast();
+		successDeleteRetrospect();
 		isDeleting = true;
 		await deleteRetrospects(ids);
 		clearSelection();
