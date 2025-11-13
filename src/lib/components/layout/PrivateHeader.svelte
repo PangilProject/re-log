@@ -39,7 +39,7 @@
 				</div>
 				<button
 					onclick={handleLogout}
-					class="rounded-lg bg-(--brand-accent) px-3 py-1.5 text-sm font-semibold text-(--white) transition hover:bg-(--brand-accent-dark)"
+					class="rounded-lg bg-(--brand-secondary) px-3 py-1.5 text-sm font-semibold text-(--white) transition hover:bg-(--brand-secondary-dark)"
 				>
 					로그아웃
 				</button>
