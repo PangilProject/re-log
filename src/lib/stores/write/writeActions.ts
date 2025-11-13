@@ -3,7 +3,7 @@ import { goto } from '$app/navigation';
 import { currentUser } from '$lib/stores/user';
 import { saveRetrospect, updateRetrospect, deleteDraft } from '$lib/services/retrospectService';
 import { renderMarkdown } from '$lib/markdown';
-import { answers, previews, title, resetWriteStore } from './writeStore';
+import { answers, previews, title, resetWriteStore, selectedEmotions } from './writeStore';
 import type { AnswerKey } from '$lib/constants/retrospectKeys';
 import { errorNeedLogin, successModifyRetrospect, successSaveRetrospect } from '$lib/utils/toast';
 
@@ -24,7 +24,11 @@ export async function submitRetrospect() {
 		return;
 	}
 
-	const retrospectData = { title: get(title), answers: get(answers) };
+	const retrospectData = {
+		title: get(title),
+		answers: get(answers),
+		selectedEmotions: get(selectedEmotions)
+	};
 	const { success, id } = await saveRetrospect(retrospectData, user.uid);
 
 	if (success) {
@@ -42,11 +46,32 @@ export async function submitModifyRetrospect(id: string) {
 		return;
 	}
 
-	const retrospectData = { title: get(title), answers: get(answers) };
+	const retrospectData = {
+		title: get(title),
+		answers: get(answers),
+		selectedEmotions: get(selectedEmotions)
+	};
 	const { success } = await updateRetrospect(id, retrospectData, user.uid);
 
 	if (success) {
 		successModifyRetrospect();
 		goto(`/detail/${id}`);
 	}
+}
+
+export function toggleEmotion(key: string) {
+	selectedEmotions.update((list) => {
+		if (list.includes(key)) {
+			return list.filter((item) => item !== key); // 이미 있으면 제거
+		}
+		return [...list, key]; // 없으면 추가
+	});
+}
+
+export function clearAllEmotions() {
+	selectedEmotions.set([]);
+}
+
+export function setSelectedEmotions(emotions: string[]) {
+	selectedEmotions.set(emotions);
 }

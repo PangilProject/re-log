@@ -16,6 +16,7 @@ export function resetWriteStore() {
 	title.set('');
 	answers.set({ ...emptyAnswers });
 	previews.set({ ...emptyAnswers });
+	selectedEmotions.set([]);
 }
 
 export function hydrateWriteStore(doc: { title: string; answers: Record<AnswerKey, string> }) {
@@ -23,3 +24,5 @@ export function hydrateWriteStore(doc: { title: string; answers: Record<AnswerKe
 	answers.set({ ...doc.answers });
 	previews.set({ ...doc.answers });
 }
+
+export const selectedEmotions = writable<string[]>([]);

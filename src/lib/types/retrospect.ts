@@ -14,6 +14,7 @@ export interface RetrospectDocument {
 	userId: string;
 	createdAt?: any; // Timestamp (Optional: Firestore Timestamp)
 	updatedAt?: any; // Timestamp
+	selectedEmotions: string[];
 }
 
 // 작성/수정 시 payload로 넘기는 타입

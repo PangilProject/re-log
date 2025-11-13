@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { RETROSPECT_SECTIONS } from '$lib/constants/retrospect_sections';
+	import EmotionSection from '../write/form/EmotionSection.svelte';
 	import DetailHeader from './DetailHeader.svelte';
 	import DetailSection from './DetailSection.svelte';
 
@@ -8,6 +9,7 @@
 
 <div class="detail-card">
 	<DetailHeader title={data.title} createdAt={data.createdAt} />
+	<EmotionSection isDetailMode={true} />
 
 	{#each RETROSPECT_SECTIONS as section}
 		<DetailSection title={section.label} content={data.answers?.[section.key] || ''} />

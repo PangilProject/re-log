@@ -25,6 +25,7 @@ export interface RetrospectData {
 		tomorrow: string;
 		summary: string;
 	};
+	selectedEmotions: string[];
 }
 
 /**

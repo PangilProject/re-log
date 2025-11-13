@@ -1,5 +1,6 @@
 import { getRetrospectById } from '$lib/services/retrospectService';
 import { detailData, isLoading, errorMessage } from './detailStore';
+import { setSelectedEmotions } from '$lib/stores/write/writeActions'; // Import setSelectedEmotions
 
 export async function loadDetail(docId: string) {
 	isLoading.set(true);
@@ -10,6 +11,9 @@ export async function loadDetail(docId: string) {
 
 		if (success && data) {
 			detailData.set(data);
+			if (data.selectedEmotions) {
+				setSelectedEmotions(data.selectedEmotions);
+			}
 		} else if (error && typeof error === 'object' && 'message' in error) {
 			errorMessage.set((error as { message: string }).message);
 		} else {
