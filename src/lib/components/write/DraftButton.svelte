@@ -11,7 +11,7 @@
 
 <button
 	on:click={handleClick}
-	class="fixed right-8 bottom-8 z-50 flex h-14 items-center gap-2 rounded-full bg-gray-700 px-4 text-white shadow-lg transition-transform hover:scale-110 hover:bg-gray-800"
+	class="fixed right-8 bottom-8 z-50 flex h-14 items-center gap-2 rounded-full bg-(--brand-secondary-dark) px-4 text-(--white) shadow-lg transition-transform hover:scale-110 hover:bg-(--text-primary)"
 	aria-label="임시저장"
 >
 	<svg

@@ -38,7 +38,12 @@
 		</p>
 		<div class="flex items-center gap-2">
 			<button class="text-blue-500 hover:text-blue-300" onclick={handleUpdate}>수정</button>
-			<button class="text-red-500 hover:text-red-300" onclick={handleDelete}> 삭제 </button>
+			<button
+				class="text-(--brand-accent) hover:text-(--brand-accent-light)"
+				onclick={handleDelete}
+			>
+				삭제
+			</button>
 		</div>
 	</div>
 </div>

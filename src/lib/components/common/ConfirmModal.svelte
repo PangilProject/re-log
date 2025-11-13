@@ -15,23 +15,23 @@
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
 		<!-- ✅ 본문 카드 -->
 		<div
-			class="animate-fadeIn w-[90%] max-w-sm rounded-xl border border-gray-200 bg-white p-5 shadow-lg"
+			class="animate-fadeIn w-[90%] max-w-sm rounded-xl border border-(--border-muted) bg-(--white) p-5 shadow-lg"
 		>
-			<p class="mb-5 text-center text-sm font-medium text-gray-800">
+			<p class="mb-5 text-center text-sm font-medium text-(--text-primary)">
 				{$confirmStore.message}
 			</p>
 
 			<div class="flex justify-center gap-3">
 				<button
 					on:click={() => handleConfirm(false)}
-					class="rounded-md border px-4 py-1.5 text-sm text-gray-700 transition-colors hover:bg-gray-100"
+					class="rounded-md border px-4 py-1.5 text-sm text-(--brand-secondary-dark) transition-colors hover:bg-gray-100"
 				>
 					취소
 				</button>
 
 				<button
 					on:click={() => handleConfirm(true)}
-					class="rounded-md bg-blue-500 px-4 py-1.5 text-sm text-white transition-colors hover:bg-blue-600"
+					class="rounded-md bg-blue-500 px-4 py-1.5 text-sm text-(--white) transition-colors hover:bg-(--brand-primary)"
 				>
 					확인
 				</button>

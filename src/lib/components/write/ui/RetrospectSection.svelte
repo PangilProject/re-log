@@ -53,7 +53,7 @@
 			{#if index > 0}
 				<button
 					tabindex="-1"
-					class="flex items-center gap-2 rounded-md bg-[#1e3a8a] px-2 py-0.5 leading-none text-white hover:bg-[#4771e7]"
+					class="flex items-center gap-2 rounded-md bg-(--brand-primary) px-2 py-0.5 leading-none text-(--white) hover:bg-(--brand-secondary-dark)"
 					on:click|preventDefault={(e) => {
 						scrollToSection(beforeTitle);
 						(e.currentTarget as HTMLButtonElement).blur();
@@ -63,7 +63,7 @@
 			{#if nextTitle}
 				<button
 					tabindex="-1"
-					class="flex items-center gap-2 rounded-md bg-[#1e3a8a] px-2 py-0.5 leading-none text-white hover:bg-[#4771e7]"
+					class="flex items-center gap-2 rounded-md bg-(--brand-primary) px-2 py-0.5 leading-none text-(--white) hover:bg-(--brand-secondary-dark)"
 					on:click|preventDefault={(e) => {
 						scrollToSection(nextTitle);
 						(e.currentTarget as HTMLButtonElement).blur();
@@ -72,7 +72,7 @@
 			{/if}
 			{#if !nextTitle && $isMobile}
 				<button
-					class="flex items-center gap-2 rounded-md bg-[#1e3a8a] px-2 py-0.5 leading-none text-white hover:bg-[#4771e7]"
+					class="flex items-center gap-2 rounded-md bg-(--brand-primary) px-2 py-0.5 leading-none text-(--white) hover:bg-(--brand-secondary-dark)"
 					on:click={handleSubmitRetrospect}>💾 작성 완료</button
 				>
 			{/if}

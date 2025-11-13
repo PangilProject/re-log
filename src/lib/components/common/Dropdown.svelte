@@ -18,14 +18,14 @@
 
 <div class="relative flex items-center text-left">
 	{#if label}
-		<label class="mr-2 text-sm text-gray-600" for="button">{label}</label>
+		<label class="mr-2 text-sm text-(--brand-secondary)" for="button">{label}</label>
 	{/if}
 
 	<!-- 버튼 -->
 	<button
 		id="button"
 		type="button"
-		class="flex items-center justify-between gap-1 rounded-md border px-3 py-1 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-blue-400"
+		class="flex items-center justify-between gap-1 rounded-md border px-3 py-1 text-sm font-medium text-(--brand-secondary-dark) shadow-sm hover:bg-(--surface-light) focus:ring-2 focus:ring-blue-400"
 		on:click={toggleOpen}
 	>
 		{#if $selected}
@@ -35,7 +35,7 @@
 		{/if}
 
 		<svg
-			class="h-4 w-4 text-gray-500 transition-transform duration-150"
+			class="h-4 w-4 text-(--text-secondary) transition-transform duration-150"
 			fill="none"
 			stroke="currentColor"
 			viewBox="0 0 24 24"
@@ -48,7 +48,7 @@
 	<!-- 드롭다운 메뉴 -->
 	{#if $isOpen}
 		<div
-			class="absolute right-0 z-10 mt-2 w-28 origin-top-right rounded-md border bg-white shadow-lg ring-1 ring-black/5"
+			class="absolute right-0 z-10 mt-2 w-28 origin-top-right rounded-md border bg-(--white) shadow-lg ring-1 ring-black/5"
 		>
 			{#each options as opt}
 				<button

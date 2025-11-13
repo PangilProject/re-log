@@ -4,7 +4,7 @@
 
 <button
 	onclick={goToLogin}
-	class="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition hover:bg-blue-700"
+	class="rounded-lg bg-(--brand-primary) px-4 py-2 font-semibold text-(--white) transition hover:bg-(--brand-primary-dark)"
 >
 	시작하기
 </button>

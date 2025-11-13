@@ -11,7 +11,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="flex min-h-screen flex-col bg-linear-to-b from-blue-50 to-white">
+<div class="flex min-h-screen flex-col bg-linear-to-b from-(--landing-bg-start) to-(--white)">
 	<PrivateHeader />
 
 	<main class="mt-16 grow">

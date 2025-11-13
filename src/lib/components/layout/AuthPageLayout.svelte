@@ -5,7 +5,7 @@
 	// slot으로 폼(LoginForm or RegisterForm)을 전달받음
 </script>
 
-<div class="flex min-h-screen flex-col bg-linear-to-b from-blue-50 to-white">
+<div class="flex min-h-screen flex-col bg-linear-to-b from-(--landing-bg-start) to-(--white)">
 	<LoginRegisterHeader />
 
 	<main class="flex grow items-center justify-center px-4 pt-24">

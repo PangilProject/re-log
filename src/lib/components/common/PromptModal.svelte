@@ -16,9 +16,11 @@
 {#if $promptStore.isOpen}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
 		<div
-			class="animate-fadeIn w-[90%] max-w-sm rounded-xl border border-gray-200 bg-white p-5 shadow-lg"
+			class="animate-fadeIn w-[90%] max-w-sm rounded-xl border border-(--border-muted) bg-(--white) p-5 shadow-lg"
 		>
-			<p class="mb-4 text-center text-sm font-medium text-gray-800">{$promptStore.message}</p>
+			<p class="mb-4 text-center text-sm font-medium text-(--text-primary)">
+				{$promptStore.message}
+			</p>
 
 			<input
 				type="password"
@@ -36,13 +38,13 @@
 			<div class="flex justify-center gap-3">
 				<button
 					on:click={() => handleConfirm(false)}
-					class="rounded-md border px-4 py-1.5 text-sm text-gray-700 hover:bg-gray-100"
+					class="rounded-md border px-4 py-1.5 text-sm text-(--brand-secondary-dark) hover:bg-gray-100"
 				>
 					취소
 				</button>
 				<button
 					on:click={() => handleConfirm(true)}
-					class="rounded-md bg-blue-500 px-4 py-1.5 text-sm text-white hover:bg-blue-600"
+					class="rounded-md bg-blue-500 px-4 py-1.5 text-sm text-(--white) hover:bg-(--brand-primary)"
 				>
 					확인
 				</button>

@@ -37,7 +37,7 @@
 {#if !$isDeleteMode}
 	<button
 		on:click={toggleDeleteMode}
-		class="ml-3 rounded-md bg-red-500 px-3 py-1 text-sm text-white shadow-sm hover:bg-red-600"
+		class="ml-3 rounded-md bg-(--brand-accent) px-3 py-1 text-sm text-(--white) shadow-sm hover:bg-(--brand-accent-dark)"
 	>
 		<Trash size="16" class="my-1" />
 	</button>
@@ -47,14 +47,14 @@
 		<button
 			on:click={handleDelete}
 			disabled={isDeleting}
-			class="ml-2 rounded-md bg-red-500 px-3 py-1 text-sm text-white shadow-sm hover:bg-red-600 disabled:opacity-50"
+			class="ml-2 rounded-md bg-(--brand-accent) px-3 py-1 text-sm text-(--white) shadow-sm hover:bg-(--brand-accent-dark) disabled:opacity-50"
 		>
 			{isDeleting ? '삭제 중...' : '선택 삭제'}
 		</button>
 
 		<button
 			on:click={toggleDeleteMode}
-			class="rounded-md border px-3 py-1 text-sm text-gray-600 hover:bg-gray-100"
+			class="rounded-md border px-3 py-1 text-sm text-(--brand-secondary) hover:bg-gray-100"
 		>
 			취소
 		</button>

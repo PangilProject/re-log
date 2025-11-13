@@ -27,7 +27,7 @@
 		<input
 			type="checkbox"
 			class="checked:[background-image:url('data:image/svg+xml,%3Csvg viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27white%27 stroke-width=%273%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cpolyline points=%2720 6 9 17 4 12%27/%3E%3C/svg%3E')]
-            absolute top-3 right-3 z-10 h-5 w-5 cursor-pointer appearance-none rounded-full border border-gray-300 bg-white transition-all duration-200 checked:border-blue-500 checked:bg-blue-500 checked:bg-size-[60%] checked:bg-center checked:bg-no-repeat hover:scale-110 focus:ring-0 focus:outline-none"
+            absolute top-3 right-3 z-10 h-5 w-5 cursor-pointer appearance-none rounded-full border border-(--border-color) bg-(--white) transition-all duration-200 checked:border-blue-500 checked:bg-blue-500 checked:bg-size-[60%] checked:bg-center checked:bg-no-repeat hover:scale-110 focus:ring-0 focus:outline-none"
 			checked={isSelected}
 			on:change={() => toggleSelect(id)}
 			title="회고 선택"

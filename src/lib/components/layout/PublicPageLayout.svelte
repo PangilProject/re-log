@@ -11,7 +11,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="flex min-h-screen flex-col bg-[#fafafa]">
+<div class="flex min-h-screen flex-col bg-(--white)">
 	<!-- 비로그인 페이지 전용 헤더 -->
 
 	<main class="grow">

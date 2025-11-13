@@ -20,26 +20,26 @@
 
 {#if $currentUser}
 	<header
-		class="fixed top-0 left-0 z-50 flex h-16 w-full items-center bg-white/80 shadow-sm backdrop-blur-md"
+		class="fixed top-0 left-0 z-50 flex h-16 w-full items-center bg-(--white)/80 shadow-sm backdrop-blur-md"
 	>
 		<div class="mx-auto flex w-full max-w-6xl items-center justify-between px-6">
-			<a href="/list" class="cursor-pointer text-2xl font-bold text-blue-600">Re:Log</a>
+			<a href="/list" class="cursor-pointer text-2xl font-bold text-(--brand-primary)">Re:Log</a>
 
 			<div class="flex items-center gap-4">
 				<div class="flex items-center gap-2">
-					<p class="hidden truncate text-sm font-medium text-gray-800 sm:block">
+					<p class="hidden truncate text-sm font-medium text-(--text-primary) sm:block">
 						반갑습니다, {$currentUser.displayName ?? $currentUser.email}님
 					</p>
 					<button
-						class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100"
+						class="flex h-8 w-8 items-center justify-center rounded-full bg-(--brand-primary-light)"
 						onclick={goToMyPage}
 					>
-						<User class="h-5 w-5 text-blue-600" />
+						<User class="h-5 w-5 text-(--brand-primary)" />
 					</button>
 				</div>
 				<button
 					onclick={handleLogout}
-					class="rounded-lg bg-red-500 px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-red-600"
+					class="rounded-lg bg-(--brand-accent) px-3 py-1.5 text-sm font-semibold text-(--white) transition hover:bg-(--brand-accent-dark)"
 				>
 					로그아웃
 				</button>

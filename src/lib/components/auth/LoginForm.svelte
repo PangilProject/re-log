@@ -20,7 +20,6 @@
 <AuthForm
 	type="login"
 	{fields}
-	{loading}
 	{error}
 	{setFields}
 	onSubmit={() => handleLogin({ ...fields, setError, setLoading })}

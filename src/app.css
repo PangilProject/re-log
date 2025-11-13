@@ -1,2 +1,81 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
+
+:root {
+	/* -------------------------------------------------------
+    🎨 Landing Page Theme Tokens
+	-------------------------------------------------------- */
+	--landing-bg-start: #eff6ff;
+	/* --landing-bg-end 중복(#ffffff) 제거 → white 사용 */
+	/* --landing-text-primary 중복(#1f2937, text-primary) 제거 */
+	/* --landing-text-secondary 중복(#4b5563, brand-secondary) 제거 */
+	/* --landing-accent 중복(#2563eb, brand-primary) 제거 */
+
+	/* -------------------------------------------------------
+    🎨 Brand Tokens
+	-------------------------------------------------------- */
+	--brand-primary: #2563eb; /* (--brand-primary) */
+	--brand-primary-rgb: 37, 99, 235;
+	--brand-primary-light: #dbeafe; /* (--brand-primary-light) */
+	--brand-primary-dark: #1d4ed8; /* (--brand-primary-dark) */
+
+	--brand-secondary: #4b5563; /* (--brand-secondary) */
+	--brand-secondary-dark: #374151; /* (--brand-secondary-dark) */
+
+	--brand-accent: #ef4444; /* (--brand-accent) */
+	--brand-accent-light: #fca5a5; /* (--brand-accent-light) */
+	--brand-accent-dark: #dc2626; /* (--brand-accent-dark) */
+
+	/* -------------------------------------------------------
+    🎨 Surface Tokens
+	-------------------------------------------------------- */
+	/* --surface-base (#ffffff) → white로 통합 */
+	--surface-light: #fafafa; /* (--surface-light) */
+	--surface-muted: #f2f2f2; /* neutral-100 */
+	--surface-dark: #eee; /* neutral-200 */
+
+	--border-color: #d1d5db; /* (--border-color) */
+	--border-muted: #e5e7eb; /* (--border-muted) */
+
+	/* -------------------------------------------------------
+    🎨 Text Tokens
+	-------------------------------------------------------- */
+	--text-primary: #1f2937; /* (--text-primary) */
+	--text-secondary: #6b7280; /* (--text-secondary) */
+	--text-dark: #222; /* neutral-900 */
+	/* --text-inverted 중복(#ffffff) 제거 → white 사용 */
+
+	/* -------------------------------------------------------
+    🎨 Input Tokens
+	-------------------------------------------------------- */
+	--input-bg: #f9fafb; /* (--surface-light) */
+	--input-bg-rgb: 249, 250, 251;
+	--input-border: #e5e7eb; /* (--border-muted) */
+
+	/* -------------------------------------------------------
+    🎨 Component-Specific
+	-------------------------------------------------------- */
+	--shadow-color-rgb: 0, 0, 0;
+
+	--code-bg: #1e1e1e; /* zinc-900 */
+	--code-text: #f1f1f1; /* zinc-100 */
+
+	--link-color: #0070f3; /* custom */
+
+	/* -------------------------------------------------------
+    🎨 Utility Grays (중복 제거됨)
+	-------------------------------------------------------- */
+	--(--surface-light): #f5f5f5;
+	/* --gray-100 (#f2f2f2) → surface-muted로 통합 */
+	/* --(--border-muted) (#eee) → surface-dark로 통합 */
+	--(--border-color): #ddd;
+	--(--text-secondary): #555;
+
+	--white: #ffffff;
+	--black: #000000;
+
+	/* -------------------------------------------------------
+    🎨 Svelte Brand
+	-------------------------------------------------------- */
+	--svelte-orange: #ff3e00;
+}

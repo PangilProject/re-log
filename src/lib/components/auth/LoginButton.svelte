@@ -14,8 +14,8 @@
 		flex w-full items-center justify-center gap-2 rounded-lg py-3 transition disabled:opacity-50
 		${
 			variant === 'google'
-				? 'border border-[#dadce0] bg-white text-[#3c4043] shadow-sm hover:bg-gray-50'
-				: 'bg-blue-600 text-white hover:bg-blue-700'
+				? 'border border-(--border-color) bg-(--white) text-(--brand-secondary-dark) shadow-sm hover:bg-(--surface-light)'
+				: 'bg-(--brand-primary) text-(--white) hover:bg-(--brand-primary-dark)'
 		}
 	`}
 >

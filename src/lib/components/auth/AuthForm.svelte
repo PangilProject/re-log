@@ -11,14 +11,14 @@
 </script>
 
 <div
-	class="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-10 shadow-sm transition hover:shadow-md"
+	class="w-full max-w-md rounded-2xl border border-(--border-muted) bg-(--white) p-10 shadow-sm transition hover:shadow-md"
 >
-	<h2 class="mb-8 text-center text-3xl font-bold text-gray-800">
+	<h2 class="mb-8 text-center text-3xl font-bold text-(--text-primary)">
 		{type === 'login' ? '로그인' : '회원가입'}
 	</h2>
 
 	{#if error}
-		<p class="mb-4 text-center text-sm font-medium text-red-500">{error}</p>
+		<p class="mb-4 text-center text-sm font-medium text-(--brand-accent)">{error}</p>
 	{/if}
 
 	<div class="flex flex-col gap-4">
@@ -28,7 +28,7 @@
 				placeholder="이름"
 				value={fields.name}
 				on:input={(e) => setFields('name', (e.target as HTMLInputElement).value)}
-				class="rounded-lg border border-gray-300 px-4 py-3 text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:outline-none"
+				class="rounded-lg border border-(--border-color) px-4 py-3 text-(--brand-secondary-dark) placeholder-gray-400 focus:border-blue-500 focus:outline-none"
 			/>
 		{/if}
 
@@ -37,7 +37,7 @@
 			placeholder="이메일"
 			value={fields.email}
 			on:input={(e) => setFields('email', (e.target as HTMLInputElement).value)}
-			class="rounded-lg border border-gray-300 px-4 py-3 text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:outline-none"
+			class="rounded-lg border border-(--border-color) px-4 py-3 text-(--brand-secondary-dark) placeholder-gray-400 focus:border-blue-500 focus:outline-none"
 		/>
 		<input
 			type="password"
@@ -50,7 +50,7 @@
 					onSubmit();
 				}
 			}}
-			class="rounded-lg border border-gray-300 px-4 py-3 text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:outline-none"
+			class="rounded-lg border border-(--border-color) px-4 py-3 text-(--brand-secondary-dark) placeholder-gray-400 focus:border-blue-500 focus:outline-none"
 		/>
 
 		{#if type === 'register'}
@@ -65,7 +65,7 @@
 						onSubmit();
 					}
 				}}
-				class="rounded-lg border border-gray-300 px-4 py-3 text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:outline-none"
+				class="rounded-lg border border-(--border-color) px-4 py-3 text-(--brand-secondary-dark) placeholder-gray-400 focus:border-blue-500 focus:outline-none"
 			/>
 		{/if}
 
@@ -78,13 +78,13 @@
 		/>
 	</div>
 
-	<p class="mt-8 text-center text-sm text-gray-600">
+	<p class="mt-8 text-center text-sm text-(--brand-secondary)">
 		{#if type === 'login'}
 			아직 회원이 아니신가요?
-			<a href="/register" class="font-semibold text-blue-600 hover:underline">회원가입</a>
+			<a href="/register" class="font-semibold text-(--brand-primary) hover:underline">회원가입</a>
 		{:else}
 			이미 계정이 있으신가요?
-			<a href="/login" class="font-semibold text-blue-600 hover:underline">로그인</a>
+			<a href="/login" class="font-semibold text-(--brand-primary) hover:underline">로그인</a>
 		{/if}
 	</p>
 </div>

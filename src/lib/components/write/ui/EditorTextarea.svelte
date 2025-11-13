@@ -28,7 +28,7 @@
 		color: #111827;
 		resize: none;
 		border: none;
-		border: 1px solid #e2e8f0; /* gray-200 */
+		border: 1px solid #e2e8f0; /* (--border-muted) */
 		border-radius: 12px;
 		transition: border 0.5s ease;
 	}
@@ -36,7 +36,7 @@
 	.editor-textarea:focus {
 		outline: none;
 		box-shadow: none;
-		border: 1px solid #2563eb; /* gray-200 */
+		border: 1px solid #2563eb; /* (--border-muted) */
 	}
 
 	.editor-textarea::placeholder {

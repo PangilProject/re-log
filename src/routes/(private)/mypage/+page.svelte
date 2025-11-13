@@ -97,31 +97,31 @@
 
 <main class="mypage-container">
 	{#if loading}
-		<p class="mt-10 text-center text-gray-500">불러오는 중...</p>
+		<p class="mt-10 text-center text-(--text-secondary)">불러오는 중...</p>
 	{:else}
 		<section class="mypage-card">
-			<h2 class="mb-6 text-center text-2xl font-bold text-blue-700">마이페이지</h2>
+			<h2 class="mb-6 text-center text-2xl font-bold text-(--brand-primary-dark)">마이페이지</h2>
 
 			<div class="flex flex-col gap-4">
 				<div>
-					<label class="mb-1 block text-sm text-gray-600" for="email">이메일</label>
+					<label class="mb-1 block text-sm text-(--brand-secondary)" for="email">이메일</label>
 					<input
 						id="eamil"
 						type="email"
 						value={email}
 						readonly
-						class="w-full cursor-not-allowed rounded-lg border border-gray-300 bg-gray-100 px-4 py-2"
+						class="w-full cursor-not-allowed rounded-lg border border-(--border-color) bg-gray-100 px-4 py-2"
 					/>
 				</div>
 
 				<div>
-					<label class="mb-1 block text-sm text-gray-600" for="name">이름</label>
+					<label class="mb-1 block text-sm text-(--brand-secondary)" for="name">이름</label>
 					<input
 						id="name"
 						type="text"
 						bind:value={name}
 						readonly={!editing}
-						class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
+						class="w-full rounded-lg border border-(--border-color) px-4 py-2 focus:border-blue-500 focus:outline-none"
 					/>
 				</div>
 
@@ -129,7 +129,7 @@
 					{#if editing}
 						<button
 							on:click={handleUpdate}
-							class="flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700 disabled:bg-blue-700 disabled:opacity-50"
+							class="flex items-center justify-center gap-2 rounded-lg bg-(--brand-primary) px-4 py-2 font-semibold text-(--white) hover:bg-(--brand-primary-dark) disabled:bg-(--brand-primary-dark) disabled:opacity-50"
 							disabled={isSaving || name === originalName}
 						>
 							{#if isSaving}
@@ -140,14 +140,14 @@
 						</button>
 						<button
 							on:click={handleCancel}
-							class="rounded-lg border border-gray-300 px-4 py-2 font-semibold hover:bg-gray-100"
+							class="rounded-lg border border-(--border-color) px-4 py-2 font-semibold hover:bg-gray-100"
 						>
 							취소
 						</button>
 					{:else}
 						<button
 							on:click={() => (editing = true)}
-							class="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+							class="rounded-lg bg-(--brand-primary) px-4 py-2 font-semibold text-(--white) hover:bg-(--brand-primary-dark)"
 						>
 							수정
 						</button>
@@ -155,7 +155,7 @@
 
 					<button
 						on:click={handleDelete}
-						class="rounded-lg bg-red-500 px-4 py-2 font-semibold text-white hover:bg-red-600"
+						class="rounded-lg bg-(--brand-accent) px-4 py-2 font-semibold text-(--white) hover:bg-(--brand-accent-dark)"
 						class:hidden={editing}
 					>
 						회원 탈퇴
