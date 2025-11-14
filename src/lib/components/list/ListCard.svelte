@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { EMOTIONS } from '$lib/constants/emotions';
 	import {
 		isDeleteMode,
 		selectedRetrospects,
@@ -8,6 +9,7 @@
 	export let id: string;
 	export let title: string;
 	export let createdAt: { seconds: number } | null = null;
+	export let selectedEmotions: string[];
 
 	// 현재 카드가 선택되었는지 여부
 	$: isSelected = $selectedRetrospects.includes(id);
@@ -36,10 +38,25 @@
 
 	<!-- 카드 본문 -->
 	<a href={`/detail/${id}`} class="card {isSelected ? 'selected' : ''}" on:click={handleClick}>
-		<h3>{title}</h3>
-		<p class="date">
-			{createdAt ? new Date(createdAt.seconds * 1000).toLocaleDateString() : '작성일 없음'}
-		</p>
+		<div class="flex min-h-[100px]">
+			<div class="flex w-1/2 flex-col">
+				<h3>{title}</h3>
+				<p class="date">
+					{createdAt ? new Date(createdAt.seconds * 1000).toLocaleDateString() : '작성일 없음'}
+				</p>
+			</div>
+			<div class="flex w-1/2 flex-wrap items-start justify-end gap-2">
+				{#each selectedEmotions as emo}
+					<span
+						class="emotion-chip"
+						style="--chip-color: {EMOTIONS.find((e) => e.key === emo)?.color || '#3b82f6'}"
+					>
+						{EMOTIONS.find((e) => e.key === emo)?.icon}
+						{EMOTIONS.find((e) => e.key === emo)?.label}
+					</span>
+				{/each}
+			</div>
+		</div>
 	</a>
 </li>
 
@@ -76,5 +93,29 @@
 	.date {
 		font-size: 0.9rem;
 		color: #6b7280;
+	}
+
+	.emotion-chip {
+		padding: 0.25rem 0.55rem;
+		border-radius: 9999px;
+		font-size: 0.75rem;
+		font-weight: 600;
+
+		border: 2px solid var(--chip-color, #93c5fd);
+		color: var(--chip-color, #3b82f6);
+		background-color: color-mix(in srgb, var(--chip-color) 14%, white);
+
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+		user-select: none;
+		white-space: nowrap;
+
+		transition: all 0.18s ease;
+	}
+
+	.emotion-chip:hover {
+		transform: scale(1.03);
+		background-color: color-mix(in srgb, var(--chip-color) 22%, white);
 	}
 </style>

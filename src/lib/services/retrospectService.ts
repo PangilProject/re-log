@@ -61,7 +61,8 @@ export async function getRetrospectListByUser(userId: string) {
 		const retrospects = snapshot.docs.map((doc) => ({
 			id: doc.id,
 			title: doc.data().title,
-			createdAt: doc.data().createdAt
+			createdAt: doc.data().createdAt,
+			selectedEmotions: doc.data().selectedEmotions
 		}));
 
 		return { success: true, retrospects };
