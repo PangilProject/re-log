@@ -5,6 +5,10 @@
 	import { loadDetail } from '$lib/stores/detail/detailActions';
 	import DetailCard from './DetailCard.svelte';
 	import PageContainer from '$lib/components/layout/PageContainer.svelte';
+	import { currentUser } from '$lib/stores/user';
+	import { derived } from 'svelte/store';
+
+	const isAuthenticated = derived(currentUser, ($currentUser) => !!$currentUser);
 
 	onMount(() => {
 		const unsubscribe = page.subscribe(($page) => {
@@ -16,6 +20,6 @@
 
 <PageContainer isLoading={$isLoading} errorMessage={$errorMessage}>
 	{#if $detailData}
-		<DetailCard data={$detailData} />
+		<DetailCard data={$detailData} isAuthenticated={$isAuthenticated} />
 	{/if}
 </PageContainer>

@@ -83,3 +83,10 @@ export function errorEmptyDocID() {
 export function errorEmptyTitle() {
 	toast.error(TOAST_MESSAGES.RETROSPECT_EMPTY_TITLE);
 }
+
+export function successCopyURL() {
+	toast.success(TOAST_MESSAGES.COPY_SUCCESS);
+}
+export function errorCopyURL() {
+	toast.success(TOAST_MESSAGES.COPY_ERROR);
+}

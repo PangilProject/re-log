@@ -5,19 +5,22 @@
 	import DetailSection from './DetailSection.svelte';
 
 	export let data: any;
+	export let isAuthenticated: boolean;
 </script>
 
 <div class="detail-card">
-	<DetailHeader title={data.title} createdAt={data.createdAt} />
+	<DetailHeader title={data.title} createdAt={data.createdAt} isAuthenticated={isAuthenticated} />
 	<EmotionSection isDetailMode={true} />
 
 	{#each RETROSPECT_SECTIONS as section}
 		<DetailSection title={section.label} content={data.answers?.[section.key] || ''} />
 	{/each}
 
-	<div class="back-box">
-		<a href="/list">← 목록으로 돌아가기</a>
-	</div>
+	{#if isAuthenticated}
+		<div class="back-box">
+			<a href="/list">← 목록으로 돌아가기</a>
+		</div>
+	{/if}
 </div>
 
 <style>

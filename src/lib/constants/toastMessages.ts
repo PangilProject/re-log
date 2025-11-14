@@ -31,5 +31,9 @@ export const TOAST_MESSAGES = {
 	DELETE_ACCOUNT_ERROR: '회원 탈퇴 중 문제가 발생했습니다.',
 
 	// 동적 메시지
-	WELCOME_USER: (name: string) => `${name}님 어서오세요!`
+	WELCOME_USER: (name: string) => `${name}님 어서오세요!`,
+
+	// 공유
+	COPY_SUCCESS: '공유 URL이 복사되었습니다!',
+	COPY_ERROR: '공유 URL 복사를 실패했습니다.'
 } as const;
