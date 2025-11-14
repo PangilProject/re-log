@@ -38,14 +38,14 @@
 
 	<!-- 카드 본문 -->
 	<a href={`/detail/${id}`} class="card {isSelected ? 'selected' : ''}" on:click={handleClick}>
-		<div class="flex min-h-[100px]">
-			<div class="flex w-1/2 flex-col">
+		<div class="flex min-h-[150px]">
+			<div class="flex w-1/3 flex-col">
 				<h3>{title}</h3>
 				<p class="date">
 					{createdAt ? new Date(createdAt.seconds * 1000).toLocaleDateString() : '작성일 없음'}
 				</p>
 			</div>
-			<div class="flex w-1/2 flex-wrap items-start justify-end gap-2">
+			<div class="flex w-2/3 flex-wrap items-start justify-end gap-2">
 				{#each selectedEmotions as emo}
 					<span
 						class="emotion-chip"
