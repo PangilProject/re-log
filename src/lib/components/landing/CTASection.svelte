@@ -6,7 +6,7 @@
 <section
 	class="flex w-full justify-center bg-linear-to-b from-(--white) to-(--landing-bg-start) px-4 py-32 pt-60 text-center"
 >
-	<div class="flex w-[1000px] flex-col px-4">
+	<div class="flex w-[1000px] flex-col px-4 pb-40">
 		<h3 class="mb-6 text-3xl font-bold text-(--text-primary)">
 			지금 당신의 첫 회고를 기록해보세요.
 		</h3>
