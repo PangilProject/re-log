@@ -73,7 +73,7 @@
 			{#if !nextTitle && $isMobile}
 				<button
 					class="flex items-center gap-2 rounded-md bg-(--brand-primary) px-2 py-0.5 leading-none text-(--white) hover:bg-(--brand-secondary-dark)"
-					on:click={handleSubmitRetrospect}>💾 작성 완료</button
+					on:click={() => handleSubmitRetrospect('write')}>💾 작성 완료</button
 				>
 			{/if}
 		</div>

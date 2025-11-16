@@ -5,6 +5,10 @@
 	import CTASection from '$lib/components/landing/CTASection.svelte';
 </script>
 
+<svelte:head>
+	<title>re-log</title>
+</svelte:head>
+
 <PublicLayout>
 	<HeroSection />
 	<ServiceIntroSection />
