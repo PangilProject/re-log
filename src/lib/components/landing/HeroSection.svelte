@@ -4,6 +4,7 @@
 </script>
 
 <section
+	data-testid="hero-section"
 	class="flex justify-center bg-linear-to-b from-(--landing-bg-start) to-(--white) px-4 py-32 pt-60 text-center"
 >
 	<div class="flex w-[1000px] flex-col px-4">
