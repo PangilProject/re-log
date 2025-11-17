@@ -21,7 +21,8 @@
 	type="register"
 	{fields}
 	{error}
+	{loading}
 	{setFields}
 	onSubmit={() => handleRegister({ ...fields, setError, setLoading })}
-	onGoogle={() => handleGoogleAuth(setError)}
+	onGoogle={() => handleGoogleAuth(setError, setLoading)}
 />

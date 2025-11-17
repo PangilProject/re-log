@@ -64,7 +64,12 @@ export async function handleRegister({
 	await handleAuthResult({ success, error, setError });
 }
 
-export async function handleGoogleAuth(setError: (msg: string | null) => void) {
+export async function handleGoogleAuth(
+	setError: (msg: string | null) => void,
+	setLoading: (v: boolean) => void
+) {
+	setLoading(true);
 	const { success, error } = await loginWithGoogle();
+	setLoading(false);
 	await handleAuthResult({ success, error, setError });
 }

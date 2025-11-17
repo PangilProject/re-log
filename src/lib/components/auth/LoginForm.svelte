@@ -21,7 +21,8 @@
 	type="login"
 	{fields}
 	{error}
+	{loading}
 	{setFields}
 	onSubmit={() => handleLogin({ ...fields, setError, setLoading })}
-	onGoogle={() => handleGoogleAuth(setError)}
+	onGoogle={() => handleGoogleAuth(setError, setLoading)}
 />

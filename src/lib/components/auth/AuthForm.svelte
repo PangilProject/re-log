@@ -8,6 +8,7 @@
 	export let onSubmit: () => void;
 	export let onGoogle: () => void;
 	export let error: string | null = null;
+	export let loading = false;
 </script>
 
 <div
@@ -69,11 +70,12 @@
 			/>
 		{/if}
 
-		<LoginButton label={type === 'login' ? '로그인' : '회원가입'} onClick={onSubmit} />
+		<LoginButton label={type === 'login' ? '로그인' : '회원가입'} {loading} onClick={onSubmit} />
 
 		<LoginButton
 			variant="google"
 			label={type === 'login' ? 'Google로 로그인' : 'Google로 회원가입'}
+			{loading}
 			onClick={onGoogle}
 		/>
 	</div>
