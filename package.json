@@ -53,6 +53,8 @@
 		"vitest": "^4.0.9"
 	},
 	"dependencies": {
+		"chart.js": "^4.5.1",
+		"date-fns": "^4.1.0",
 		"firebase": "^12.5.0",
 		"lucide-svelte": "^0.553.0",
 		"markdown-it": "^14.1.0",

@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let isLoading: boolean;
+	export let isLoading: boolean = false;
 	export let errorMessage: string | null = null;
 </script>
 

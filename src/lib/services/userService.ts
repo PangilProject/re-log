@@ -189,3 +189,20 @@ export async function deleteUserAccount(user: any, password?: string) {
 		return { success: false, error };
 	}
 }
+
+/**
+ * 모든 사용자 목록을 가져오는 기능
+ * @returns
+ */
+export async function getAllUsers() {
+	try {
+		const usersCollection = collection(db, 'users');
+		const userSnapshot = await getDocs(usersCollection);
+		const userList = userSnapshot.docs.map((doc) => doc.data());
+		return { success: true, users: userList };
+	} catch (error) {
+		console.error('사용자 목록 조회 오류:', error);
+		return { success: false, error };
+	}
+}
+

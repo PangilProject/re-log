@@ -3,7 +3,9 @@
 	import { getAllRetrospects } from '$lib/services/retrospectService';
 	import { getAllUsers } from '$lib/services/userService';
 	import type { RetrospectDocument } from '$lib/types/retrospect';
-	import type { Timestamp } from 'firebase/firestore';
+	import { formatDate } from '$lib/utils/formatDate';
+	import ViewPostModal from '$lib/components/manage/ViewPostModal.svelte';
+	import { openViewPostModal } from '$lib/stores/ui/viewPostModalStore';
 
 	interface RetrospectWithAuthor extends RetrospectDocument {
 		id: string;
@@ -32,16 +34,8 @@
 		isLoading = false;
 	});
 
-	function formatDate(timestamp: Timestamp) {
-		if (!timestamp) return '';
-		const date = timestamp.toDate();
-		return new Intl.DateTimeFormat('ko-KR', {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric',
-			hour: '2-digit',
-			minute: '2-digit'
-		}).format(date);
+	function handleRowClick(post: RetrospectWithAuthor) {
+		openViewPostModal(post);
 	}
 </script>
 
@@ -63,7 +57,10 @@
 			</thead>
 			<tbody class="divide-y divide-(--border-muted)">
 				{#each retrospects as retrospect}
-					<tr class="hover:bg-(--surface-light)">
+					<tr
+						class="cursor-pointer hover:bg-(--surface-light)"
+						on:click={() => handleRowClick(retrospect)}
+					>
 						<td class="px-6 py-4 font-medium text-(--text-primary)">{retrospect.title}</td>
 						<td class="px-6 py-4 text-(--text-secondary)">{retrospect.authorName}</td>
 						<td class="px-6 py-4 text-(--text-secondary)">{formatDate(retrospect.createdAt)}</td>
@@ -73,3 +70,5 @@
 		</table>
 	</div>
 {/if}
+
+<ViewPostModal />
