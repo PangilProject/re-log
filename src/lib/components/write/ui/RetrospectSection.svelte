@@ -14,6 +14,7 @@
 	export let beforeTitle: string;
 	export let nextTitle: string;
 	export let index: number;
+	export let mode: 'write' | 'modify' = 'write';
 
 	onMount(() => {
 		if (browser) {
@@ -73,7 +74,7 @@
 			{#if !nextTitle && $isMobile}
 				<button
 					class="flex items-center gap-2 rounded-md bg-(--brand-primary) px-2 py-0.5 leading-none text-(--white) hover:bg-(--brand-secondary-dark)"
-					on:click={() => handleSubmitRetrospect('write')}>💾 작성 완료</button
+					on:click={() => handleSubmitRetrospect(mode)}>💾 작성 완료</button
 				>
 			{/if}
 		</div>

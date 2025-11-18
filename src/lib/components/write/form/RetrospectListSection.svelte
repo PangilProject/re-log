@@ -4,6 +4,8 @@
 	import { answers, previews } from '$lib/stores/write/writeStore';
 	import { updatePreview } from '$lib/stores/write/writeActions';
 	import type { AnswerKey } from '$lib/constants/retrospectKeys';
+
+	export let mode: 'write' | 'modify' = 'write';
 </script>
 
 <div class="section-list">
@@ -17,6 +19,7 @@
 			nextTitle={RETROSPECT_SECTIONS[i + 1]?.label}
 			index={i}
 			onInput={(value: string) => updatePreview(key, value)}
+			{mode}
 		/>
 	{/each}
 </div>

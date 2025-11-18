@@ -12,7 +12,7 @@
 
 	<TitleSection />
 	<EmotionSection isDetailMode={false} />
-	<RetrospectListSection />
+	<RetrospectListSection {mode} />
 	<SubmitButton {mode} />
 </div>
 

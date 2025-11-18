@@ -14,13 +14,13 @@ async function runSubmit(mode: string) {
 	}
 
 	// 수정 모드
-	let docId: string | undefined;
+	const $page = get(page);
+	const docId = $page.params.id;
 
-	page.subscribe(($page) => {
-		docId = $page.params?.id;
-	})();
-
-	if (!docId) return;
+	if (!docId) {
+		console.error('수정 모드에서 문서 ID를 찾을 수 없습니다.');
+		return;
+	}
 
 	return submitModifyRetrospect(docId);
 }
