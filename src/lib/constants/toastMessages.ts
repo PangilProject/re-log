@@ -2,7 +2,7 @@ export const TOAST_MESSAGES = {
 	// 공통
 	NEED_LOGIN: '로그인이 필요합니다.',
 	NEED_RELOGIN: '계정을 삭제하려면 다시 로그인해야 합니다.',
-	EMPTY_FIELD: '모든 항목을 작성해주세요.',
+	EMPTY_FIELD: '항목을 작성해주세요.',
 	EMPTY_PASSWORD: '비밀번호가 입력되지 않았습니다.',
 	EMPTY_NAME: '이름을 입력해주세요.',
 	GOODBYE: '서비스를 이용해주셔서 감사합니다.',

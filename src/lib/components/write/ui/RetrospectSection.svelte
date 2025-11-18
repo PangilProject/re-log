@@ -50,7 +50,7 @@
 	<div class="flex justify-between">
 		<h3>{title}</h3>
 		<div class="flex gap-2">
-			{#if index > 0}
+			{#if index > 0 && $isMobile}
 				<button
 					tabindex="-1"
 					class="flex items-center gap-2 rounded-md bg-(--brand-primary) px-2 py-0.5 leading-none text-(--white) hover:bg-(--brand-secondary-dark)"
@@ -60,7 +60,7 @@
 					}}><ArrowBigLeft size="18" /></button
 				>
 			{/if}
-			{#if nextTitle}
+			{#if nextTitle && $isMobile}
 				<button
 					tabindex="-1"
 					class="flex items-center gap-2 rounded-md bg-(--brand-primary) px-2 py-0.5 leading-none text-(--white) hover:bg-(--brand-secondary-dark)"

@@ -52,10 +52,32 @@
 		align-items: center;
 		gap: 0.35rem;
 		transition: all 0.18s ease;
+	}
 
-		@media (width < 768px) {
-			font-size: 0.8rem;
-			padding: 0.4rem 0.8rem;
+	/* 태블릿 이하 (768px) */
+	@media (max-width: 768px) {
+		.emotion-chip {
+			font-size: 0.85rem;
+			padding: 0.35rem 0.75rem;
+			gap: 0.3rem;
+		}
+	}
+
+	/* 중간 모바일 (480px 이하) */
+	@media (max-width: 480px) {
+		.emotion-chip {
+			font-size: 0.78rem;
+			padding: 0.28rem 0.6rem;
+			gap: 0.25rem;
+		}
+	}
+
+	/* 작은 모바일 (360px 이하) */
+	@media (max-width: 360px) {
+		.emotion-chip {
+			font-size: 0.7rem;
+			padding: 0.2rem 0.45rem;
+			gap: 0.2rem;
 		}
 	}
 

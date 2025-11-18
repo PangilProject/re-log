@@ -23,4 +23,11 @@
 		border-radius: 8px;
 		width: 100%;
 	}
+
+	/* 태블릿 이하 (768px) */
+	@media (max-width: 768px) {
+		.title-input {
+			font-size: 1rem;
+		}
+	}
 </style>
