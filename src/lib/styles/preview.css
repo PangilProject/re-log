@@ -92,6 +92,12 @@
 	padding: 0;
 }
 
+/* 체크박스가 포함된 리스트의 왼쪽 들여쓰기 제거 */
+.preview ul.contains-task-list {
+	padding-left: 0;
+	margin-left: 0;
+}
+
 /* --------------------------- */
 /* 체크리스트 (markdown-it-task-lists) */
 /* --------------------------- */
