@@ -21,12 +21,4 @@
 		color: #2563eb;
 		margin-bottom: 0.6rem;
 	}
-	.preview {
-		border: 1px solid #e2e8f0;
-		border-radius: 12px;
-		background: #f9fafb;
-		padding: 1rem 1.2rem;
-		color: #111827;
-		line-height: 1.7;
-	}
 </style>

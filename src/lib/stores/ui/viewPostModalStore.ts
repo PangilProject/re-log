@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { RetrospectDocument } from '$lib/types/retrospect';
+import type { RetrospectDocument } from '@/types/retrospect';
 
 export interface ViewPostModalState {
 	isOpen: boolean;

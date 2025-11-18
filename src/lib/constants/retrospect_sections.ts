@@ -1,4 +1,4 @@
-import type { RetrospectAnswers } from '$lib/types/retrospect';
+import type { RetrospectAnswers } from '@/types/retrospect';
 
 export const RETROSPECT_SECTIONS: { label: string; key: keyof RetrospectAnswers }[] = [
 	{ label: '1️⃣ 오늘 한 일', key: 'today' },

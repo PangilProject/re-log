@@ -1,4 +1,6 @@
+/* --------------------------- */
 /* 기본 초기화 */
+/* --------------------------- */
 .preview h1,
 .preview h2,
 .preview h3,
@@ -21,36 +23,46 @@
 	all: revert;
 }
 
-/* 전반적인 레이아웃 */
+/* --------------------------- */
+/* 레이아웃 기본 */
+/* --------------------------- */
 .preview {
-	line-height: 1.7;
-	color: #222;
-	background: #fff;
-	padding: 2rem;
+	width: 100%;
+	height: 100%;
+	padding: 1rem 1.2rem;
+	border: 1px solid #e2e8f0;
 	border-radius: 12px;
-	border-top: 2px solid #ddd;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+	background: #f9fafb;
 
-	overflow-wrap: break-word; /* 긴 단어 자동 줄바꿈 */
-	word-break: break-all; /* 영문 긴 문자열 강제 분리 */
-	white-space: pre-wrap; /* 개행 유지 + 자동 줄바꿈 허용 */
+	/* 텍스트 */
+	color: #111827;
+	font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+	font-size: 0.95rem;
+	line-height: 1.7;
+
+	/* 레이아웃 */
+	overflow-y: auto;
+	box-shadow: none;
+
+	/* 줄바꿈 처리 */
+	overflow-wrap: break-word;
+	word-break: break-word;
+	white-space: normal;
 }
 
-/* 헤딩 스타일 */
+/* --------------------------- */
+/* 헤딩 */
+/* --------------------------- */
 .preview h1 {
 	font-size: 2rem;
 	font-weight: 700;
 	margin: 1.4rem 0 1rem;
-	padding-bottom: 0.3rem;
-	/* border-bottom: 2px solid #eee; */
 }
 
 .preview h2 {
 	font-size: 1.6rem;
 	font-weight: 600;
 	margin: 1.2rem 0 0.8rem;
-	padding-bottom: 0.6rem;
-	/* border-left: 4px solid #ddd; */
 }
 
 .preview h3 {
@@ -59,21 +71,54 @@
 	margin: 1rem 0 0.5rem;
 }
 
-/* 리스트 */
+/* --------------------------- */
+/* 일반 텍스트 */
+/* --------------------------- */
+.preview p {
+	margin: 0.5rem 0;
+}
+
+/* --------------------------- */
+/* 리스트(일반 + 체크박스 공통) */
+/* --------------------------- */
 .preview ul,
 .preview ol {
-	margin: 0;
-	padding: 0;
-	padding-left: 20px;
+	margin: 0.6rem 0;
+	padding-left: 1.2rem; /* 기본 들여쓰기 */
 }
 
 .preview li {
-	margin: 0;
+	margin: 0.3rem 0; /* 리스트 간격 통일 */
+	padding: 0;
 }
 
+/* --------------------------- */
+/* 체크리스트 (markdown-it-task-lists) */
+/* --------------------------- */
+.preview .task-list-item {
+	list-style-type: none !important; /* bullet 제거 */
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	margin-left: 0 !important;
+	padding-left: 0 !important;
+}
+
+/* 체크박스 자체 스타일 */
+.preview input[type='checkbox'] {
+	accent-color: #0070f3;
+	width: 1rem;
+	height: 1rem;
+	cursor: pointer;
+	margin-right: 0.4rem;
+	transform: scale(1.05);
+}
+
+/* --------------------------- */
 /* 인용문 */
+/* --------------------------- */
 .preview blockquote {
-	margin: 0rem 0;
+	margin: 1rem 0;
 	padding: 0rem 1rem;
 	border-left: 4px solid #ccc;
 	background: #f9f9f9;
@@ -81,27 +126,9 @@
 	font-style: italic;
 }
 
-/* 코드 */
-.preview code {
-	background: #f5f5f5;
-	padding: 3px 6px;
-	border-radius: 4px;
-	font-family: 'Fira Code', monospace;
-	font-size: 0.95rem;
-	color: #e74c3c;
-}
-
-.preview pre {
-	background: #1e1e1e;
-	color: #f1f1f1;
-	padding: 1rem;
-	border-radius: 8px;
-	overflow-x: auto;
-	font-family: 'Fira Code', monospace;
-	font-size: 0.9rem;
-}
-
+/* --------------------------- */
 /* 링크 */
+/* --------------------------- */
 .preview a {
 	color: #0070f3;
 	text-decoration: none;
@@ -110,7 +137,9 @@
 	text-decoration: underline;
 }
 
+/* --------------------------- */
 /* 이미지 */
+/* --------------------------- */
 .preview img {
 	max-width: 100%;
 	border-radius: 8px;
@@ -118,22 +147,17 @@
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* --------------------------- */
 /* 구분선 */
+/* --------------------------- */
 .preview hr {
 	border: none;
 	border-top: 2px solid #eee;
 }
 
-/* 강조 */
-.preview strong {
-	font-weight: 700;
-}
-.preview em {
-	font-style: italic;
-	color: #555;
-}
-
+/* --------------------------- */
 /* 테이블 */
+/* --------------------------- */
 .preview table {
 	width: 100%;
 	border-collapse: collapse;
@@ -157,17 +181,245 @@
 	background: #fafafa;
 }
 
-/* 체크박스 */
-.preview input[type='checkbox'] {
-	accent-color: #0070f3;
-	width: 1rem;
-	height: 1rem;
-	cursor: pointer;
-	transform: scale(1.1);
-	margin-right: 0.5rem;
-	vertical-align: middle;
+/* --------------------------- */
+/* 강조 */
+/* --------------------------- */
+.preview strong {
+	font-weight: 700;
 }
 
-.preview p {
-	margin: 0;
+.preview em {
+	font-style: italic;
+	color: #555;
+}
+
+/* --------------------------- */
+/* 코드 */
+/* --------------------------- */
+/*
+ * 1. 코드 블록 스타일 초기화 및 재정의
+ * ----------------------------------------
+ * 모든 pre, code 태그의 기본 여백을 제거하여 일관성을 확보하고,
+ * GitHub와 유사한 기본 스타일을 적용합니다.
+ */
+.preview pre[class*='language-'],
+.preview code[class*='language-'] {
+	color: #333;
+	font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 0.95em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.6;
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	margin: 0; /* 외부 여백 제거 */
+	padding: 0; /* 내부 여백 제거 */
+	background: none; /* 배경은 pre와 inline code에서 개별적으로 설정 */
+}
+
+/* pre 태그 (코드 블록 컨테이너) */
+.preview pre[class*='language-'] {
+	padding: 1em; /* 일관된 내부 여백 설정 */
+	margin: 1em 0;
+	overflow: auto;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	background: #f6f8fa; /* Light mode background: GitHub-like light gray */
+}
+
+/* 언어 지정 없는 코드 블록 (```) */
+.preview pre.language-none {
+	background: #f6f8fa; /* Light mode background */
+	color: #333;
+	border-color: #ddd;
+}
+
+/* 인라인 code 태그 */
+.preview :not(pre) > code {
+	/* language-xxx 클래스가 없어도 적용되도록 수정 */
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	white-space: normal;
+	background: #f0f3f6; /* Light mode background: slightly darker light gray */
+	color: #cb2431; /* Text color for inline code */
+}
+
+/*
+ * 2. Prism.js 토큰 테마 (Light / Dark)
+ * ------------------------------------
+ * 라이트 모드를 기본으로, prefers-color-scheme을 사용해 다크 모드를 지원합니다.
+ */
+
+/* Light Mode Tokens */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #6a737d;
+}
+.token.punctuation {
+	color: #6a737d;
+}
+.token.namespace {
+	opacity: 0.7;
+}
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #d73a49;
+}
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #032f62;
+}
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #d73a49;
+}
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #d73a49;
+}
+.token.function,
+.token.class-name {
+	color: #6f42c1;
+}
+.token.regex,
+.token.important,
+.token.variable {
+	color: #e36209;
+}
+
+/* Dark Mode Styles */
+@media (prefers-color-scheme: dark) {
+	.preview pre[class*='language-'] {
+		background: #0d1117; /* Dark mode background: GitHub dark blue */
+		border-color: #30363d;
+		color: #c9d1d9; /* Light text for dark background */
+	}
+	.preview pre.language-none {
+		background: #0d1117; /* Dark mode background for language-none */
+		border-color: #30363d;
+		color: #c9d1d9;
+	}
+	.preview :not(pre) > code {
+		background: #333; /* Dark mode background for inline code */
+		color: #e57373;
+	}
+
+	/* Dark Mode Tokens */
+	.token.comment,
+	.token.prolog,
+	.token.doctype,
+	.token.cdata {
+		color: #8b949e; /* Muted for comments */
+	}
+	.token.punctuation {
+		color: #c9d1d9;
+	}
+	.token.property,
+	.token.tag,
+	.token.boolean,
+	.token.number,
+	.token.constant,
+	.token.symbol,
+	.token.deleted {
+		color: #e36209; /* Reddish orange */
+	}
+	.token.selector,
+	.token.attr-name,
+	.token.string,
+	.token.char,
+	.token.builtin,
+	.token.inserted {
+		color: #a5d6ff; /* Light blue */
+	}
+	.token.operator,
+	.token.entity,
+	.token.url {
+		color: #79c0ff; /* Blue */
+	}
+	.token.atrule,
+	.token.attr-value {
+		color: #79c0ff;
+	}
+	.token.keyword {
+		color: #ff7b72; /* Light red */
+	}
+	.token.function,
+	.token.class-name {
+		color: #d2a8ff; /* Purple */
+	}
+	.token.regex,
+	.token.important,
+	.token.variable {
+		color: #e36209;
+	}
+}
+
+/*
+ * 3. Line Numbers 플러그인 스타일 재정의
+ * ----------------------------------------
+ * line-numbers 사용 시에도 일관된 여백을 유지하도록 스타일을 수정합니다.
+ */
+.preview pre[class*='language-'].line-numbers {
+	position: relative;
+	/* line-numbers가 있을 때만 왼쪽 여백을 추가로 확보 */
+	counter-reset: start;
+}
+.preview pre[class*='language-'].line-numbers > code {
+	position: relative;
+	white-space: inherit;
+}
+
+.preview .line-numbers .line-numbers-rows {
+	position: absolute;
+	pointer-events: none;
+	top: 1em; /* pre 태그의 padding-top과 동일한 값 */
+	font-size: 100%;
+	left: 0;
+	width: 3em;
+	letter-spacing: -1px;
+	border-right: 1px solid #ddd;
+	user-select: none;
+}
+.line-numbers-rows > span {
+	display: block;
+	counter-increment: start;
+}
+.line-numbers-rows > span:before {
+	content: counter(start);
+	color: #999;
+	display: block;
+	padding-right: 0.8em;
+	text-align: right;
+}
+
+@media (prefers-color-scheme: dark) {
+	.preview .line-numbers .line-numbers-rows {
+		border-right-color: #444;
+	}
+	.line-numbers-rows > span:before {
+		color: #666;
+	}
 }

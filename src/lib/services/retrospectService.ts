@@ -14,7 +14,7 @@ import {
 	deleteDoc
 } from 'firebase/firestore';
 import { db } from '$lib/firebase';
-import type { RetrospectDocument } from '$lib/types/retrospect';
+import type { RetrospectDocument } from '@/types/retrospect';
 
 export interface RetrospectData {
 	title: string;

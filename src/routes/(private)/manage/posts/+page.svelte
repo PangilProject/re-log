@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { getAllRetrospects } from '$lib/services/retrospectService';
 	import { getAllUsers } from '$lib/services/userService';
-	import type { RetrospectDocument } from '$lib/types/retrospect';
+	import type { RetrospectDocument } from '@/types/retrospect';
 	import { formatDate } from '$lib/utils/formatDate';
 	import ViewPostModal from '$lib/components/manage/ViewPostModal.svelte';
 	import { openViewPostModal } from '$lib/stores/ui/viewPostModalStore';

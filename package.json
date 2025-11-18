@@ -33,6 +33,7 @@
 		"@testing-library/svelte": "^5.2.9",
 		"@types/markdown-it": "^14.1.2",
 		"@types/node": "^22",
+		"@types/prismjs": "^1.26.5",
 		"@vitest/ui": "^4.0.9",
 		"esbuild": "^0.27.0",
 		"eslint": "^9.38.0",
@@ -40,6 +41,7 @@
 		"eslint-plugin-svelte": "^3.12.4",
 		"globals": "^16.4.0",
 		"jsdom": "^27.2.0",
+		"markdown-it-task-lists": "^2.1.1",
 		"playwright": "^1.56.1",
 		"prettier": "^3.6.2",
 		"prettier-plugin-svelte": "^3.4.0",
@@ -58,6 +60,8 @@
 		"firebase": "^12.5.0",
 		"lucide-svelte": "^0.553.0",
 		"markdown-it": "^14.1.0",
+		"markdown-it-prism": "^3.0.1",
+		"prismjs": "^1.30.0",
 		"svelte-5-french-toast": "^2.0.6"
 	}
 }
