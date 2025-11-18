@@ -8,6 +8,8 @@
 	import { currentUser } from '$lib/stores/user';
 	import { derived } from 'svelte/store';
 
+	export let shareMode: boolean = false;
+
 	const isAuthenticated = derived(currentUser, ($currentUser) => !!$currentUser);
 
 	onMount(() => {
@@ -20,6 +22,6 @@
 
 <PageContainer isLoading={$isLoading} errorMessage={$errorMessage}>
 	{#if $detailData}
-		<DetailCard data={$detailData} isAuthenticated={$isAuthenticated} />
+		<DetailCard data={$detailData} isAuthenticated={$isAuthenticated} {shareMode} />
 	{/if}
 </PageContainer>

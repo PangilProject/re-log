@@ -9,10 +9,12 @@
 	import { page } from '$app/stores';
 	import { deleteRetrospect } from '$lib/stores/list/listActions';
 	import { goToModify } from '$lib/utils/navigation';
+	import { openShareAlert } from '$lib/utils/alert';
 
 	export let title: string;
 	export let createdAt: any;
 	export let isAuthenticated: boolean;
+	export let shareMode: boolean;
 	const docId = $page?.params?.id;
 
 	async function handleDelete() {
@@ -36,7 +38,7 @@
 		navigator.clipboard
 			.writeText(shareURL)
 			.then(() => {
-				successCopyURL();
+				if (docId) openShareAlert(docId);
 			})
 			.catch((err) => {
 				errorCopyURL();
@@ -48,14 +50,13 @@
 <h2>{title}</h2>
 <div class="items flex justify-center text-[0.9rem]">
 	<div
-		class="mt-3 mb-8 flex min-w-[180px] flex-row items-start"
-		class:justify-between={isAuthenticated}
-		class:justify-center={!isAuthenticated}
+		class="mt-3 mb-8 flex min-w-[180px] flex-row items-start justify-center gap-3"
+		class:gap-3={isAuthenticated}
 	>
 		<p class="date">
 			{createdAt ? new Date(createdAt.seconds * 1000).toLocaleDateString() : '작성일 없음'}
 		</p>
-		{#if isAuthenticated}
+		{#if isAuthenticated && !shareMode}
 			<div class="flex items-center gap-2">
 				<button class="text-blue-500 hover:text-blue-300" onclick={handleUpdate}>수정</button>
 				<button

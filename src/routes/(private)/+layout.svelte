@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AlertModal from '$lib/components/common/AlertModal.svelte';
 	import ConfirmModal from '$lib/components/common/ConfirmModal.svelte';
 	import PromptModal from '$lib/components/common/PromptModal.svelte';
 	import PrivatePageLayout from '$lib/components/layout/PrivatePageLayout.svelte';
@@ -10,4 +11,5 @@
 	<Toaster />
 	<ConfirmModal />
 	<PromptModal />
+	<AlertModal />
 </PrivatePageLayout>

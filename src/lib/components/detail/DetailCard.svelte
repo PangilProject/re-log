@@ -6,10 +6,11 @@
 
 	export let data: any;
 	export let isAuthenticated: boolean;
+	export let shareMode: boolean = false;
 </script>
 
 <div class="detail-card">
-	<DetailHeader title={data.title} createdAt={data.createdAt} isAuthenticated={isAuthenticated} />
+	<DetailHeader title={data.title} createdAt={data.createdAt} isAuthenticated={isAuthenticated} {shareMode} />
 	<EmotionSection isDetailMode={true} />
 
 	{#each RETROSPECT_SECTIONS as section}

@@ -5,6 +5,6 @@
 
 <PublicLayout>
 	<div class="mt-20">
-		<DetailContainer />
+		<DetailContainer shareMode={true} />
 	</div>
 </PublicLayout>
