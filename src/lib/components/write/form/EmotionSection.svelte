@@ -1,7 +1,11 @@
 <!-- src/lib/components/write/EmotionSection.svelte -->
 <script lang="ts">
 	import { EMOTIONS } from '$lib/constants/emotions';
-	import { clearAllEmotions, toggleEmotion } from '$lib/stores/write/writeActions';
+	import {
+		clearAllEmotions,
+		clickAllEmotions,
+		toggleEmotion
+	} from '$lib/stores/write/writeActions';
 	import { selectedEmotions } from '$lib/stores/write/writeStore';
 
 	export let isDetailMode: boolean = false; // New prop
@@ -16,6 +20,11 @@
 				on:click={clearAllEmotions}
 				class="hover:text-(--brand-primary-dark text-sm text-(--brand-primary) hover:underline"
 				>전체 취소</button
+			>
+			<button
+				on:click={clickAllEmotions}
+				class="hover:text-(--brand-primary-dark text-sm text-(--brand-primary) hover:underline"
+				>전체 선택</button
 			>
 		{/if}
 	</div>

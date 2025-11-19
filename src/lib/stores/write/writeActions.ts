@@ -6,6 +6,7 @@ import { renderMarkdown } from '$lib/markdown';
 import { answers, previews, title, resetWriteStore, selectedEmotions } from './writeStore';
 import type { AnswerKey } from '$lib/constants/retrospectKeys';
 import { errorNeedLogin, successModifyRetrospect, successSaveRetrospect } from '$lib/utils/toast';
+import { EMOTIONS } from '$lib/constants/emotions';
 
 export function updatePreview(key: AnswerKey, value: string) {
 	answers.update((ans) => ({ ...ans, [key]: value }));
@@ -70,6 +71,12 @@ export function toggleEmotion(key: string) {
 
 export function clearAllEmotions() {
 	selectedEmotions.set([]);
+}
+
+export function clickAllEmotions() {
+	selectedEmotions.update((list) => {
+		return EMOTIONS.map((emotion) => emotion.key);
+	});
 }
 
 export function setSelectedEmotions(emotions: string[]) {
