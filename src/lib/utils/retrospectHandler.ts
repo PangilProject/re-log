@@ -1,11 +1,23 @@
 import { openConfirm } from './confirm';
-import { answers, title, retrospectType, selectedEmotions } from '$lib/stores/write/writeStore';
+import {
+	answers,
+	title,
+	retrospectType,
+	selectedEmotions,
+	resetWriteStore
+} from '$lib/stores/write/writeStore';
 import { get } from 'svelte/store';
 import { RETROSPECT_KPT_SECTIONS, RETROSPECT_SECTIONS } from '$lib/constants/retrospect_sections';
-import { errorEmptyField, errorEmptyTitle, errorNeedLogin } from './toast';
+import {
+	errorEmptyField,
+	errorEmptyTitle,
+	errorNeedLogin,
+	successModifyRetrospect,
+	successSaveRetrospect
+} from './toast';
 import { page } from '$app/stores';
 import { goto } from '$app/navigation';
-import { saveRetrospect, updateRetrospect } from '$lib/services/retrospectService';
+import { deleteDraft, saveRetrospect, updateRetrospect } from '$lib/services/retrospectService';
 import type { RetrospectAnswers, RetrospectAnswersKPT, RetrospectPayload } from '@/types/retrospect';
 
 // ✔️ 작성/수정 제출 로직을 하나로 통합
@@ -26,6 +38,9 @@ async function runSubmit(mode: 'write' | 'modify', type: 'daily' | 'kpt') {
 	if (mode === 'write') {
 		const { success, id } = await saveRetrospect(retrospectData, user.uid);
 		if (success && id) {
+			await deleteDraft(user.uid);
+			resetWriteStore();
+			successSaveRetrospect();
 			goto(`/detail/${id}`);
 		}
 	} else {
@@ -36,6 +51,7 @@ async function runSubmit(mode: 'write' | 'modify', type: 'daily' | 'kpt') {
 		}
 		const { success } = await updateRetrospect(docId, retrospectData, user.uid);
 		if (success) {
+			successModifyRetrospect();
 			goto(`/detail/${docId}`);
 		}
 	}

@@ -20,11 +20,11 @@
 			link: '/write/kpt'
 		},
 		{
-			name: 'TODO 회고',
+			name: 'Daily 회고',
 			primaryColor: '#16a34a', // 초록색 (실행 중심)
 			secondaryColor: '#dcfce7', // 연한 초록 배경
 			icon: '🧩',
-			link: '/write/todo'
+			link: '/write/daily'
 		},
 		{
 			name: '커스텀 회고',

@@ -1,27 +1,14 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onDestroy } from 'svelte';
 	import WriteForm from './WriteForm.svelte';
-	import PageContainer from '$lib/components/layout/PageContainer.svelte';
-	import {
-		hydrateWriteStore,
-		resetWriteStore,
-		title,
-		answers,
-		selectedEmotions,
-		retrospectType
-	} from '$lib/stores/write/writeStore';
-	import { page } from '$app/stores';
-	import { getRetrospectById, getDraft, saveDraft } from '$lib/services/retrospectService';
-	import { currentUser } from '$lib/stores/user';
+	import { saveDraft } from '$lib/services/retrospectService';
 	import { get } from 'svelte/store';
-	import { openConfirm } from '$lib/utils/confirm';
+	import { answers, retrospectType, selectedEmotions, title } from '$lib/stores/write/writeStore';
+	import { currentUser } from '$lib/stores/user';
 	import DraftButton from './DraftButton.svelte';
-	import { setSelectedEmotions } from '$lib/stores/write/writeActions';
 	import BackToListSection from '../common/BackToListSection.svelte';
 
 	export let mode: 'write' | 'modify' = 'write';
-
-	let isLoading = true;
 
 	let timeoutId: NodeJS.Timeout;
 	function debounce(func: () => void, delay: number) {
@@ -33,7 +20,7 @@
 		const user = get(currentUser);
 		if (!user) return;
 
-		const draftData = {
+		const dataToSave = {
 			type: get(retrospectType),
 			title: get(title),
 			answers: get(answers),
@@ -41,57 +28,31 @@
 		};
 
 		// Don't save if there is no title and no content
-		if (!draftData.title && Object.values(draftData.answers).every((v) => !v)) {
+		const hasContent =
+			dataToSave.title.trim() !== '' ||
+			Object.values(dataToSave.answers).some((v) => (v as string).trim() !== '');
+
+		if (!hasContent) {
 			return;
 		}
 
-		await saveDraft(user.uid, draftData);
+		await saveDraft(user.uid, dataToSave);
 	}
 
-	onMount(async () => {
-		const docId = $page?.params?.id;
-		const user = get(currentUser);
-
-		if (mode === 'write') {
-			// Always reset store on mount for write mode to avoid state leaks
-			resetWriteStore();
-			if (user) {
-				const { success, data } = await getDraft(user.uid);
-				if (success && data) {
-					const userChoice = await openConfirm('임시저장된 글이 있습니다. 불러오시겠습니까?');
-					if (userChoice) {
-						hydrateWriteStore(data);
-						retrospectType.set(data.type); // Restore retrospect type
-						if (data.selectedEmotions) {
-							setSelectedEmotions(data.selectedEmotions);
-						}
-					}
-				}
-			}
-		} else if (mode === 'modify' && docId) {
-			const { success, data, error } = await getRetrospectById(docId);
-			if (success && data) {
-				hydrateWriteStore(data);
-				if (data.selectedEmotions) {
-					setSelectedEmotions(data.selectedEmotions);
-				}
-			} else {
-				console.error('문서 불러오기 실패:', error);
-			}
-		}
-		isLoading = false;
-	});
-
+	// Auto-save draft only in write mode
 	$: if (mode === 'write') {
 		const combined = [$title, $answers, $selectedEmotions];
 		debounce(handleSaveDraft, 3000);
 	}
+
+	// Clear the timeout when the component is destroyed
+	onDestroy(() => {
+		clearTimeout(timeoutId);
+	});
 </script>
 
-<PageContainer {isLoading} errorMessage={null}>
-	<BackToListSection />
-	<WriteForm {mode} />
-</PageContainer>
+<BackToListSection />
+<WriteForm {mode} />
 
 {#if mode === 'write'}
 	<DraftButton onClick={handleSaveDraft} />
