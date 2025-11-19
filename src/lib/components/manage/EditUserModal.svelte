@@ -2,6 +2,7 @@
 	import { editUserModalStore } from '$lib/stores/ui/editUserModalStore';
 	import { updateUserProfile } from '$lib/services/userService';
 	import toast from 'svelte-5-french-toast';
+	import { errorUpdateUserInfo, successUpdateUserInfo } from '$lib/utils/toast';
 
 	let displayName = '';
 	let user = $editUserModalStore.user;
@@ -23,14 +24,14 @@
 		const { success, error } = await updateUserProfile(user, { displayName });
 
 		if (success) {
-			toast.success('사용자 정보가 수정되었습니다.');
+			successUpdateUserInfo();
 			editUserModalStore.update((s) => {
 				s.resolve({ ...user, displayName });
 				return s;
 			});
 			closeModal();
 		} else {
-			toast.error('사용자 정보 수정에 실패했습니다.');
+			errorUpdateUserInfo();
 			console.error(error);
 		}
 	}

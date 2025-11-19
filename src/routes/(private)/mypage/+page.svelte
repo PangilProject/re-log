@@ -9,7 +9,6 @@
 	import { openConfirm } from '$lib/utils/confirm';
 	import { openPrompt } from '$lib/utils/prompt';
 	import {
-		errorDeleteAccount,
 		errorEmptyName,
 		errorEmptyPassword,
 		errorModifyProfile,
@@ -92,11 +91,9 @@
 		}
 
 		const { success, error } = await deleteUserAccount(user, password);
+
 		if (success) {
 			goto('/');
-		} else {
-			console.error(error);
-			errorDeleteAccount();
 		}
 	}
 </script>
@@ -115,7 +112,7 @@
 						id="eamil"
 						type="email"
 						value={email}
-						readonly
+						disabled
 						class="w-full cursor-not-allowed rounded-lg border border-(--border-color) bg-gray-100 px-4 py-2"
 					/>
 				</div>
@@ -126,7 +123,7 @@
 						id="name"
 						type="text"
 						bind:value={name}
-						readonly={!editing}
+						disabled={!editing}
 						class="w-full rounded-lg border border-(--border-color) px-4 py-2 focus:border-blue-500 focus:outline-none"
 					/>
 				</div>
@@ -185,5 +182,9 @@
 		border-radius: 16px;
 		padding: 2rem;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+	}
+
+	input:focus {
+		border: none;
 	}
 </style>

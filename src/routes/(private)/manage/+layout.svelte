@@ -6,6 +6,7 @@
 	import { openPrompt } from '$lib/utils/prompt';
 	import PageContainer from '$lib/components/layout/PageContainer.svelte';
 	import toast from 'svelte-5-french-toast';
+	import { errorInvalidPassword } from '$lib/utils/toast';
 
 	onMount(async () => {
 		if ($adminAuthenticated) {
@@ -16,7 +17,7 @@
 		if (password === import.meta.env.VITE_ADMIN_KEY) {
 			adminAuthenticated.set(true);
 		} else {
-			toast.error('비밀번호가 올바르지 않습니다.');
+			errorInvalidPassword();
 			goto('/list');
 		}
 	});

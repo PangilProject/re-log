@@ -24,7 +24,15 @@ import {
 	getDocs
 } from 'firebase/firestore';
 import { auth, db, provider } from '$lib/firebase';
-import { customGoodBye, errorDeleteAccount, errorNeedReLogin } from '$lib/utils/toast';
+import {
+	customGoodBye,
+	errorCancelledPopup,
+	errorDeleteAccount,
+	errorInvalidPassword,
+	errorMismatchUser,
+	errorNeedReLogin
+} from '$lib/utils/toast';
+import toast from 'svelte-5-french-toast';
 
 /**
  * 이메일로 회원가입하는 기능
@@ -146,18 +154,6 @@ export async function updateUserProfile(
 export async function deleteUserAccount(user: any, password?: string) {
 	try {
 		const userId = user.uid;
-
-		// 1️⃣ Firestore - retrospectives 컬렉션의 해당 사용자 문서 삭제
-		const retrospectivesRef = collection(db, 'retrospectives');
-		const q = query(retrospectivesRef, where('userId', '==', userId));
-		const querySnapshot = await getDocs(q);
-
-		const deletePromises = querySnapshot.docs.map((docSnap) => deleteDoc(docSnap.ref));
-		await Promise.all(deletePromises);
-
-		// 2️⃣ Firestore - users 컬렉션 문서 삭제
-		await deleteDoc(doc(db, 'users', userId));
-
 		// 3️⃣ Auth - 계정 삭제 전 재인증
 		const providerId = user.providerData[0]?.providerId;
 
@@ -174,6 +170,17 @@ export async function deleteUserAccount(user: any, password?: string) {
 			await reauthenticateWithPopup(user, googleProvider);
 		}
 
+		// 1️⃣ Firestore - retrospectives 컬렉션의 해당 사용자 문서 삭제
+		const retrospectivesRef = collection(db, 'retrospectives');
+		const q = query(retrospectivesRef, where('userId', '==', userId));
+		const querySnapshot = await getDocs(q);
+
+		const deletePromises = querySnapshot.docs.map((docSnap) => deleteDoc(docSnap.ref));
+		await Promise.all(deletePromises);
+
+		// 2️⃣ Firestore - users 컬렉션 문서 삭제
+		await deleteDoc(doc(db, 'users', userId));
+
 		// 4️⃣ Firebase Auth 사용자 삭제
 		await deleteUser(user);
 
@@ -183,7 +190,18 @@ export async function deleteUserAccount(user: any, password?: string) {
 		console.error('회원 탈퇴 오류:', error);
 		if (error.code === 'auth/requires-recent-login') {
 			errorNeedReLogin();
+		} else if (error.code === 'auth/invalid-credential') {
+			// 비밀번호 틀림
+			errorInvalidPassword();
+		} else if (
+			error.code === 'auth/cancelled-popup-request' ||
+			error.code === 'auth/popup-closed-by-user'
+		) {
+			errorCancelledPopup();
+		} else if (error.code === 'auth/user-mismatch') {
+			errorMismatchUser();
 		} else {
+			// 기존 토스트
 			errorDeleteAccount();
 		}
 		return { success: false, error };
@@ -205,4 +223,3 @@ export async function getAllUsers() {
 		return { success: false, error };
 	}
 }
-

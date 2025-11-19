@@ -90,3 +90,21 @@ export function successCopyURL() {
 export function errorCopyURL() {
 	toast.success(TOAST_MESSAGES.COPY_ERROR);
 }
+
+export function successUpdateUserInfo() {
+	toast.success(TOAST_MESSAGES.USER_MODIFIED);
+}
+
+export function errorUpdateUserInfo() {
+	toast.error(TOAST_MESSAGES.USER_MODIFIED_ERROR);
+}
+
+export function errorInvalidPassword() {
+	toast.error(TOAST_MESSAGES.INVALID_PASSWORD);
+}
+export function errorCancelledPopup() {
+	toast.error(TOAST_MESSAGES.CANCELLED_POPUP);
+}
+export function errorMismatchUser() {
+	toast.error(TOAST_MESSAGES.MISMATCH_USER);
+}

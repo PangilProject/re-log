@@ -29,9 +29,14 @@ export const TOAST_MESSAGES = {
 
 	// 계정 삭제
 	DELETE_ACCOUNT_ERROR: '회원 탈퇴 중 문제가 발생했습니다.',
+	INVALID_PASSWORD: '비밀번호가 올바르지 않습니다.',
+	CANCELLED_POPUP: '인증 창이 닫혀서 탈퇴가 취소되었습니다.',
+	MISMATCH_USER: '계정 정보가 일치하지 않습니다.',
 
 	// 동적 메시지
 	WELCOME_USER: (name: string) => `${name}님 어서오세요!`,
+	USER_MODIFIED: '사용자 정보가 수정되었습니다.',
+	USER_MODIFIED_ERROR: '사용자 정보 수정에 실패했습니다.',
 
 	// 공유
 	COPY_SUCCESS: '공유 URL이 복사되었습니다!',

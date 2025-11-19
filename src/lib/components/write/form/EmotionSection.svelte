@@ -28,7 +28,8 @@
 				class="
 					emotion-chip
 					{$selectedEmotions.includes(emotion.key) ? 'active-chip' : ''}
-					{isDetailMode ? 'cursor-default' : ''} <!-- Change cursor in detail mode -->
+          {isDetailMode && !$selectedEmotions.includes(emotion.key) ? 'hidden' : ''}
+					{isDetailMode ? 'cursor-default' : ''} 
 				"
 			>
 				<span class="icon">{emotion.icon}</span>
@@ -101,5 +102,9 @@
 		font-size: 1.1rem;
 		font-weight: 600;
 		margin: 0;
+	}
+
+	.hidden {
+		display: none;
 	}
 </style>
