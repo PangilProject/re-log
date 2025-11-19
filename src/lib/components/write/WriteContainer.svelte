@@ -1,5 +1,4 @@
 <script lang="ts">
-	export let mode: 'write' | 'modify' = 'write';
 	import { onMount } from 'svelte';
 	import WriteForm from './WriteForm.svelte';
 	import PageContainer from '$lib/components/layout/PageContainer.svelte';
@@ -8,7 +7,8 @@
 		resetWriteStore,
 		title,
 		answers,
-		selectedEmotions
+		selectedEmotions,
+		retrospectType
 	} from '$lib/stores/write/writeStore';
 	import { page } from '$app/stores';
 	import { getRetrospectById, getDraft, saveDraft } from '$lib/services/retrospectService';
@@ -16,8 +16,10 @@
 	import { get } from 'svelte/store';
 	import { openConfirm } from '$lib/utils/confirm';
 	import DraftButton from './DraftButton.svelte';
-	import { setSelectedEmotions } from '$lib/stores/write/writeActions'; // Import setSelectedEmotions
+	import { setSelectedEmotions } from '$lib/stores/write/writeActions';
 	import BackToListSection from '../common/BackToListSection.svelte';
+
+	export let mode: 'write' | 'modify' = 'write';
 
 	let isLoading = true;
 
@@ -32,11 +34,13 @@
 		if (!user) return;
 
 		const draftData = {
+			type: get(retrospectType),
 			title: get(title),
 			answers: get(answers),
 			selectedEmotions: get(selectedEmotions)
 		};
 
+		// Don't save if there is no title and no content
 		if (!draftData.title && Object.values(draftData.answers).every((v) => !v)) {
 			return;
 		}
@@ -49,6 +53,7 @@
 		const user = get(currentUser);
 
 		if (mode === 'write') {
+			// Always reset store on mount for write mode to avoid state leaks
 			resetWriteStore();
 			if (user) {
 				const { success, data } = await getDraft(user.uid);
@@ -56,6 +61,7 @@
 					const userChoice = await openConfirm('임시저장된 글이 있습니다. 불러오시겠습니까?');
 					if (userChoice) {
 						hydrateWriteStore(data);
+						retrospectType.set(data.type); // Restore retrospect type
 						if (data.selectedEmotions) {
 							setSelectedEmotions(data.selectedEmotions);
 						}
@@ -77,7 +83,7 @@
 	});
 
 	$: if (mode === 'write') {
-		const combined = [$title, $answers];
+		const combined = [$title, $answers, $selectedEmotions];
 		debounce(handleSaveDraft, 3000);
 	}
 </script>

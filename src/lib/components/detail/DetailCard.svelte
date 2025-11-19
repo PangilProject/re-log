@@ -1,23 +1,38 @@
 <script lang="ts">
-	import { RETROSPECT_SECTIONS } from '$lib/constants/retrospect_sections';
+	import {
+		RETROSPECT_KPT_SECTIONS,
+		RETROSPECT_SECTIONS
+	} from '$lib/constants/retrospect_sections';
+	import type { RetrospectDocument, RetrospectAnswers, RetrospectAnswersKPT } from '@/types/retrospect';
 	import EmotionSection from '../write/form/EmotionSection.svelte';
 	import DetailHeader from './DetailHeader.svelte';
 	import DetailSection from './DetailSection.svelte';
 
-	export let data: any;
+	export let data: RetrospectDocument;
 	export let isAuthenticated: boolean;
 	export let shareMode: boolean = false;
+
+	// data.answers의 타입을 명확하게 하기 위한 반응형 변수
+	$: answers = data.answers;
 </script>
 
 <div class="detail-card">
-	<DetailHeader title={data.title} createdAt={data.createdAt} isAuthenticated={isAuthenticated} {shareMode} />
+	<DetailHeader title={data.title} createdAt={data.createdAt} {isAuthenticated} {shareMode} />
 	<EmotionSection isDetailMode={true} />
 
-	{#each RETROSPECT_SECTIONS as section}
-		<DetailSection title={section.label} content={data.answers?.[section.key] || ''} />
-	{/each}
+	{#if data.type === 'kpt'}
+		{@const kptAnswers = answers as RetrospectAnswersKPT}
+		{#each RETROSPECT_KPT_SECTIONS as section}
+			<DetailSection title={section.label} content={kptAnswers[section.key] || ''} />
+		{/each}
+	{:else}
+		{@const dailyAnswers = answers as RetrospectAnswers}
+		{#each RETROSPECT_SECTIONS as section}
+			<DetailSection title={section.label} content={dailyAnswers[section.key] || ''} />
+		{/each}
+	{/if}
 
-	{#if isAuthenticated}
+	{#if isAuthenticated && !shareMode}
 		<div class="back-box">
 			<a href="/list">← 목록으로 돌아가기</a>
 		</div>
@@ -33,7 +48,9 @@
 		@media (width < 40rem) {
 			padding: 1rem;
 		}
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+		box-shadow:
+			0 4px 6px -1px rgb(0 0 0 / 0.1),
+			0 2px 4px -2px rgb(0 0 0 / 0.1);
 	}
 	.back-box {
 		text-align: center;

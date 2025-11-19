@@ -1,0 +1,112 @@
+<script lang="ts">
+	import { ArrowBigLeft, ArrowBigRight } from 'lucide-svelte';
+	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
+	import EditorTextarea from './EditorTextarea.svelte';
+	import MarkdownPreview from './MarkdownPreview.svelte';
+	import { isMobile } from '$lib/stores/write/writeStore';
+	import { handleSubmitRetrospect } from '$lib/utils/retrospectHandler';
+
+	export let title: string;
+	export let value: string;
+	export let onInput: (v: string) => void;
+	export let beforeTitle: string;
+	export let nextTitle: string;
+	export let index: number;
+	export let mode: 'write' | 'modify' = 'write';
+
+	onMount(() => {
+		if (browser) {
+			const check = () => isMobile.set(window.innerWidth < 640);
+			check();
+			window.addEventListener('resize', check);
+			return () => window.removeEventListener('resize', check);
+		}
+	});
+
+	function scrollToSection(id: string) {
+		if (!browser) return;
+
+		const el = document.getElementById(id);
+		if (!el) return;
+
+		const offset = 80;
+		const isMobileNow = window.innerWidth < 640;
+
+		if (isMobileNow) {
+			const container = document.querySelector('.section-list');
+			if (container instanceof HTMLElement) {
+				const left = el.offsetLeft - 50;
+				container.scrollTo({ left, behavior: 'smooth' });
+			}
+		} else {
+			const top = el.getBoundingClientRect().top + window.scrollY - offset;
+			window.scrollTo({ top, behavior: 'smooth' });
+		}
+	}
+</script>
+
+<section class="retrospect-section" id={title}>
+	<div class="flex justify-between">
+		<h3>{title}</h3>
+		<div class="flex gap-2">
+			{#if index > 0 && $isMobile}
+				<button
+					tabindex="-1"
+					class="flex items-center gap-2 rounded-md bg-(--brand-primary) px-2 py-0.5 leading-none text-(--white) hover:bg-(--brand-secondary-dark)"
+					on:click|preventDefault={(e) => {
+						scrollToSection(beforeTitle);
+						(e.currentTarget as HTMLButtonElement).blur();
+					}}><ArrowBigLeft size="18" /></button
+				>
+			{/if}
+			{#if nextTitle && $isMobile}
+				<button
+					tabindex="-1"
+					class="flex items-center gap-2 rounded-md bg-(--brand-primary) px-2 py-0.5 leading-none text-(--white) hover:bg-(--brand-secondary-dark)"
+					on:click|preventDefault={(e) => {
+						scrollToSection(nextTitle);
+						(e.currentTarget as HTMLButtonElement).blur();
+					}}><ArrowBigRight size="18" /></button
+				>
+			{/if}
+			{#if !nextTitle && $isMobile}
+				<button
+					class="flex items-center gap-2 rounded-md bg-(--brand-primary) px-2 py-0.5 leading-none text-(--white) hover:bg-(--brand-secondary-dark)"
+					on:click={() => handleSubmitRetrospect(mode)}>💾 작성 완료</button
+				>
+			{/if}
+		</div>
+	</div>
+
+	<div class="editor-input">
+		<EditorTextarea raw={value} {onInput} />
+	</div>
+</section>
+
+<style>
+	.retrospect-section {
+		min-width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		margin-bottom: 2rem;
+		transition:
+			box-shadow 0.2s ease,
+			transform 0.2s ease;
+		margin-right: 20px;
+	}
+
+	h3 {
+		color: #1e3a8a; /* blue-900 */
+		font-size: 1.1rem;
+		font-weight: 600;
+		margin: 0;
+	}
+
+	.editor-input {
+		width: 100%;
+		overflow-y: auto;
+		min-height: 250px;
+	}
+</style>

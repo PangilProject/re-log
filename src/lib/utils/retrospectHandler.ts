@@ -1,31 +1,47 @@
-import { submitModifyRetrospect, submitRetrospect } from '$lib/stores/write/writeActions';
 import { openConfirm } from './confirm';
-import { answers, title } from '$lib/stores/write/writeStore';
+import { answers, title, retrospectType, selectedEmotions } from '$lib/stores/write/writeStore';
 import { get } from 'svelte/store';
-import { RETROSPECT_KEYS } from '$lib/constants/retrospectKeys';
-import { errorEmptyField, errorEmptyTitle } from './toast';
+import { RETROSPECT_KPT_SECTIONS, RETROSPECT_SECTIONS } from '$lib/constants/retrospect_sections';
+import { errorEmptyField, errorEmptyTitle, errorNeedLogin } from './toast';
 import { page } from '$app/stores';
-import toast from 'svelte-5-french-toast';
+import { goto } from '$app/navigation';
+import { saveRetrospect, updateRetrospect } from '$lib/services/retrospectService';
+import type { RetrospectAnswers, RetrospectAnswersKPT, RetrospectPayload } from '@/types/retrospect';
 
 // ✔️ 작성/수정 제출 로직을 하나로 통합
-async function runSubmit(mode: string) {
-	if (mode === 'write') {
-		return submitRetrospect();
-	}
-
-	// 수정 모드
-	const $page = get(page);
-	const docId = $page.params.id;
-
-	if (!docId) {
-		console.error('수정 모드에서 문서 ID를 찾을 수 없습니다.');
+async function runSubmit(mode: 'write' | 'modify', type: 'daily' | 'kpt') {
+	const user = get(page).data.user;
+	if (!user) {
+		errorNeedLogin();
 		return;
 	}
 
-	return submitModifyRetrospect(docId);
+	const retrospectData: RetrospectPayload = {
+		type,
+		title: get(title).trim(),
+		answers: get(answers),
+		selectedEmotions: get(selectedEmotions)
+	};
+
+	if (mode === 'write') {
+		const { success, id } = await saveRetrospect(retrospectData, user.uid);
+		if (success && id) {
+			goto(`/detail/${id}`);
+		}
+	} else {
+		const docId = get(page).params.id;
+		if (!docId) {
+			console.error('수정 모드에서 문서 ID를 찾을 수 없습니다.');
+			return;
+		}
+		const { success } = await updateRetrospect(docId, retrospectData, user.uid);
+		if (success) {
+			goto(`/detail/${docId}`);
+		}
+	}
 }
 
-export async function handleSubmitRetrospect(mode: string) {
+export async function handleSubmitRetrospect(mode: 'write' | 'modify') {
 	const currentTitle = get(title).trim();
 	if (!currentTitle) {
 		errorEmptyTitle();
@@ -33,11 +49,23 @@ export async function handleSubmitRetrospect(mode: string) {
 	}
 
 	const currentAnswers = get(answers);
+	const type = get(retrospectType);
 
-	// 상태 판별
-	const filledCount = RETROSPECT_KEYS.filter((key) => !!currentAnswers[key]?.trim()).length;
+	let filledCount = 0;
+	let allFilled = false;
 
-	const allFilled = filledCount === RETROSPECT_KEYS.length;
+	if (type === 'daily') {
+		const keys = RETROSPECT_SECTIONS.map((s) => s.key);
+		const dailyAnswers = currentAnswers as RetrospectAnswers;
+		filledCount = keys.filter((key) => !!dailyAnswers[key]?.trim()).length;
+		allFilled = filledCount === keys.length;
+	} else if (type === 'kpt') {
+		const keys = RETROSPECT_KPT_SECTIONS.map((s) => s.key);
+		const kptAnswers = currentAnswers as RetrospectAnswersKPT;
+		filledCount = keys.filter((key) => !!kptAnswers[key]?.trim()).length;
+		allFilled = filledCount === keys.length;
+	}
+
 	const allEmpty = filledCount === 0;
 
 	// 1) 모두 비어 있음 → 작성 요구
@@ -51,13 +79,13 @@ export async function handleSubmitRetrospect(mode: string) {
 		const ok = await openConfirm('작성되지 않은 칸이 있습니다. 저장하시겠습니까?');
 		if (!ok) return;
 
-		await runSubmit(mode);
+		await runSubmit(mode, type);
 		return;
 	}
 
 	// 3) 모두 작성됨 → 정상 confirm 후 제출
-	const ok = await openConfirm(mode === 'write' ? '작성하시겠습니까?' : '수정하시겠습니까?');
+	const ok = await openConfirm(mode === 'write' ? '회고를 등록하시겠습니까?' : '회고를 수정하시겠습니까?');
 	if (!ok) return;
 
-	await runSubmit(mode);
+	await runSubmit(mode, type);
 }

@@ -14,24 +14,12 @@ import {
 	deleteDoc
 } from 'firebase/firestore';
 import { db } from '$lib/firebase';
-import type { RetrospectDocument } from '@/types/retrospect';
-
-export interface RetrospectData {
-	title: string;
-	answers: {
-		today: string;
-		problem: string;
-		learned: string;
-		tomorrow: string;
-		summary: string;
-	};
-	selectedEmotions: string[];
-}
+import type { RetrospectDocument, RetrospectPayload } from '@/types/retrospect';
 
 /**
  * Firestore에 회고 데이터를 추가하는 함수
  */
-export async function saveRetrospect(data: RetrospectData, userId: string) {
+export async function saveRetrospect(data: RetrospectPayload, userId: string) {
 	try {
 		const docRef = await addDoc(collection(db, 'retrospectives'), {
 			...data,
@@ -96,7 +84,7 @@ export async function getRetrospectById(docId: string): Promise<{
 	}
 }
 
-export async function updateRetrospect(docId: string, data: RetrospectData, userId: string) {
+export async function updateRetrospect(docId: string, data: RetrospectPayload, userId: string) {
 	try {
 		const docRef = doc(db, 'retrospectives', docId);
 
@@ -113,7 +101,7 @@ export async function updateRetrospect(docId: string, data: RetrospectData, user
 	}
 }
 
-export async function saveDraft(userId: string, draftData: RetrospectData) {
+export async function saveDraft(userId: string, draftData: RetrospectPayload) {
 	try {
 		const draftRef = doc(db, 'drafts', userId);
 		await setDoc(draftRef, {

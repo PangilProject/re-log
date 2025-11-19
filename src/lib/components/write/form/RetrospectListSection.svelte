@@ -1,27 +1,59 @@
 <script lang="ts">
 	import RetrospectSection from '../ui/RetrospectSection.svelte';
-	import { RETROSPECT_SECTIONS } from '$lib/constants/retrospect_sections';
+	import { RETROSPECT_KPT_SECTIONS, RETROSPECT_SECTIONS } from '$lib/constants/retrospect_sections';
 	import { answers, previews } from '$lib/stores/write/writeStore';
 	import { updatePreview } from '$lib/stores/write/writeActions';
 	import type { AnswerKey } from '$lib/constants/retrospectKeys';
+	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+	import toast from 'svelte-5-french-toast';
+	import RetrospectKPTSection from '../ui/RetrospectKPTSection.svelte';
+	import type { RetrospectAnswers, RetrospectAnswersKPT } from '@/types/retrospect';
 
 	export let mode: 'write' | 'modify' = 'write';
+
+	let type = $page.params.type;
+	onMount(() => {
+		if (type === 'daily' || type === 'kpt') {
+			// Do nothing, type is valid
+		} else {
+			type = 'daily'; // Default to daily
+		}
+	});
 </script>
 
 <div class="section-list">
-	{#each RETROSPECT_SECTIONS as section, i}
-		{@const key = section.key as AnswerKey}
-		<RetrospectSection
-			title={section.label}
-			value={$answers[key]}
-			html={$previews[key]}
-			beforeTitle={RETROSPECT_SECTIONS[i - 1]?.label}
-			nextTitle={RETROSPECT_SECTIONS[i + 1]?.label}
-			index={i}
-			onInput={(value: string) => updatePreview(key, value)}
-			{mode}
-		/>
-	{/each}
+	{#if type === 'daily'}
+		{@const dailyAnswers = $answers as RetrospectAnswers}
+		{@const dailyPreviews = $previews as Record<keyof RetrospectAnswers, string>}
+		{#each RETROSPECT_SECTIONS as section, i}
+			{@const key = section.key}
+			<RetrospectSection
+				title={section.label}
+				value={dailyAnswers[key]}
+				html={dailyPreviews[key]}
+				beforeTitle={RETROSPECT_SECTIONS[i - 1]?.label}
+				nextTitle={RETROSPECT_SECTIONS[i + 1]?.label}
+				index={i}
+				onInput={(value: string) => updatePreview(key, value)}
+				{mode}
+			/>
+		{/each}
+	{:else if type === 'kpt'}
+		{@const kptAnswers = $answers as RetrospectAnswersKPT}
+		{#each RETROSPECT_KPT_SECTIONS as section, i}
+			{@const key = section.key}
+			<RetrospectKPTSection
+				title={section.label}
+				value={kptAnswers[key]}
+				beforeTitle={RETROSPECT_KPT_SECTIONS[i - 1]?.label}
+				nextTitle={RETROSPECT_KPT_SECTIONS[i + 1]?.label}
+				index={i}
+				onInput={(value: string) => updatePreview(key, value)}
+				{mode}
+			/>
+		{/each}
+	{/if}
 </div>
 
 <style>

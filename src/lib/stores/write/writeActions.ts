@@ -3,7 +3,7 @@ import { goto } from '$app/navigation';
 import { currentUser } from '$lib/stores/user';
 import { saveRetrospect, updateRetrospect, deleteDraft } from '$lib/services/retrospectService';
 import { renderMarkdown } from '$lib/markdown';
-import { answers, previews, title, resetWriteStore, selectedEmotions } from './writeStore';
+import { answers, previews, title, resetWriteStore, selectedEmotions, retrospectType } from './writeStore';
 import type { AnswerKey } from '$lib/constants/retrospectKeys';
 import { errorNeedLogin, successModifyRetrospect, successSaveRetrospect } from '$lib/utils/toast';
 import { EMOTIONS } from '$lib/constants/emotions';
@@ -26,6 +26,7 @@ export async function submitRetrospect() {
 	}
 
 	const retrospectData = {
+		type: get(retrospectType),
 		title: get(title),
 		answers: get(answers),
 		selectedEmotions: get(selectedEmotions)
@@ -48,6 +49,7 @@ export async function submitModifyRetrospect(id: string) {
 	}
 
 	const retrospectData = {
+		type: get(retrospectType),
 		title: get(title),
 		answers: get(answers),
 		selectedEmotions: get(selectedEmotions)

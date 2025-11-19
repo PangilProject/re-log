@@ -1,67 +1,74 @@
 <script lang="ts">
 	import { viewPostModalStore } from '$lib/stores/ui/viewPostModalStore';
 	import { formatDate } from '$lib/utils/formatDate';
+	import { RETROSPECT_KPT_SECTIONS, RETROSPECT_SECTIONS } from '$lib/constants/retrospect_sections';
+	import type { RetrospectAnswers, RetrospectAnswersKPT } from '@/types/retrospect';
+	import { onMount, onDestroy } from 'svelte';
 
 	function closeModal() {
 		viewPostModalStore.set({ isOpen: false, post: null });
 	}
 
-	function handleKeydown(event: KeyboardEvent) {
+	function handleGlobalKeydown(event: KeyboardEvent) {
 		if (event.key === 'Escape') {
 			closeModal();
 		}
 	}
+
+	onMount(() => {
+		document.addEventListener('keydown', handleGlobalKeydown);
+	});
+
+	onDestroy(() => {
+		document.removeEventListener('keydown', handleGlobalKeydown);
+	});
 </script>
 
 {#if $viewPostModalStore.isOpen && $viewPostModalStore.post}
 	{@const post = $viewPostModalStore.post}
 	<div
 		class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
-		role="button"
-		tabindex="0"
+		role="presentation"
 		on:click={closeModal}
-		on:keydown={handleKeydown}
 	>
 		<div
-			class="animate-fadeIn w-[90%] max-w-2xl rounded-xl border border-(--border-muted) bg-white p-6 shadow-lg"
+			class="animate-fadeIn border-border bg-background w-[90%] max-w-2xl rounded-xl border bg-white p-6 shadow-lg"
 			role="dialog"
 			aria-modal="true"
 			aria-labelledby="modal-title"
-			on:click|stopPropagation
+			tabindex="-1"
 		>
-			<h2 id="modal-title" class="mb-2 text-2xl font-bold text-(--text-primary)">{post.title}</h2>
-			<div class="mb-6 flex items-center gap-4 text-sm text-(--text-secondary)">
+			<h2 id="modal-title" class="text-text-primary mb-2 text-2xl font-bold">{post.title}</h2>
+			<div class="text-text-secondary mb-6 flex items-center gap-4 text-sm">
 				<span>{post.authorName}</span>
 				<span>{formatDate(post.createdAt)}</span>
 			</div>
 
 			<div class="max-h-[60vh] overflow-y-auto pr-4">
-				<div class="mb-4">
-					<h3 class="text-lg font-semibold text-(--text-primary)">오늘의 회고</h3>
-					<p class="text-(--text-secondary)">{post.answers.today}</p>
-				</div>
-				<div class="mb-4">
-					<h3 class="text-lg font-semibold text-(--text-primary)">문제점 / 개선점</h3>
-					<p class="text-(--text-secondary)">{post.answers.problem}</p>
-				</div>
-				<div class="mb-4">
-					<h3 class="text-lg font-semibold text-(--text-primary)">새롭게 배운 점</h3>
-					<p class="text-(--text-secondary)">{post.answers.learned}</p>
-				</div>
-				<div class="mb-4">
-					<h3 class="text-lg font-semibold text-(--text-primary)">내일의 목표</h3>
-					<p class="text-(--text-secondary)">{post.answers.tomorrow}</p>
-				</div>
-				<div class="mb-4">
-					<h3 class="text-lg font-semibold text-(--text-primary)">한 줄 요약</h3>
-					<p class="text-(--text-secondary)">{post.answers.summary}</p>
-				</div>
+				{#if post.type === 'kpt'}
+					{@const answers = post.answers as RetrospectAnswersKPT}
+					{#each RETROSPECT_KPT_SECTIONS as section}
+						<div class="mb-4">
+							<h3 class="text-text-primary text-lg font-semibold">{section.label}</h3>
+							<p class="text-text-secondary whitespace-pre-wrap">{answers[section.key]}</p>
+						</div>
+					{/each}
+				{:else}
+					{@const answers = post.answers as RetrospectAnswers}
+					{#each RETROSPECT_SECTIONS as section}
+						<div class="mb-4">
+							<h3 class="text-text-primary text-lg font-semibold">{section.label}</h3>
+							<p class="text-text-secondary whitespace-pre-wrap">{answers[section.key]}</p>
+						</div>
+					{/each}
+				{/if}
 			</div>
 
 			<div class="mt-6 flex justify-end">
 				<button
+					type="button"
 					on:click={closeModal}
-					class="rounded-md border px-4 py-1.5 text-sm text-(--brand-secondary-dark) hover:bg-gray-100"
+					class="text-brand-secondary-dark rounded-md border px-4 py-1.5 text-sm hover:bg-gray-100"
 				>
 					닫기
 				</button>
