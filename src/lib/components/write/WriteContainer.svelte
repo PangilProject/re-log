@@ -17,6 +17,7 @@
 	import { openConfirm } from '$lib/utils/confirm';
 	import DraftButton from './DraftButton.svelte';
 	import { setSelectedEmotions } from '$lib/stores/write/writeActions'; // Import setSelectedEmotions
+	import BackToListSection from '../common/BackToListSection.svelte';
 
 	let isLoading = true;
 
@@ -82,6 +83,7 @@
 </script>
 
 <PageContainer {isLoading} errorMessage={null}>
+	<BackToListSection />
 	<WriteForm {mode} />
 </PageContainer>
 
