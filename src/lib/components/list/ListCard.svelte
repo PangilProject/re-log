@@ -48,7 +48,7 @@
 			<div class="flex w-2/3 flex-wrap items-start justify-end gap-2">
 				{#each selectedEmotions as emo}
 					<span
-						class="emotion-chip"
+						class="emotion-chip hover:cursor-default"
 						style="--chip-color: {EMOTIONS.find((e) => e.key === emo)?.color || '#3b82f6'}"
 					>
 						{EMOTIONS.find((e) => e.key === emo)?.icon}

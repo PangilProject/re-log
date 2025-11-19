@@ -38,13 +38,13 @@
 			<div class="flex justify-center gap-3">
 				<button
 					on:click={() => handleConfirm(false)}
-					class="rounded-md border px-4 py-1.5 text-sm text-(--brand-secondary-dark) hover:bg-gray-100"
+					class="rounded-md border px-4 py-1.5 text-sm text-(--brand-secondary-dark) hover:cursor-pointer hover:bg-gray-100"
 				>
 					취소
 				</button>
 				<button
 					on:click={() => handleConfirm(true)}
-					class="rounded-md bg-blue-500 px-4 py-1.5 text-sm text-(--white) hover:bg-(--brand-primary)"
+					class="rounded-md bg-blue-500 px-4 py-1.5 text-sm text-(--white) hover:cursor-pointer hover:bg-(--brand-primary)"
 				>
 					확인
 				</button>

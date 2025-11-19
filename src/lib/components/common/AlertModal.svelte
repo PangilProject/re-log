@@ -39,7 +39,7 @@
 				{#if $alertStore.mode === 'share'}
 					<button
 						on:click={handleShareNavigation}
-						class="rounded-md border border-blue-500 bg-transparent px-4 py-1.5 text-sm text-blue-500 transition-colors hover:bg-blue-50"
+						class="rounded-md border border-blue-500 bg-transparent px-4 py-1.5 text-sm text-blue-500 transition-colors hover:cursor-pointer hover:bg-blue-50"
 					>
 						바로 이동하기
 					</button>
@@ -47,7 +47,7 @@
 
 				<button
 					on:click={handleConfirm}
-					class="rounded-md bg-blue-500 px-4 py-1.5 text-sm text-white transition-colors hover:bg-blue-600"
+					class="rounded-md bg-blue-500 px-4 py-1.5 text-sm text-white transition-colors hover:cursor-pointer hover:bg-blue-600"
 				>
 					닫기
 				</button>

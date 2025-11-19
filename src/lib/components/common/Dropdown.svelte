@@ -25,7 +25,7 @@
 	<button
 		id="button"
 		type="button"
-		class="flex items-center justify-between gap-1 rounded-md border px-3 py-1 text-sm font-medium text-(--brand-secondary-dark) shadow-sm hover:bg-(--surface-light) focus:ring-2 focus:ring-blue-400"
+		class="flex items-center justify-between gap-1 rounded-md border px-3 py-1 text-sm font-medium text-(--brand-secondary-dark) shadow-sm hover:cursor-pointer hover:bg-(--surface-light) focus:ring-2 focus:ring-blue-400"
 		on:click={toggleOpen}
 	>
 		{#if $selected}
@@ -52,7 +52,7 @@
 		>
 			{#each options as opt}
 				<button
-					class="block w-full px-4 py-2 text-left text-sm hover:rounded-md hover:bg-gray-100"
+					class="block w-full px-4 py-2 text-left text-sm hover:cursor-pointer hover:rounded-md hover:bg-gray-100"
 					on:click={() => selectOption(opt.value)}
 				>
 					{opt.label}

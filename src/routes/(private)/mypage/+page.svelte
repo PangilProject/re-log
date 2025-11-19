@@ -132,7 +132,7 @@
 					{#if editing}
 						<button
 							on:click={handleUpdate}
-							class="flex items-center justify-center gap-2 rounded-lg bg-(--brand-primary) px-4 py-2 font-semibold text-(--white) hover:bg-(--brand-primary-dark) disabled:bg-(--brand-primary-dark) disabled:opacity-50"
+							class="flex items-center justify-center gap-2 rounded-lg bg-(--brand-primary) px-4 py-2 font-semibold text-(--white) hover:cursor-pointer hover:bg-(--brand-primary-dark) disabled:bg-(--brand-primary-dark) disabled:opacity-50"
 							disabled={isSaving || name === originalName}
 						>
 							{#if isSaving}
@@ -143,14 +143,14 @@
 						</button>
 						<button
 							on:click={handleCancel}
-							class="rounded-lg border border-(--border-color) px-4 py-2 font-semibold hover:bg-gray-100"
+							class="rounded-lg border border-(--border-color) px-4 py-2 font-semibold hover:cursor-pointer hover:bg-gray-100"
 						>
 							취소
 						</button>
 					{:else}
 						<button
 							on:click={() => (editing = true)}
-							class="rounded-lg bg-(--brand-primary) px-4 py-2 font-semibold text-(--white) hover:bg-(--brand-primary-dark)"
+							class="rounded-lg bg-(--brand-primary) px-4 py-2 font-semibold text-(--white) hover:cursor-pointer hover:bg-(--brand-primary-dark)"
 						>
 							수정
 						</button>
@@ -158,7 +158,7 @@
 
 					<button
 						on:click={handleDelete}
-						class="rounded-lg bg-(--brand-accent) px-4 py-2 font-semibold text-(--white) hover:bg-(--brand-accent-dark)"
+						class="rounded-lg bg-(--brand-accent) px-4 py-2 font-semibold text-(--white) hover:cursor-pointer hover:bg-(--brand-accent-dark)"
 						class:hidden={editing}
 					>
 						회원 탈퇴

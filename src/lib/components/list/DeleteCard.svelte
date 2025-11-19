@@ -37,7 +37,7 @@
 {#if !$isDeleteMode}
 	<button
 		on:click={toggleDeleteMode}
-		class="ml-3 rounded-md bg-(--brand-accent) px-3 py-1 text-sm text-(--white) shadow-sm hover:bg-(--brand-accent-dark)"
+		class="ml-3 rounded-md bg-(--brand-accent) px-3 py-1 text-sm text-(--white) shadow-sm hover:cursor-pointer hover:bg-(--brand-accent-dark)"
 	>
 		<Trash size="16" class="my-1" />
 	</button>

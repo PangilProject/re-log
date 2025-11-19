@@ -29,7 +29,7 @@
 					emotion-chip
 					{$selectedEmotions.includes(emotion.key) ? 'active-chip' : ''}
           {isDetailMode && !$selectedEmotions.includes(emotion.key) ? 'hidden' : ''}
-					{isDetailMode ? 'cursor-default' : ''} 
+					{isDetailMode ? 'cursorDefault' : ''} 
 				"
 			>
 				<span class="icon">{emotion.icon}</span>
@@ -106,5 +106,9 @@
 
 	.hidden {
 		display: none;
+	}
+
+	.cursorDefault {
+		cursor: default !important;
 	}
 </style>

@@ -11,7 +11,7 @@
 	on:click={onClick}
 	disabled={loading}
 	class={`
-		flex w-full items-center justify-center gap-2 rounded-lg py-3 transition disabled:opacity-50
+		flex w-full items-center justify-center gap-2 rounded-lg py-3 transition hover:cursor-pointer disabled:opacity-50
 		${
 			variant === 'google'
 				? 'border border-(--border-color) bg-(--white) text-(--brand-secondary-dark) shadow-sm hover:bg-(--surface-light)'

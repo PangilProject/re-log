@@ -31,7 +31,7 @@
 						반갑습니다, {$currentUser.displayName ?? $currentUser.email}님
 					</p>
 					<button
-						class="flex h-8 w-8 items-center justify-center rounded-full bg-(--brand-primary-light)"
+						class="flex h-8 w-8 items-center justify-center rounded-full bg-(--brand-primary-light) hover:cursor-pointer hover:opacity-50"
 						onclick={goToMyPage}
 					>
 						<User class="h-5 w-5 text-(--brand-primary)" />
@@ -39,7 +39,7 @@
 				</div>
 				<button
 					onclick={handleLogout}
-					class="rounded-lg bg-(--brand-secondary) px-3 py-1.5 text-sm font-semibold text-(--white) transition hover:bg-(--brand-secondary-dark)"
+					class="rounded-lg bg-(--brand-secondary) px-3 py-1.5 text-sm font-semibold text-(--white) transition hover:cursor-pointer hover:bg-(--brand-secondary-dark)"
 				>
 					로그아웃
 				</button>

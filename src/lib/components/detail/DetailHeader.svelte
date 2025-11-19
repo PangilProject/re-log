@@ -86,5 +86,6 @@
 	}
 	button {
 		text-decoration-line: underline;
+		cursor: pointer;
 	}
 </style>
