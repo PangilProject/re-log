@@ -2,6 +2,7 @@
 	import { alertStore } from '$lib/stores/ui/alertStore';
 	import { goto } from '$app/navigation';
 	import { TOAST_MESSAGES } from '$lib/constants/toastMessages';
+	import { onMount } from 'svelte';
 
 	function handleConfirm() {
 		alertStore.update((s) => {
@@ -18,6 +19,31 @@
 			handleConfirm(); // Close modal after navigation
 		}
 	}
+
+	function handleGlobalKeydown(event: KeyboardEvent) {
+		if (!$alertStore.isOpen) return; // 모달이 열렸을 때만 처리
+
+		if (event.key === 'Escape' || event.key === 'Enter') {
+			event.preventDefault();
+			event.stopPropagation(); // 다른 곳으로 Enter 전달 안 함
+			handleConfirm();
+		}
+	}
+
+	let storeValue;
+
+	onMount(() => {
+		const unsubscribe = alertStore.subscribe((v) => {
+			storeValue = v;
+		});
+
+		document.addEventListener('keydown', handleGlobalKeydown);
+
+		return () => {
+			document.removeEventListener('keydown', handleGlobalKeydown);
+			unsubscribe();
+		};
+	});
 </script>
 
 {#if $alertStore.isOpen}

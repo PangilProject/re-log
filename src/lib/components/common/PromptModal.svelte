@@ -1,6 +1,7 @@
 <!-- src/lib/components/common/PromptModal.svelte -->
 <script lang="ts">
 	import { promptStore } from '$lib/stores/ui/promptStore';
+	import { onMount } from 'svelte';
 	let inputValue = '';
 
 	function handleConfirm(value: boolean) {
@@ -11,6 +12,30 @@
 		});
 		inputValue = '';
 	}
+
+	function handleGlobalKeydown(event: KeyboardEvent) {
+		if (event.key === 'Escape') {
+			handleConfirm(false);
+		}
+		if (event.key === 'Enter') {
+			handleConfirm(true);
+		}
+	}
+
+	let storeValue;
+
+	onMount(() => {
+		const unsubscribe = promptStore.subscribe((v) => {
+			storeValue = v;
+		});
+
+		document.addEventListener('keydown', handleGlobalKeydown);
+
+		return () => {
+			document.removeEventListener('keydown', handleGlobalKeydown);
+			unsubscribe();
+		};
+	});
 </script>
 
 {#if $promptStore.isOpen}

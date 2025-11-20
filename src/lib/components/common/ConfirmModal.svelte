@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { confirmStore } from '$lib/stores/ui/confirmStore';
+	import { onDestroy, onMount } from 'svelte';
 
 	function handleConfirm(value: boolean) {
 		confirmStore.update((s) => {
@@ -8,6 +9,36 @@
 			return s;
 		});
 	}
+
+	function handleGlobalKeydown(event: KeyboardEvent) {
+		if (!$confirmStore.isOpen) return; // 모달이 열렸을 때만 처리
+
+		if (event.key === 'Escape') {
+			event.preventDefault();
+			event.stopPropagation(); // 다른 곳으로 Enter 전달 안 함
+			handleConfirm(false);
+		}
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			event.stopPropagation(); // 다른 곳으로 Enter 전달 안 함
+			handleConfirm(true);
+		}
+	}
+
+	let storeValue;
+
+	onMount(() => {
+		const unsubscribe = confirmStore.subscribe((v) => {
+			storeValue = v;
+		});
+
+		document.addEventListener('keydown', handleGlobalKeydown);
+
+		return () => {
+			document.removeEventListener('keydown', handleGlobalKeydown);
+			unsubscribe();
+		};
+	});
 </script>
 
 {#if $confirmStore.isOpen}
