@@ -39,7 +39,7 @@
 	}
 
 	$: if (mode === 'write') {
-		const combined = [$title, $answers, $selectedEmotions];
+		void [$title, $answers, $selectedEmotions];
 		debounce(handleSaveDraft, 3000);
 	}
 

@@ -10,7 +10,8 @@ import {
 	EmailAuthProvider,
 	reauthenticateWithCredential,
 	GoogleAuthProvider,
-	reauthenticateWithPopup
+	reauthenticateWithPopup,
+	type User
 } from 'firebase/auth';
 import {
 	doc,
@@ -32,6 +33,7 @@ import {
 	errorMismatchUser,
 	errorNeedReLogin
 } from '$lib/utils/toast';
+import type { FirebaseError } from 'firebase/app';
 
 /**
  * 이메일로 회원가입하는 기능
@@ -133,7 +135,7 @@ export async function logout() {
  */
 
 export async function updateUserProfile(
-	user: any,
+	user: User,
 	newProfile: { displayName?: string; photoURL?: string }
 ) {
 	try {
@@ -149,6 +151,21 @@ export async function updateUserProfile(
 	}
 }
 
+export async function updateUserDocument(
+	uid: string,
+	newProfile: { displayName?: string; photoURL?: string }
+) {
+	try {
+		const userRef = doc(db, 'users', uid);
+		await setDoc(userRef, { ...newProfile, updatedAt: serverTimestamp() }, { merge: true });
+
+		return { success: true };
+	} catch (error) {
+		console.error('프로필 문서 업데이트 오류:', error);
+		return { success: false, error };
+	}
+}
+
 /**
  * 회원 탈퇴 기능
  * - 비밀번호/구글 계정 방식에 따라 재인증을 수행하고
@@ -158,7 +175,7 @@ export async function updateUserProfile(
  * 오류 상황에 따라 다양한 토스트 메시지를 출력한다.
  */
 
-export async function deleteUserAccount(user: any, password?: string) {
+export async function deleteUserAccount(user: User, password?: string) {
 	try {
 		const userId = user.uid;
 		const providerId = user.providerData[0]?.providerId;
@@ -167,8 +184,11 @@ export async function deleteUserAccount(user: any, password?: string) {
 			if (!password) {
 				throw new Error('비밀번호가 필요합니다.');
 			}
-			const credential = EmailAuthProvider.credential(user.email, password);
-			await reauthenticateWithCredential(user, credential);
+			const email = user.email;
+			if (email) {
+				const credential = EmailAuthProvider.credential(user.email, password);
+				await reauthenticateWithCredential(user, credential);
+			}
 		} else if (providerId === 'google.com') {
 			const googleProvider = new GoogleAuthProvider();
 			await reauthenticateWithPopup(user, googleProvider);
@@ -187,23 +207,28 @@ export async function deleteUserAccount(user: any, password?: string) {
 
 		customGoodBye();
 		return { success: true };
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error('회원 탈퇴 오류:', error);
-		if (error.code === 'auth/requires-recent-login') {
+
+		// FirebaseError 타입가드
+		const firebaseError = error as FirebaseError;
+
+		if (firebaseError.code === 'auth/requires-recent-login') {
 			errorNeedReLogin();
-		} else if (error.code === 'auth/invalid-credential') {
+		} else if (firebaseError.code === 'auth/invalid-credential') {
 			errorInvalidPassword();
 		} else if (
-			error.code === 'auth/cancelled-popup-request' ||
-			error.code === 'auth/popup-closed-by-user'
+			firebaseError.code === 'auth/cancelled-popup-request' ||
+			firebaseError.code === 'auth/popup-closed-by-user'
 		) {
 			errorCancelledPopup();
-		} else if (error.code === 'auth/user-mismatch') {
+		} else if (firebaseError.code === 'auth/user-mismatch') {
 			errorMismatchUser();
 		} else {
 			errorDeleteAccount();
 		}
-		return { success: false, error };
+
+		return { success: false, error: firebaseError };
 	}
 }
 

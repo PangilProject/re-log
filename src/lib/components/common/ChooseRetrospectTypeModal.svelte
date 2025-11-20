@@ -51,7 +51,7 @@
 			class="animate-fadeIn w-full max-w-sm rounded-xl border border-(--border-muted) bg-(--white) p-5 shadow-lg"
 		>
 			<div class="flex w-full justify-between gap-2">
-				{#each retrospectTtype as item}
+				{#each retrospectTtype as item (item.name)}
 					<button
 						class="w-1/3 rounded-xl border-2 px-3 py-4 font-semibold shadow-md
               transition-all duration-200 hover:scale-105 hover:shadow-lg active:scale-95"

@@ -16,10 +16,7 @@
 	let isLoading = true;
 
 	onMount(async () => {
-		const [retrospectsRes, usersRes] = await Promise.all([
-			getAllRetrospects(),
-			getAllUsers()
-		]);
+		const [retrospectsRes, usersRes] = await Promise.all([getAllRetrospects(), getAllUsers()]);
 
 		if (retrospectsRes.success && usersRes.success) {
 			const userMap = new Map(usersRes.users?.map((user) => [user.uid, user.displayName]));
@@ -56,7 +53,7 @@
 				</tr>
 			</thead>
 			<tbody class="divide-y divide-(--border-muted)">
-				{#each retrospects as retrospect}
+				{#each retrospects as retrospect (retrospect.id)}
 					<tr
 						class="cursor-pointer hover:bg-(--surface-light)"
 						on:click={() => handleRowClick(retrospect)}

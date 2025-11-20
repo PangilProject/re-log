@@ -1,8 +1,10 @@
 <script lang="ts">
+	import type { AuthFields } from '@/types/interfaces/AuthFields';
 	import LoginButton from './LoginButton.svelte';
+	import { goToLogin, goToRegister } from '$lib/utils/navigation';
 
 	export let type: 'login' | 'register' = 'login';
-	export let fields: any;
+	export let fields: AuthFields;
 	export let setFields: (name: string, value: string) => void;
 	export let onSubmit: () => void;
 	export let onGoogle: () => void;
@@ -82,10 +84,14 @@
 	<p class="mt-8 text-center text-sm text-(--brand-secondary)">
 		{#if type === 'login'}
 			아직 회원이 아니신가요?
-			<a href="/register" class="font-semibold text-(--brand-primary) hover:underline">회원가입</a>
+			<button on:click={goToRegister} class="font-semibold text-(--brand-primary) hover:underline"
+				>회원가입</button
+			>
 		{:else}
 			이미 계정이 있으신가요?
-			<a href="/login" class="font-semibold text-(--brand-primary) hover:underline">로그인</a>
+			<button on:click={goToLogin} class="font-semibold text-(--brand-primary) hover:underline"
+				>로그인</button
+			>
 		{/if}
 	</p>
 </div>

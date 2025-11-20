@@ -42,7 +42,7 @@
 				<h3>{title}</h3>
 			</div>
 			<div class="flex w-full flex-wrap items-start justify-start gap-2">
-				{#each selectedEmotions as emo}
+				{#each selectedEmotions as emo (emo)}
 					<span
 						class="emotion-chip hover:cursor-default"
 						style="--chip-color: {EMOTIONS.find((e) => e.key === emo)?.color || '#3b82f6'}"

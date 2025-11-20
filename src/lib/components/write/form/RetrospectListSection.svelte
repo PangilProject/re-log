@@ -3,7 +3,6 @@
 	import { RETROSPECT_KPT_SECTIONS, RETROSPECT_SECTIONS } from '$lib/constants/retrospect_sections';
 	import { answers, previews, retrospectType } from '$lib/stores/write/writeStore';
 	import { updatePreview } from '$lib/stores/write/writeActions';
-	import type { AnswerKey } from '$lib/constants/retrospectKeys';
 	import RetrospectKPTSection from '../ui/RetrospectKPTSection.svelte';
 	import type { RetrospectAnswers, RetrospectAnswersKPT } from '@/types/retrospect';
 
@@ -14,7 +13,7 @@
 	{#if $retrospectType === 'daily'}
 		{@const dailyAnswers = $answers as RetrospectAnswers}
 		{@const dailyPreviews = $previews as Record<keyof RetrospectAnswers, string>}
-		{#each RETROSPECT_SECTIONS as section, i}
+		{#each RETROSPECT_SECTIONS as section, i (section.key)}
 			{@const key = section.key}
 			<RetrospectSection
 				title={section.label}
@@ -29,7 +28,7 @@
 		{/each}
 	{:else if $retrospectType === 'kpt'}
 		{@const kptAnswers = $answers as RetrospectAnswersKPT}
-		{#each RETROSPECT_KPT_SECTIONS as section, i}
+		{#each RETROSPECT_KPT_SECTIONS as section, i (section.key)}
 			{@const key = section.key}
 			<RetrospectKPTSection
 				title={section.label}

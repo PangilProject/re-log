@@ -35,7 +35,7 @@
 		</div>
 		<div class="mb-6 border-b border-gray-200">
 			<nav class="-mb-px flex space-x-8" aria-label="Tabs">
-				{#each tabs as tab}
+				{#each tabs as tab (tab.href)}
 					<a
 						href={tab.href}
 						class="border-b-2 px-1 py-4 text-sm font-medium whitespace-nowrap {$page.url

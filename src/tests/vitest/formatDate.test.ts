@@ -8,7 +8,7 @@ describe('formatDate', () => {
 	});
 
 	it('should return empty string when timestamp is null', () => {
-		expect(formatDate(null as any)).toBe('');
+		expect(formatDate(null as unknown as Timestamp)).toBe('');
 	});
 
 	it('should format valid timestamp correctly', () => {

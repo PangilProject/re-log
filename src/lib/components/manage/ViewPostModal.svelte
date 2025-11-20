@@ -47,7 +47,7 @@
 			<div class="max-h-[60vh] overflow-y-auto pr-4">
 				{#if post.type === 'kpt'}
 					{@const answers = post.answers as RetrospectAnswersKPT}
-					{#each RETROSPECT_KPT_SECTIONS as section}
+					{#each RETROSPECT_KPT_SECTIONS as section (section.key)}
 						<div class="mb-4">
 							<h3 class="text-text-primary text-lg font-semibold">{section.label}</h3>
 							<p class="text-text-secondary whitespace-pre-wrap">{answers[section.key]}</p>
@@ -55,7 +55,7 @@
 					{/each}
 				{:else}
 					{@const answers = post.answers as RetrospectAnswers}
-					{#each RETROSPECT_SECTIONS as section}
+					{#each RETROSPECT_SECTIONS as section (section.key)}
 						<div class="mb-4">
 							<h3 class="text-text-primary text-lg font-semibold">{section.label}</h3>
 							<p class="text-text-secondary whitespace-pre-wrap">{answers[section.key]}</p>

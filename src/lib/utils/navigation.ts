@@ -16,6 +16,10 @@ export function goToList() {
 	goto('/list');
 }
 
+export function goToRegister() {
+	goto('/register');
+}
+
 export function goToModify(docId: string) {
 	goto(`/modify/${docId}`);
 }

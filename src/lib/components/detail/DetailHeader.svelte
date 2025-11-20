@@ -6,9 +6,10 @@
 	import { goToModify } from '$lib/utils/navigation';
 	import { openShareAlert } from '$lib/utils/alert';
 	import { Pencil, Share2, Trash2 } from 'lucide-svelte';
+	import type { CreatedAt } from '@/types/common';
 
 	export let title: string;
-	export let createdAt: any;
+	export let createdAt: CreatedAt;
 	export let isAuthenticated: boolean;
 	export let shareMode: boolean;
 	const docId = $page?.params?.id;

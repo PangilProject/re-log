@@ -3,6 +3,7 @@
 </script>
 
 <div class="preview" class:empty={!html}>
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html html}
 </div>
 

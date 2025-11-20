@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { editUserModalStore } from '$lib/stores/ui/editUserModalStore';
-	import { updateUserProfile } from '$lib/services/userService';
+	import { updateUserDocument } from '$lib/services/userService';
 	import { errorUpdateUserInfo, successUpdateUserInfo } from '$lib/utils/toast';
 
 	let displayName = '';
@@ -20,7 +20,7 @@
 	async function handleSave() {
 		if (!user) return;
 
-		const { success, error } = await updateUserProfile(user, { displayName });
+		const { success, error } = await updateUserDocument(user.uid, { displayName });
 
 		if (success) {
 			successUpdateUserInfo();

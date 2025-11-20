@@ -1,6 +1,6 @@
 import type { Timestamp } from 'firebase/firestore';
 
-export function formatDate(timestamp: Timestamp | undefined) {
+export function formatDate(timestamp: Timestamp | null | undefined) {
 	if (!timestamp) return '';
 	const date = timestamp.toDate();
 	return new Intl.DateTimeFormat('ko-KR', {

@@ -5,6 +5,7 @@
 	import { getAllUsers } from '$lib/services/userService';
 	import { getAllRetrospects } from '$lib/services/retrospectService';
 	import type { DocumentData, Timestamp } from 'firebase/firestore';
+	import { SvelteMap } from 'svelte/reactivity';
 
 	Chart.register(...registerables);
 
@@ -69,14 +70,14 @@
 	onMount(fetchData);
 
 	function groupDataByDay(data: (UserDoc | RetrospectDoc)[]) {
-		const grouped = new Map<string, number>();
+		const grouped = new SvelteMap<string, number>();
 		for (const item of data) {
 			if (item.createdAt) {
 				const day = format(startOfDay(item.createdAt.toDate()), 'yyyy-MM-dd');
 				grouped.set(day, (grouped.get(day) || 0) + 1);
 			}
 		}
-		return new Map([...grouped.entries()].sort());
+		return new SvelteMap([...grouped.entries()].sort());
 	}
 
 	function renderChart(canvas: HTMLCanvasElement, label: string, data: Map<string, number>) {

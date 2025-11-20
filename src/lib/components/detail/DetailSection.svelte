@@ -7,6 +7,7 @@
 <div class="section">
 	<h3>{title}</h3>
 	<div class="preview">
+		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 		{@html renderMarkdown(content || '')}
 	</div>
 </div>

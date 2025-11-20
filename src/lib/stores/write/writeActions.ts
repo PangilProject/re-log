@@ -92,7 +92,7 @@ export function clearAllEmotions() {
 }
 
 export function clickAllEmotions() {
-	selectedEmotions.update((list) => {
+	selectedEmotions.update(() => {
 		return EMOTIONS.map((emotion) => emotion.key);
 	});
 }

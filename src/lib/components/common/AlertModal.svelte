@@ -30,18 +30,11 @@
 		}
 	}
 
-	let storeValue;
-
 	onMount(() => {
-		const unsubscribe = alertStore.subscribe((v) => {
-			storeValue = v;
-		});
-
 		document.addEventListener('keydown', handleGlobalKeydown);
 
 		return () => {
 			document.removeEventListener('keydown', handleGlobalKeydown);
-			unsubscribe();
 		};
 	});
 </script>

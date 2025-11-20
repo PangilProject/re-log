@@ -18,7 +18,8 @@ export async function handleAuthResult({
 	const user = get(currentUser);
 
 	if (success) {
-		customWelcome(user);
+		const name = user?.displayName ?? '사용자';
+		customWelcome(name);
 		await goto(redirect);
 	} else {
 		setError(getErrorMessage(error));

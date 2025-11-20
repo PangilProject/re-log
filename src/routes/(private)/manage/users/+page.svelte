@@ -4,14 +4,8 @@
 	import EditUserModal from '$lib/components/manage/EditUserModal.svelte';
 	import { openEditUserModal } from '$lib/stores/ui/editUserModalStore';
 	import { openConfirm } from '$lib/utils/confirm';
-	import type { DocumentData } from 'firebase/firestore';
 	import toast from 'svelte-5-french-toast';
-
-	interface UserDoc extends DocumentData {
-		uid: string;
-		displayName: string;
-		email: string;
-	}
+	import type { UserDoc } from '@/types/interfaces/user';
 
 	let users: UserDoc[] = [];
 	let isLoading = true;
@@ -29,7 +23,7 @@
 	onMount(fetchUsers);
 
 	async function handleEdit(user: UserDoc) {
-		const updatedUser = await openEditUserModal(user as any);
+		const updatedUser = await openEditUserModal(user);
 		if (updatedUser) {
 			await fetchUsers();
 		}
@@ -61,7 +55,7 @@
 				</tr>
 			</thead>
 			<tbody class="divide-y divide-(--border-muted)">
-				{#each users as user}
+				{#each users as user (user.uid)}
 					<tr class="hover:bg-(--surface-light)">
 						<td class="px-6 py-4 text-(--text-secondary)">{user.uid}</td>
 						<td class="px-6 py-4 font-medium text-(--text-primary)">{user.displayName}</td>

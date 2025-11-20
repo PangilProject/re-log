@@ -27,7 +27,7 @@
 		{/if}
 	</div>
 	<div class="mt-4 flex flex-wrap gap-3">
-		{#each EMOTIONS as emotion}
+		{#each EMOTIONS as emotion (emotion.key)}
 			<button
 				on:click={() => toggleEmotion(emotion.key)}
 				disabled={isDetailMode}

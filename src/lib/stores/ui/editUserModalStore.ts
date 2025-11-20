@@ -1,11 +1,17 @@
 import { writable } from 'svelte/store';
-import type { User } from 'firebase/auth';
+import type { UserDoc } from '@/types/interfaces/user';
 
 export interface EditUserModalState {
 	isOpen: boolean;
-	user: User | null;
-	resolve: (value: any | null) => void;
+	user: UserDoc | null;
+	resolve: (value: EditUserResult | null) => void;
 }
+
+export type EditUserResult = {
+	displayName?: string;
+	email?: string;
+	photoURL?: string;
+} | null;
 
 export const editUserModalStore = writable<EditUserModalState>({
 	isOpen: false,
@@ -13,7 +19,7 @@ export const editUserModalStore = writable<EditUserModalState>({
 	resolve: () => {}
 });
 
-export function openEditUserModal(user: User): Promise<any | null> {
+export function openEditUserModal(user: UserDoc): Promise<EditUserResult> {
 	return new Promise((resolve) => {
 		editUserModalStore.set({
 			isOpen: true,

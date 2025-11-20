@@ -17,17 +17,22 @@
 </script>
 
 <div class="detail-card">
-	<DetailHeader title={data.title} createdAt={data.createdAt} {isAuthenticated} {shareMode} />
+	<DetailHeader
+		title={data.title}
+		createdAt={data.createdAt ?? null}
+		{isAuthenticated}
+		{shareMode}
+	/>
 	<EmotionSection isDetailMode={true} />
 
 	{#if data.type === 'kpt'}
 		{@const kptAnswers = answers as RetrospectAnswersKPT}
-		{#each RETROSPECT_KPT_SECTIONS as section}
+		{#each RETROSPECT_KPT_SECTIONS as section (section.key)}
 			<DetailSection title={section.label} content={kptAnswers[section.key] || ''} />
 		{/each}
 	{:else}
 		{@const dailyAnswers = answers as RetrospectAnswers}
-		{#each RETROSPECT_SECTIONS as section}
+		{#each RETROSPECT_SECTIONS as section (section.key)}
 			<DetailSection title={section.label} content={dailyAnswers[section.key] || ''} />
 		{/each}
 	{/if}

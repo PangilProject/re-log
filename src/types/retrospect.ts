@@ -1,3 +1,5 @@
+import type { CreatedAt, UpdatedAt } from './common';
+
 export type RetrospectAnswers = {
 	today: string;
 	problem: string;
@@ -11,8 +13,8 @@ export interface RetrospectDocument {
 	title: string;
 	answers: RetrospectAnswers | RetrospectAnswersKPT;
 	userId: string;
-	createdAt?: any;
-	updatedAt?: any;
+	createdAt?: CreatedAt;
+	updatedAt?: UpdatedAt;
 	selectedEmotions: string[];
 }
 

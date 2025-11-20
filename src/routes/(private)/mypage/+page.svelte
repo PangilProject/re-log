@@ -3,7 +3,7 @@
 	import { currentUser } from '$lib/stores/user';
 	import { updateUserProfile, deleteUserAccount } from '$lib/services/userService';
 	import { goto } from '$app/navigation';
-	import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+	import { doc, getDoc, updateDoc } from 'firebase/firestore';
 	import { db } from '$lib/firebase';
 	import { Loader2 } from 'lucide-svelte';
 	import { openConfirm } from '$lib/utils/confirm';
@@ -88,7 +88,7 @@
 			}
 		}
 
-		const { success, error } = await deleteUserAccount(user, password);
+		const { success } = await deleteUserAccount(user, password);
 
 		if (success) {
 			goto('/');

@@ -5,6 +5,7 @@
 	import { User } from 'lucide-svelte';
 	import { goToMyPage } from '$lib/utils/navigation';
 	import { errorLogOut, successLogOut } from '$lib/utils/toast';
+	import type { AuthError } from 'firebase/auth';
 
 	async function handleLogout() {
 		const { success, error } = await logout();
@@ -13,7 +14,8 @@
 			goto('/');
 		} else {
 			errorLogOut();
-			console.error('로그아웃 실패: ' + (error as any)?.message);
+			const err = error as AuthError;
+			console.error('로그아웃 실패: ' + err.message);
 		}
 	}
 </script>

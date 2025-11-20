@@ -25,7 +25,7 @@
 		<FilterEmptyState onNew={openRetrospectType} />
 	{:else}
 		<ul class="grid gap-6 sm:grid-cols-2">
-			{#each $filteredRetrospects as { id, title, createdAt, selectedEmotions }}
+			{#each $filteredRetrospects as { id, title, createdAt, selectedEmotions } (id)}
 				<ListCard {id} {title} {createdAt} selectedEmotions={selectedEmotions ?? []} />
 			{/each}
 		</ul>

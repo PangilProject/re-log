@@ -21,18 +21,11 @@
 		}
 	}
 
-	let storeValue;
-
 	onMount(() => {
-		const unsubscribe = promptStore.subscribe((v) => {
-			storeValue = v;
-		});
-
 		document.addEventListener('keydown', handleGlobalKeydown);
 
 		return () => {
 			document.removeEventListener('keydown', handleGlobalKeydown);
-			unsubscribe();
 		};
 	});
 </script>

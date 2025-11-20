@@ -69,8 +69,8 @@ export function customGoodBye() {
 	toast(TOAST_MESSAGES.GOODBYE, { icon: '👋' });
 }
 
-export function customWelcome(user: any) {
-	toast(TOAST_MESSAGES.WELCOME_USER(user?.displayName), {
+export function customWelcome(displayName: string) {
+	toast(TOAST_MESSAGES.WELCOME_USER(displayName), {
 		icon: '🙋🏻',
 		position: 'top-right'
 	});
