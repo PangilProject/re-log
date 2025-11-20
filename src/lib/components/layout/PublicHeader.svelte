@@ -9,7 +9,7 @@
 	<div
 		class="mx-auto flex w-[1000px] max-w-6xl items-center justify-between px-0 max-[1000px]:px-8"
 	>
-		<a class="cursor-pointer text-2xl font-bold text-(--brand-primary)" href="/">Re:Log</a>
+		<a class="cursor-pointer text-2xl font-bold text-(--brand-primary)" href="/">re-log</a>
 		<StartButton />
 	</div>
 </header>
