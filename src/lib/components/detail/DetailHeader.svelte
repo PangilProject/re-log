@@ -10,6 +10,7 @@
 	import { deleteRetrospect } from '$lib/stores/list/listActions';
 	import { goToModify } from '$lib/utils/navigation';
 	import { openShareAlert } from '$lib/utils/alert';
+	import { Pencil, Share2, Trash2 } from 'lucide-svelte';
 
 	export let title: string;
 	export let createdAt: any;
@@ -57,17 +58,27 @@
 			{createdAt ? new Date(createdAt.seconds * 1000).toLocaleDateString() : '작성일 없음'}
 		</p>
 		{#if isAuthenticated && !shareMode}
-			<div class="flex items-center gap-2">
-				<button class="text-blue-500 hover:text-blue-300" onclick={handleUpdate}>수정</button>
+			<div class="flex items-center gap-2 text-sm">
 				<button
-					class="text-(--brand-accent) hover:text-(--brand-accent-light)"
+					class="flex items-center gap-0.5 font-medium text-blue-600 hover:text-blue-400"
+					onclick={handleUpdate}
+				>
+					<Pencil class="h-4 w-4" /> 수정
+				</button>
+
+				<button
+					class="flex items-center gap-0.5 font-medium text-red-500 hover:text-red-400"
 					onclick={handleDelete}
 				>
-					삭제
+					<Trash2 class="h-4 w-4" /> 삭제
 				</button>
-				<button class="text-(--brand-secondary) hover:text-(--border-color)" onclick={handleShare}
-					>공유</button
+
+				<button
+					class="flex items-center gap-0.5 font-medium text-gray-600 hover:text-gray-400"
+					onclick={handleShare}
 				>
+					<Share2 class="h-4 w-4" /> 공유
+				</button>
 			</div>
 		{/if}
 	</div>
@@ -85,7 +96,7 @@
 		color: #6b7280;
 	}
 	button {
-		text-decoration-line: underline;
+		/* text-decoration-line: underline; */
 		cursor: pointer;
 	}
 </style>
