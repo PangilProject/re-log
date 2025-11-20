@@ -22,7 +22,6 @@
 	let editing = false;
 	let isSaving = false;
 
-	// Firestore의 users 컬렉션에서 사용자 정보 불러오기
 	onMount(async () => {
 		const user = $currentUser;
 		if (!user) return goto('/login');
@@ -80,7 +79,6 @@
 			return;
 		}
 
-		// 이메일 로그인인 경우 비밀번호 요청
 		let password;
 		if (user.providerData[0]?.providerId === 'password') {
 			password = await openPrompt('계정 삭제를 위해 비밀번호를 입력해주세요.', '비밀번호 입력');

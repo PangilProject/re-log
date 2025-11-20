@@ -1,11 +1,9 @@
-<!-- src/lib/components/sections/ServiceIntroSection.svelte -->
 <section class="bg-(--white) py-40">
 	<div class="mx-auto max-w-[1050px] px-6">
 		<h3 class="mb-20 text-center text-3xl font-bold text-(--text-primary)">
 			re-log는 여러분의 성장을 기록하는 서비스입니다
 		</h3>
 
-		<!-- 1. 회고 작성 기능 -->
 		<div class="mb-32 grid items-center gap-14 md:grid-cols-2">
 			<div>
 				<h4 class="mb-4 text-2xl font-bold text-(--brand-primary)">✍️ 쉽고 빠른 회고 작성</h4>
@@ -26,7 +24,6 @@
 			/>
 		</div>
 
-		<!-- 2. 감정 태그 + 회고 목록 -->
 		<div class="mb-32 grid items-center gap-14 md:grid-cols-2">
 			<div>
 				<h4 class="mb-4 text-2xl font-bold text-(--brand-primary)">🎨 감정과 하루의 시각화</h4>
@@ -48,8 +45,7 @@
 			/>
 		</div>
 
-		<!-- 3. 성장 기록 강조 CTA -->
-		<div class="mt-80 rounded-[32px] bg-blue-50 p-12 text-center shadow-inner">
+		<div class="mt-80 rounded-4xl bg-blue-50 p-12 text-center shadow-inner">
 			<h4 class="mb-4 text-2xl font-bold text-blue-700">📈 나의 성장을 기록하고 되돌아보세요</h4>
 			<p class="mx-auto max-w-[680px] text-lg leading-relaxed text-blue-800">
 				여러분의 회고는 모두 안전하게 Firebase Auth 기반 계정에 저장되며, 언제든 다시 꺼내보고

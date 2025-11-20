@@ -1,4 +1,3 @@
-// src/lib/firebase.ts
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
@@ -25,8 +24,6 @@ if (browser) {
 		}
 	});
 }
-// db 관련 기능
 export const db = getFirestore(app);
-// 계정 관련 기능
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();

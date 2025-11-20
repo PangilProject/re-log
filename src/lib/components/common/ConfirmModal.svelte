@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { confirmStore } from '$lib/stores/ui/confirmStore';
-	import { onDestroy, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 
 	function handleConfirm(value: boolean) {
 		confirmStore.update((s) => {
@@ -11,16 +11,16 @@
 	}
 
 	function handleGlobalKeydown(event: KeyboardEvent) {
-		if (!$confirmStore.isOpen) return; // 모달이 열렸을 때만 처리
+		if (!$confirmStore.isOpen) return;
 
 		if (event.key === 'Escape') {
 			event.preventDefault();
-			event.stopPropagation(); // 다른 곳으로 Enter 전달 안 함
+			event.stopPropagation();
 			handleConfirm(false);
 		}
 		if (event.key === 'Enter') {
 			event.preventDefault();
-			event.stopPropagation(); // 다른 곳으로 Enter 전달 안 함
+			event.stopPropagation();
 			handleConfirm(true);
 		}
 	}
@@ -42,9 +42,7 @@
 </script>
 
 {#if $confirmStore.isOpen}
-	<!-- ✅ 백드롭 -->
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-		<!-- ✅ 본문 카드 -->
 		<div
 			class="animate-fadeIn w-[90%] max-w-sm rounded-xl border border-(--border-muted) bg-(--white) p-5 shadow-lg"
 		>

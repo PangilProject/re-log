@@ -29,11 +29,10 @@
 		await deleteRetrospects(ids);
 		clearSelection();
 		isDeleting = false;
-		toggleDeleteMode(); // 삭제 후 모드 해제
+		toggleDeleteMode();
 	}
 </script>
 
-<!-- ✅ 삭제 모드 아닐 때 -->
 {#if !$isDeleteMode}
 	<button
 		on:click={toggleDeleteMode}

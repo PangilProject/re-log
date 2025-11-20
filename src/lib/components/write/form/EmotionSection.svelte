@@ -1,4 +1,3 @@
-<!-- src/lib/components/write/EmotionSection.svelte -->
 <script lang="ts">
 	import { EMOTIONS } from '$lib/constants/emotions';
 	import {
@@ -8,14 +7,13 @@
 	} from '$lib/stores/write/writeActions';
 	import { selectedEmotions } from '$lib/stores/write/writeStore';
 
-	export let isDetailMode: boolean = false; // New prop
+	export let isDetailMode: boolean = false;
 </script>
 
 <div class="mb-10">
 	<div class="flex items-center gap-3">
 		<h3>🫥 오늘의 감정</h3>
 		{#if !isDetailMode}
-			<!-- Conditionally render "전체 취소" button -->
 			<button
 				on:click={clearAllEmotions}
 				class="hover:text-(--brand-primary-dark text-sm text-(--brand-primary) hover:underline"

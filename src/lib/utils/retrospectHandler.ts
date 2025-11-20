@@ -18,9 +18,12 @@ import {
 import { page } from '$app/stores';
 import { goto } from '$app/navigation';
 import { deleteDraft, saveRetrospect, updateRetrospect } from '$lib/services/retrospectService';
-import type { RetrospectAnswers, RetrospectAnswersKPT, RetrospectPayload } from '@/types/retrospect';
+import type {
+	RetrospectAnswers,
+	RetrospectAnswersKPT,
+	RetrospectPayload
+} from '@/types/retrospect';
 
-// ✔️ 작성/수정 제출 로직을 하나로 통합
 async function runSubmit(mode: 'write' | 'modify', type: 'daily' | 'kpt') {
 	const user = get(page).data.user;
 	if (!user) {
@@ -84,13 +87,11 @@ export async function handleSubmitRetrospect(mode: 'write' | 'modify') {
 
 	const allEmpty = filledCount === 0;
 
-	// 1) 모두 비어 있음 → 작성 요구
 	if (allEmpty) {
 		errorEmptyField();
 		return;
 	}
 
-	// 2) 일부만 비어 있음 → confirm 후 제출
 	if (!allFilled) {
 		const ok = await openConfirm('작성되지 않은 칸이 있습니다. 저장하시겠습니까?');
 		if (!ok) return;
@@ -99,8 +100,9 @@ export async function handleSubmitRetrospect(mode: 'write' | 'modify') {
 		return;
 	}
 
-	// 3) 모두 작성됨 → 정상 confirm 후 제출
-	const ok = await openConfirm(mode === 'write' ? '회고를 등록하시겠습니까?' : '회고를 수정하시겠습니까?');
+	const ok = await openConfirm(
+		mode === 'write' ? '회고를 등록하시겠습니까?' : '회고를 수정하시겠습니까?'
+	);
 	if (!ok) return;
 
 	await runSubmit(mode, type);

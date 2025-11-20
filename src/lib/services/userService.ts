@@ -32,16 +32,14 @@ import {
 	errorMismatchUser,
 	errorNeedReLogin
 } from '$lib/utils/toast';
-import toast from 'svelte-5-french-toast';
 
 /**
  * 이메일로 회원가입하는 기능
- *
- * @param name
- * @param email
- * @param password
- * @returns
+ * Firebase Authentication을 통해 계정을 생성하고,
+ * Firestore에 사용자 정보(users 컬렉션)를 저장하며
+ * displayName까지 함께 설정한다.
  */
+
 export async function registerWithEmail(name: string, email: string, password: string) {
 	try {
 		const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -64,11 +62,11 @@ export async function registerWithEmail(name: string, email: string, password: s
 }
 
 /**
- * 이메일로 로그인하는 기능
- * @param email
- * @param password
- * @returns
+ * 이메일과 비밀번호로 로그인하는 기능
+ * Firebase Auth의 email/password 방식으로 로그인하며
+ * 로그인 상태를 local persistence로 유지한다.
  */
+
 export async function loginWithEmail(email: string, password: string) {
 	try {
 		await setPersistence(auth, browserLocalPersistence);
@@ -83,8 +81,10 @@ export async function loginWithEmail(email: string, password: string) {
 
 /**
  * 구글 계정으로 로그인하는 기능
- * @returns
+ * Google OAuth 팝업을 통해 인증하고,
+ * Firestore users 문서가 없으면 신규 사용자로 등록한다.
  */
+
 export async function loginWithGoogle() {
 	try {
 		await setPersistence(auth, browserLocalPersistence);
@@ -113,7 +113,9 @@ export async function loginWithGoogle() {
 
 /**
  * 로그아웃 기능
+ * 현재 인증된 Firebase Auth 사용자를 로그아웃한다.
  */
+
 export async function logout() {
 	try {
 		await signOut(auth);
@@ -125,10 +127,11 @@ export async function logout() {
 }
 
 /**
- * 사용자 프로필 업데이트 (이름 변경 등)
- * @param user - Firebase User 객체
- * @param newProfile - { displayName?: string, photoURL?: string }
+ * 사용자 프로필 업데이트 기능
+ * Firebase Auth의 사용자 정보(displayName, photoURL 등)를 수정하고
+ * Firestore의 users 컬렉션에도 동일하게 최신 데이터로 업데이트한다.
  */
+
 export async function updateUserProfile(
 	user: any,
 	newProfile: { displayName?: string; photoURL?: string }
@@ -136,7 +139,6 @@ export async function updateUserProfile(
 	try {
 		await updateProfile(user, newProfile);
 
-		// Firestore의 users 문서도 동기화
 		const userRef = doc(db, 'users', user.uid);
 		await setDoc(userRef, { ...newProfile, updatedAt: serverTimestamp() }, { merge: true });
 
@@ -148,29 +150,30 @@ export async function updateUserProfile(
 }
 
 /**
- * 회원 탈퇴 (Auth + Firestore 동시 삭제)
- * @param user - Firebase User 객체
+ * 회원 탈퇴 기능
+ * - 비밀번호/구글 계정 방식에 따라 재인증을 수행하고
+ * - 해당 사용자의 회고(retrospectives) 문서를 모두 삭제하고
+ * - Firestore의 users 문서를 삭제한 뒤
+ * - Firebase Auth 계정 자체를 삭제한다.
+ * 오류 상황에 따라 다양한 토스트 메시지를 출력한다.
  */
+
 export async function deleteUserAccount(user: any, password?: string) {
 	try {
 		const userId = user.uid;
-		// 3️⃣ Auth - 계정 삭제 전 재인증
 		const providerId = user.providerData[0]?.providerId;
 
 		if (providerId === 'password') {
-			// 이메일/비밀번호 계정인 경우
 			if (!password) {
 				throw new Error('비밀번호가 필요합니다.');
 			}
 			const credential = EmailAuthProvider.credential(user.email, password);
 			await reauthenticateWithCredential(user, credential);
 		} else if (providerId === 'google.com') {
-			// 구글 로그인 계정인 경우
 			const googleProvider = new GoogleAuthProvider();
 			await reauthenticateWithPopup(user, googleProvider);
 		}
 
-		// 1️⃣ Firestore - retrospectives 컬렉션의 해당 사용자 문서 삭제
 		const retrospectivesRef = collection(db, 'retrospectives');
 		const q = query(retrospectivesRef, where('userId', '==', userId));
 		const querySnapshot = await getDocs(q);
@@ -178,10 +181,8 @@ export async function deleteUserAccount(user: any, password?: string) {
 		const deletePromises = querySnapshot.docs.map((docSnap) => deleteDoc(docSnap.ref));
 		await Promise.all(deletePromises);
 
-		// 2️⃣ Firestore - users 컬렉션 문서 삭제
 		await deleteDoc(doc(db, 'users', userId));
 
-		// 4️⃣ Firebase Auth 사용자 삭제
 		await deleteUser(user);
 
 		customGoodBye();
@@ -191,7 +192,6 @@ export async function deleteUserAccount(user: any, password?: string) {
 		if (error.code === 'auth/requires-recent-login') {
 			errorNeedReLogin();
 		} else if (error.code === 'auth/invalid-credential') {
-			// 비밀번호 틀림
 			errorInvalidPassword();
 		} else if (
 			error.code === 'auth/cancelled-popup-request' ||
@@ -201,7 +201,6 @@ export async function deleteUserAccount(user: any, password?: string) {
 		} else if (error.code === 'auth/user-mismatch') {
 			errorMismatchUser();
 		} else {
-			// 기존 토스트
 			errorDeleteAccount();
 		}
 		return { success: false, error };
@@ -210,7 +209,8 @@ export async function deleteUserAccount(user: any, password?: string) {
 
 /**
  * 모든 사용자 목록을 가져오는 기능
- * @returns
+ * Firestore users 컬렉션의 모든 문서를 조회하여
+ * 사용자 데이터를 배열 형태로 반환한다.
  */
 export async function getAllUsers() {
 	try {

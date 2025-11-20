@@ -81,12 +81,10 @@
 	</div>
 
 	<div class="editor-box">
-		<!-- 왼쪽: 에디터 -->
 		<div class="editor-input">
 			<EditorTextarea raw={value} {onInput} />
 		</div>
 
-		<!-- 오른쪽: 미리보기 -->
 		<div class="editor-preview">
 			<MarkdownPreview {html} />
 		</div>
@@ -107,7 +105,7 @@
 	}
 
 	h3 {
-		color: #1e3a8a; /* blue-900 */
+		color: #1e3a8a;
 		font-size: 1.1rem;
 		font-weight: 600;
 		margin: 0;

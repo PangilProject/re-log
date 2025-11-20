@@ -1,4 +1,3 @@
-<!-- src/lib/components/layout/Footer.svelte -->
 <footer class="bg-(--white)/80 py-8 text-gray-400">
 	<div class="mx-auto max-w-6xl px-6 text-center">
 		<p class="text-sm">© 2025 re-log. All rights reserved.</p>

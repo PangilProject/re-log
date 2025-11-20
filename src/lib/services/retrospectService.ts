@@ -1,4 +1,3 @@
-// src/lib/services/retrospectService.ts
 import {
 	addDoc,
 	collection,
@@ -18,7 +17,9 @@ import type { RetrospectDocument, RetrospectPayload } from '@/types/retrospect';
 
 /**
  * Firestore에 회고 데이터를 추가하는 함수
+ * 새로운 회고 문서를 'retrospectives' 컬렉션에 생성하고, 서버 타임스탬프와 userId를 함께 저장한다.
  */
+
 export async function saveRetrospect(data: RetrospectPayload, userId: string) {
 	try {
 		const docRef = await addDoc(collection(db, 'retrospectives'), {
@@ -35,7 +36,8 @@ export async function saveRetrospect(data: RetrospectPayload, userId: string) {
 }
 
 /**
- * 특정 사용자(userId)의 모든 회고 리스트 가져오는 함수
+ * 특정 사용자(userId)의 모든 회고 리스트를 가져오는 함수
+ * userId로 필터링한 뒤 작성일(createdAt) 기준으로 내림차순 정렬하여 회고 목록을 반환한다.
  */
 export async function getRetrospectListByUser(userId: string) {
 	try {
@@ -60,6 +62,10 @@ export async function getRetrospectListByUser(userId: string) {
 	}
 }
 
+/**
+ * 회고 문서 ID(docId)를 기반으로 단일 회고 데이터를 조회하는 함수
+ * 문서가 존재하지 않을 경우 에러를 반환하고, 존재할 경우 문서 ID 및 데이터를 함께 반환한다.
+ */
 export async function getRetrospectById(docId: string): Promise<{
 	success: boolean;
 	id?: string;
@@ -84,6 +90,11 @@ export async function getRetrospectById(docId: string): Promise<{
 	}
 }
 
+/**
+ * 특정 회고 문서(docId)를 업데이트하는 함수
+ * 수정된 회고 데이터를 Firestore에 반영하고 updatedAt 타임스탬프를 기록한다.
+ */
+
 export async function updateRetrospect(docId: string, data: RetrospectPayload, userId: string) {
 	try {
 		const docRef = doc(db, 'retrospectives', docId);
@@ -101,6 +112,10 @@ export async function updateRetrospect(docId: string, data: RetrospectPayload, u
 	}
 }
 
+/**
+ * 회고 작성 페이지의 임시 저장 기능을 위한 함수
+ * 사용자 ID를 문서 ID로 사용해 'drafts' 컬렉션에 임시 데이터를 저장하거나 덮어쓴다.
+ */
 export async function saveDraft(userId: string, draftData: RetrospectPayload) {
 	try {
 		const draftRef = doc(db, 'drafts', userId);
@@ -114,6 +129,11 @@ export async function saveDraft(userId: string, draftData: RetrospectPayload) {
 		return { success: false, error };
 	}
 }
+
+/**
+ * 특정 사용자의 임시저장된 회고 데이터를 불러오는 함수
+ * drafts 컬렉션에서 사용자 ID 문서를 조회하여 존재하면 반환하고, 없으면 undefined를 반환한다.
+ */
 
 export async function getDraft(userId: string): Promise<{
 	success: boolean;
@@ -133,6 +153,11 @@ export async function getDraft(userId: string): Promise<{
 	}
 }
 
+/**
+ * 특정 사용자의 임시 저장 회고 데이터를 삭제하는 함수
+ * drafts 컬렉션에서 사용자 ID를 문서 ID로 사용해 해당 문서를 제거한다.
+ */
+
 export async function deleteDraft(userId: string) {
 	try {
 		const draftRef = doc(db, 'drafts', userId);
@@ -145,8 +170,8 @@ export async function deleteDraft(userId: string) {
 }
 
 /**
- * 모든 회고 리스트를 가져오는 함수
- * @returns
+ * 모든 사용자의 회고 리스트를 가져오는 관리자용 함수
+ * 'retrospectives' 컬렉션 전체를 createdAt 내림차순으로 정렬하여 반환한다.
  */
 export async function getAllRetrospects() {
 	try {

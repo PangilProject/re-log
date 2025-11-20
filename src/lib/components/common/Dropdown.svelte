@@ -3,7 +3,6 @@
 	import { writable } from 'svelte/store';
 	import type { Writable } from 'svelte/store';
 
-	// ✅ Props
 	export let label: string = '';
 	export let options: { label: string; value: string }[] = [];
 	export let selected: Writable<string>;
@@ -21,7 +20,6 @@
 		function handleClickOutside(e: MouseEvent) {
 			if (!dropdownRef) return;
 
-			// 드롭다운 외부 클릭하면 닫기
 			if (!$isOpen) return;
 			if (!dropdownRef.contains(e.target as Node)) {
 				isOpen.set(false);
@@ -49,7 +47,6 @@
 		<label class="mr-2 text-sm text-(--brand-secondary)" for="button">{label}</label>
 	{/if}
 
-	<!-- 버튼 -->
 	<button
 		id="button"
 		type="button"
@@ -73,7 +70,6 @@
 		</svg>
 	</button>
 
-	<!-- 드롭다운 메뉴 -->
 	{#if $isOpen}
 		<div
 			class="absolute right-0 z-10 mt-2 w-28 origin-top-right rounded-md border bg-(--white) shadow-lg ring-1 ring-black/5"

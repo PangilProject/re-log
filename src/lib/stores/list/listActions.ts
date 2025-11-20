@@ -37,7 +37,6 @@ export async function deleteRetrospects(ids: string[]) {
 		const promises = ids.map((id) => deleteDoc(doc(db, 'retrospectives', id)));
 		await Promise.all(promises);
 
-		// 클라이언트 스토어에서도 제거
 		retrospectsData.update((items) => items.filter((item) => !ids.includes(item.id)));
 	} catch (err) {
 		console.error('삭제 오류:', err);

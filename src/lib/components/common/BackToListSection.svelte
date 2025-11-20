@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { openConfirm } from '$lib/utils/confirm';
 	import { goToList } from '$lib/utils/navigation';
-	import { ArrowLeft, SkipBackIcon } from 'lucide-svelte';
+	import { ArrowLeft } from 'lucide-svelte';
 
 	export let isDetailMode: boolean = false;
 

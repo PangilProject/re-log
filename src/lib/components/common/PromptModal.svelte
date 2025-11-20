@@ -1,4 +1,3 @@
-<!-- src/lib/components/common/PromptModal.svelte -->
 <script lang="ts">
 	import { promptStore } from '$lib/stores/ui/promptStore';
 	import { onMount } from 'svelte';

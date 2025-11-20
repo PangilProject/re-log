@@ -1,4 +1,3 @@
-<!-- src/lib/components/sections/HeroSection.svelte -->
 <script lang="ts">
 	import StartButton from '$lib/components/common/StartButton.svelte';
 </script>

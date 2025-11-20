@@ -16,16 +16,16 @@
 		const url = $alertStore.url;
 		if (url) {
 			goto(url);
-			handleConfirm(); // Close modal after navigation
+			handleConfirm();
 		}
 	}
 
 	function handleGlobalKeydown(event: KeyboardEvent) {
-		if (!$alertStore.isOpen) return; // 모달이 열렸을 때만 처리
+		if (!$alertStore.isOpen) return;
 
 		if (event.key === 'Escape' || event.key === 'Enter') {
 			event.preventDefault();
-			event.stopPropagation(); // 다른 곳으로 Enter 전달 안 함
+			event.stopPropagation();
 			handleConfirm();
 		}
 	}
@@ -47,9 +47,7 @@
 </script>
 
 {#if $alertStore.isOpen}
-	<!-- ✅ 백드롭 -->
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-		<!-- ✅ 본문 카드 -->
 		<div
 			class="animate-fadeIn w-[90%] max-w-sm rounded-xl border border-(--border-muted) bg-(--white) p-5 shadow-lg"
 		>

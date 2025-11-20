@@ -1,4 +1,3 @@
-<!-- src/lib/components/sections/CTASection.svelte -->
 <script lang="ts">
 	import StartButton from '$lib/components/common/StartButton.svelte';
 </script>

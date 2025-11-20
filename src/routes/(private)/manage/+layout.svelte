@@ -5,7 +5,6 @@
 	import { adminAuthenticated } from '$lib/stores/admin';
 	import { openPrompt } from '$lib/utils/prompt';
 	import PageContainer from '$lib/components/layout/PageContainer.svelte';
-	import toast from 'svelte-5-french-toast';
 	import { errorInvalidPassword } from '$lib/utils/toast';
 
 	onMount(async () => {

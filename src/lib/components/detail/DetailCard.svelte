@@ -1,9 +1,10 @@
 <script lang="ts">
-	import {
-		RETROSPECT_KPT_SECTIONS,
-		RETROSPECT_SECTIONS
-	} from '$lib/constants/retrospect_sections';
-	import type { RetrospectDocument, RetrospectAnswers, RetrospectAnswersKPT } from '@/types/retrospect';
+	import { RETROSPECT_KPT_SECTIONS, RETROSPECT_SECTIONS } from '$lib/constants/retrospect_sections';
+	import type {
+		RetrospectDocument,
+		RetrospectAnswers,
+		RetrospectAnswersKPT
+	} from '@/types/retrospect';
 	import EmotionSection from '../write/form/EmotionSection.svelte';
 	import DetailHeader from './DetailHeader.svelte';
 	import DetailSection from './DetailSection.svelte';
@@ -12,7 +13,6 @@
 	export let isAuthenticated: boolean;
 	export let shareMode: boolean = false;
 
-	// data.answers의 타입을 명확하게 하기 위한 반응형 변수
 	$: answers = data.answers;
 </script>
 

@@ -6,7 +6,6 @@
 	import EmptyState from './EmptyState.svelte';
 	import PageContainer from '$lib/components/layout/PageContainer.svelte';
 
-	// ✅ store import
 	import { loadRetrospects } from '$lib/stores/list/listActions';
 	import { retrospectsData, errorMessage, isLoading } from '$lib/stores/list/listStore';
 	import { filteredRetrospects, searchQuery, sortOrder } from '$lib/stores/list/listFilterStore';

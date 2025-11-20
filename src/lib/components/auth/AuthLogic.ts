@@ -1,4 +1,3 @@
-// src/lib/components/auth/AuthLogic.ts
 import { loginWithEmail, registerWithEmail, loginWithGoogle } from '$lib/services/userService';
 import { validatePassword } from '$lib/utils/validatePassword';
 import { handleAuthResult } from '$lib/utils/authHandler';

@@ -21,7 +21,6 @@ export function initializeEditorFromDoc(doc: RetrospectDocument) {
 	retrospectType.set(doc.type);
 	answers.set(doc.answers);
 	selectedEmotions.set(doc.selectedEmotions);
-	// After setting the answers, we need to generate the markdown previews
 	initPreviews();
 }
 
@@ -82,9 +81,9 @@ export async function submitModifyRetrospect(id: string) {
 export function toggleEmotion(key: string) {
 	selectedEmotions.update((list) => {
 		if (list.includes(key)) {
-			return list.filter((item) => item !== key); // 이미 있으면 제거
+			return list.filter((item) => item !== key);
 		}
-		return [...list, key]; // 없으면 추가
+		return [...list, key];
 	});
 }
 

@@ -28,7 +28,7 @@
 		color: #111827;
 		resize: none;
 		border: none;
-		border: 1px solid #e2e8f0; /* (--border-muted) */
+		border: 1px solid #e2e8f0;
 		border-radius: 12px;
 		transition: border 0.5s ease;
 	}

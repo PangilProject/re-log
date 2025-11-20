@@ -1,4 +1,3 @@
-<!-- src/lib/components/layout/Layout.svelte -->
 <script lang="ts">
 	import Header from './PublicHeader.svelte';
 </script>

@@ -14,22 +14,22 @@
 	export let retrospectTtype = [
 		{
 			name: 'KPT 회고',
-			primaryColor: '#2563eb', // 파란색 (기본 회고 느낌)
-			secondaryColor: '#dbeafe', // 연한 파랑 배경
+			primaryColor: '#2563eb',
+			secondaryColor: '#dbeafe',
 			icon: '🌐',
 			link: '/write/kpt'
 		},
 		{
 			name: 'Daily 회고',
-			primaryColor: '#16a34a', // 초록색 (실행 중심)
-			secondaryColor: '#dcfce7', // 연한 초록 배경
+			primaryColor: '#16a34a',
+			secondaryColor: '#dcfce7',
 			icon: '🧩',
 			link: '/write/daily'
 		},
 		{
 			name: '커스텀 회고',
-			primaryColor: '#f97316', // 주황색 (창의적 느낌)
-			secondaryColor: '#ffedd5', // 연한 주황 배경
+			primaryColor: '#f97316',
+			secondaryColor: '#ffedd5',
 			icon: '🧶',
 			link: '/write/custom'
 		}
@@ -46,9 +46,7 @@
 </script>
 
 {#if $chooseRetrospectTypeStore.isOpen}
-	<!-- ✅ 백드롭 -->
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-		<!-- ✅ 본문 카드 -->
 		<div
 			class="animate-fadeIn w-full max-w-sm rounded-xl border border-(--border-muted) bg-(--white) p-5 shadow-lg"
 		>

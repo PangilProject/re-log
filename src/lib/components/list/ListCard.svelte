@@ -11,11 +11,9 @@
 	export let createdAt: { seconds: number } | null = null;
 	export let selectedEmotions: string[];
 
-	// 현재 카드가 선택되었는지 여부
 	$: isSelected = $selectedRetrospects.includes(id);
 
 	function handleClick(e: MouseEvent) {
-		// 삭제모드일 때는 상세 이동 막고 선택만 토글
 		if ($isDeleteMode) {
 			e.preventDefault();
 			toggleSelect(id);
@@ -24,7 +22,6 @@
 </script>
 
 <li class="relative">
-	<!-- ✅ 체크박스 (우상단 고정) -->
 	{#if $isDeleteMode}
 		<input
 			type="checkbox"
@@ -36,27 +33,7 @@
 		/>
 	{/if}
 
-	<!-- 카드 본문 -->
 	<a href={`/detail/${id}`} class="card {isSelected ? 'selected' : ''}" on:click={handleClick}>
-		<!-- <div class="flex min-h-[150px]">
-			<div class="flex w-1/3 flex-col">
-				<h3>{title}</h3>
-				<p class="date">
-					{createdAt ? new Date(createdAt.seconds * 1000).toLocaleDateString() : '작성일 없음'}
-				</p>
-			</div>
-			<div class="flex w-2/3 flex-wrap items-start justify-end gap-2">
-				{#each selectedEmotions as emo}
-					<span
-						class="emotion-chip hover:cursor-default"
-						style="--chip-color: {EMOTIONS.find((e) => e.key === emo)?.color || '#3b82f6'}"
-					>
-						{EMOTIONS.find((e) => e.key === emo)?.icon}
-						{EMOTIONS.find((e) => e.key === emo)?.label}
-					</span>
-				{/each}
-			</div>
-		</div> -->
 		<div class="flex min-h-[150px] flex-col justify-between">
 			<div class="mb-4 flex w-full flex-col">
 				<p class="date">
@@ -96,7 +73,6 @@
 		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
 	}
 
-	/* ✅ 선택된 상태 */
 	.selected {
 		border: 2px solid #3b82f6;
 		box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
@@ -108,8 +84,8 @@
 		color: #111827;
 		margin-bottom: 0.4rem;
 		margin-top: 0.2rem;
-		word-wrap: break-word; /* 구형 브라우저 호환 */
-		overflow-wrap: anywhere; /* 최신 브라우저용 줄바꿈 */
+		word-wrap: break-word;
+		overflow-wrap: anywhere;
 	}
 
 	.date {

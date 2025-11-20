@@ -1,11 +1,6 @@
 <script lang="ts">
 	import { openConfirm } from '$lib/utils/confirm';
-	import {
-		successDeleteRetrospect,
-		errorEmptyDocID,
-		successCopyURL,
-		errorCopyURL
-	} from '$lib/utils/toast';
+	import { successDeleteRetrospect, errorEmptyDocID, errorCopyURL } from '$lib/utils/toast';
 	import { page } from '$app/stores';
 	import { deleteRetrospect } from '$lib/stores/list/listActions';
 	import { goToModify } from '$lib/utils/navigation';
@@ -35,7 +30,6 @@
 	}
 	function handleShare() {
 		const shareURL = 'https://re-log-920ae.web.app/share/' + docId;
-		// const shareURL = 'localhost:5173/share/' + docId;
 		navigator.clipboard
 			.writeText(shareURL)
 			.then(() => {
@@ -96,7 +90,6 @@
 		color: #6b7280;
 	}
 	button {
-		/* text-decoration-line: underline; */
 		cursor: pointer;
 	}
 </style>

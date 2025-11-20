@@ -1,9 +1,8 @@
-<!-- src/lib/components/auth/AuthForm.svelte -->
 <script lang="ts">
 	import LoginButton from './LoginButton.svelte';
 
-	export let type: 'login' | 'register' = 'login'; // 로그인/회원가입 구분
-	export let fields: any; // 입력 상태 객체
+	export let type: 'login' | 'register' = 'login';
+	export let fields: any;
 	export let setFields: (name: string, value: string) => void;
 	export let onSubmit: () => void;
 	export let onGoogle: () => void;

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { editUserModalStore } from '$lib/stores/ui/editUserModalStore';
 	import { updateUserProfile } from '$lib/services/userService';
-	import toast from 'svelte-5-french-toast';
 	import { errorUpdateUserInfo, successUpdateUserInfo } from '$lib/utils/toast';
 
 	let displayName = '';

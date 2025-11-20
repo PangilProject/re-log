@@ -1,22 +1,17 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { onMount, onDestroy } from 'svelte';
 	import { get } from 'svelte/store';
 	import { currentUser } from '$lib/stores/user';
 	import { getDraft } from '$lib/services/retrospectService';
-	import {
-		hydrateWriteStore,
-		resetWriteStore,
-		retrospectType
-	} from '$lib/stores/write/writeStore';
+	import { hydrateWriteStore, resetWriteStore, retrospectType } from '$lib/stores/write/writeStore';
 	import { setSelectedEmotions } from '$lib/stores/write/writeActions';
 	import { openConfirm } from '$lib/utils/confirm';
 	import WriteContainer from '$lib/components/write/WriteContainer.svelte';
 	import type { PageData } from './$types';
-	import PageContainer from '$lib/components/layout/PageContainer.svelte'; // Import PageContainer
+	import PageContainer from '$lib/components/layout/PageContainer.svelte';
 
 	export let data: PageData;
-	const { type } = data; // Get type from load function
+	const { type } = data;
 
 	let isLoading = true;
 	let errorMessage: string | null = null;
@@ -24,19 +19,15 @@
 	onMount(async () => {
 		isLoading = true;
 
-		// 1. Set retrospect type in store
 		retrospectType.set(type);
 
-		// 2. Reset store to clear old data
 		resetWriteStore();
 
-		// 3. Check for relevant draft
 		const user = get(currentUser);
 		if (user) {
 			try {
 				const { success, data: draftData } = await getDraft(user.uid);
 
-				// 4. If draft exists AND its type matches the current page type, ask to load it
 				if (success && draftData && draftData.type === type) {
 					const typeName = type === 'kpt' ? 'KPT' : '일일';
 					const userChoice = await openConfirm(

@@ -3,7 +3,6 @@
 	import '../../../lib/styles/preview.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import Footer from './Footer.svelte';
-	// optional: import PublicHeader from './PublicHeader.svelte';
 </script>
 
 <svelte:head>
@@ -11,8 +10,6 @@
 </svelte:head>
 
 <div class="flex min-h-screen flex-col bg-(--white)">
-	<!-- 비로그인 페이지 전용 헤더 -->
-
 	<main class="grow">
 		<div>
 			<slot />

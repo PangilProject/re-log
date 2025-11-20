@@ -3,7 +3,6 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import EditorTextarea from './EditorTextarea.svelte';
-	import MarkdownPreview from './MarkdownPreview.svelte';
 	import { isMobile } from '$lib/stores/write/writeStore';
 	import { handleSubmitRetrospect } from '$lib/utils/retrospectHandler';
 
@@ -98,7 +97,7 @@
 	}
 
 	h3 {
-		color: #1e3a8a; /* blue-900 */
+		color: #1e3a8a;
 		font-size: 1.1rem;
 		font-weight: 600;
 		margin: 0;

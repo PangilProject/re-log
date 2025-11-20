@@ -27,7 +27,6 @@
 			selectedEmotions: get(selectedEmotions)
 		};
 
-		// Don't save if there is no title and no content
 		const hasContent =
 			dataToSave.title.trim() !== '' ||
 			Object.values(dataToSave.answers).some((v) => (v as string).trim() !== '');
@@ -39,13 +38,11 @@
 		await saveDraft(user.uid, dataToSave);
 	}
 
-	// Auto-save draft only in write mode
 	$: if (mode === 'write') {
 		const combined = [$title, $answers, $selectedEmotions];
 		debounce(handleSaveDraft, 3000);
 	}
 
-	// Clear the timeout when the component is destroyed
 	onDestroy(() => {
 		clearTimeout(timeoutId);
 	});
