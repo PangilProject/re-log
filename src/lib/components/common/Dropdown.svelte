@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 	import type { Writable } from 'svelte/store';
 
@@ -14,9 +15,36 @@
 		selected.set(value);
 		isOpen.set(false);
 	};
+
+	let dropdownRef: HTMLDivElement | null = null;
+	onMount(() => {
+		function handleClickOutside(e: MouseEvent) {
+			if (!dropdownRef) return;
+
+			// 드롭다운 외부 클릭하면 닫기
+			if (!$isOpen) return;
+			if (!dropdownRef.contains(e.target as Node)) {
+				isOpen.set(false);
+			}
+		}
+
+		function handleEscape(e: KeyboardEvent) {
+			if (e.key === 'Escape') {
+				isOpen.set(false);
+			}
+		}
+
+		document.addEventListener('click', handleClickOutside);
+		document.addEventListener('keydown', handleEscape);
+
+		return () => {
+			document.removeEventListener('click', handleClickOutside);
+			document.removeEventListener('keydown', handleEscape);
+		};
+	});
 </script>
 
-<div class="relative flex items-center text-left">
+<div class="relative flex items-center text-left" bind:this={dropdownRef}>
 	{#if label}
 		<label class="mr-2 text-sm text-(--brand-secondary)" for="button">{label}</label>
 	{/if}
