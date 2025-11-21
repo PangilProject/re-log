@@ -38,9 +38,9 @@
 
 <AuthPageLayout>
 	<div
-		class="animate-fadeIn w-full max-w-md rounded-xl border border-(--border-muted) bg-(--white) p-8 shadow-lg"
+		class="animate-fadeIn w-full max-w-md rounded-2xl border border-(--border-muted) bg-(--white) p-8 shadow-lg"
 	>
-		<h2 class="mb-6 text-center text-2xl font-bold text-(--brand-primary)">비밀번호 재설정</h2>
+		<h2 class="mb-6 text-center text-2xl font-bold text-(--black)">비밀번호 재설정</h2>
 
 		<p class="mb-6 text-center text-sm text-(--text-secondary)">
 			가입 시 사용한 이메일 주소를 입력해주세요. <br />비밀번호 재설정 링크를 보내드립니다.
@@ -71,7 +71,7 @@
 			<button
 				type="submit"
 				disabled={loading}
-				class="w-full rounded-lg bg-(--brand-primary) py-2 font-semibold text-(--white) transition hover:bg-(--brand-primary-dark) disabled:cursor-not-allowed disabled:opacity-50"
+				class="text-md w-full cursor-pointer rounded-lg bg-(--brand-primary) py-2 text-(--white) transition hover:bg-(--brand-primary-dark) disabled:cursor-not-allowed disabled:opacity-50"
 			>
 				{#if loading}
 					이메일 발송 중...
@@ -82,7 +82,9 @@
 		</form>
 
 		<div class="mt-6 text-center">
-			<button on:click={goToLogin} class="text-sm text-(--brand-secondary) hover:underline"
+			<button
+				on:click={goToLogin}
+				class="cursor-pointer text-sm font-semibold text-(--brand-primary) hover:underline"
 				>로그인 페이지로 돌아가기</button
 			>
 		</div>

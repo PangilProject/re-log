@@ -83,20 +83,23 @@
 
 	<div class="mt-8 flex justify-center gap-4 text-sm text-(--brand-secondary)">
 		{#if type === 'login'}
-			<button on:click={goToForgotPassword} class="font-semibold text-blue-500 hover:underline">
+			<button
+				on:click={goToForgotPassword}
+				class="cursor-pointer font-semibold text-(--brand-primary) hover:underline"
+			>
 				비밀번호 찾기
 			</button>
 			<span>|</span>
-			아직 회원이 아니신가요?
-			<button on:click={goToRegister} class="font-semibold text-(--brand-primary) hover:underline"
-				>회원가입</button
+			<button
+				on:click={goToRegister}
+				class="cursor-pointer font-semibold text-(--brand-primary) hover:underline">회원가입</button
 			>
 		{:else}
 			이미 계정이 있으신가요?
-			<button on:click={goToLogin} class="font-semibold text-(--brand-primary) hover:underline"
-				>로그인</button
+			<button
+				on:click={goToLogin}
+				class="cursor-pointer font-semibold text-(--brand-primary) hover:underline">로그인</button
 			>
 		{/if}
 	</div>
 </div>
-
