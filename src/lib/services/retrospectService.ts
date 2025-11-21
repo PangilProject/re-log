@@ -52,7 +52,8 @@ export async function getRetrospectListByUser(userId: string) {
 			id: doc.id,
 			title: doc.data().title,
 			createdAt: doc.data().createdAt,
-			selectedEmotions: doc.data().selectedEmotions
+			selectedEmotions: doc.data().selectedEmotions,
+			answers: doc.data().answers
 		}));
 
 		return { success: true, retrospects };

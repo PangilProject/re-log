@@ -11,9 +11,20 @@ export const filteredRetrospects = derived(
 
 		if ($query.trim()) {
 			const lower = $query.toLowerCase();
-			filtered = filtered.filter((item) => item.title.toLowerCase().includes(lower));
+
+			filtered = filtered.filter((item) => {
+				// 제목 검색
+				const inTitle = item.title.toLowerCase().includes(lower);
+
+				// answers 검색 (RetrospectAnswers 또는 KPT 모두 처리)
+				const answersValues = Object.values(item.answers ?? {}).map((v) => String(v).toLowerCase());
+				const inAnswers = answersValues.some((val) => val.includes(lower));
+
+				return inTitle || inAnswers;
+			});
 		}
 
+		// 날짜 정렬
 		filtered = filtered.sort((a, b) => {
 			const timeA = a.createdAt?.seconds ?? 0;
 			const timeB = b.createdAt?.seconds ?? 0;

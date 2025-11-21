@@ -16,7 +16,7 @@
 <div class="mb-6 flex flex-col items-end justify-between gap-3 sm:flex-row sm:items-center">
 	<input
 		type="text"
-		placeholder="제목으로 검색..."
+		placeholder="제목 혹은 내용으로 검색..."
 		bind:value={$searchQuery}
 		class="w-full rounded-md border-none px-3 py-2 text-sm shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none sm:w-[48.5%]"
 	/>
