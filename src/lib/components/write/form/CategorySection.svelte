@@ -1,9 +1,8 @@
 <!-- src/lib/components/write/form/CategorySection.svelte -->
 <script lang="ts">
   import { CATEGORIES } from '$lib/constants/categories';
-
-  // 지금은 UI만 구현하므로, 실제 선택된 값은 더미 데이터로 둡니다.
-  const selectedCategories: string[] = ['tech']; // '기술'이 선택된 것처럼 보이게 함
+  import { selectedCategories } from '$lib/stores/write/writeStore';
+  import { toggleCategory } from '$lib/stores/write/writeActions';
 </script>
 
 <div class="mb-10">
@@ -13,10 +12,11 @@
   <div class="mt-4 flex flex-wrap gap-3">
     {#each CATEGORIES as category (category.key)}
       <button
+        on:click={() => toggleCategory(category.key)}
         style="--chip-color: #4f46e5;"
         class="
           emotion-chip
-          {selectedCategories.includes(category.key) ? 'active-chip' : ''}
+          {$selectedCategories.includes(category.key) ? 'active-chip' : ''}
         "
       >
         <span class="icon">{category.icon}</span>

@@ -19,6 +19,9 @@ export const previews = writable<Record<string, string>>({});
 
 export const isMobile = writable(false);
 
+export const selectedEmotions = writable<string[]>([]);
+export const selectedCategories = writable<string[]>([]);
+
 export function resetWriteStore() {
 	title.set('');
 	const type = get(retrospectType);
@@ -30,6 +33,7 @@ export function resetWriteStore() {
 		previews.set({ ...emptyDailyAnswers });
 	}
 	selectedEmotions.set([]);
+	selectedCategories.set([]); // 👈 Add this line
 }
 export function hydrateWriteStore(doc: {
 	title: string;
@@ -45,5 +49,3 @@ export function hydrateWriteStore(doc: {
 	) as Record<string, string>;
 	previews.set(renderedPreviews);
 }
-
-export const selectedEmotions = writable<string[]>([]);

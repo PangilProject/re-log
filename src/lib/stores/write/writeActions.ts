@@ -9,7 +9,8 @@ import {
 	title,
 	resetWriteStore,
 	selectedEmotions,
-	retrospectType
+	retrospectType,
+	selectedCategories
 } from './writeStore';
 import type { AnswerKey } from '$lib/constants/retrospectKeys';
 import { errorNeedLogin, successModifyRetrospect, successSaveRetrospect } from '$lib/utils/toast';
@@ -99,4 +100,13 @@ export function clickAllEmotions() {
 
 export function setSelectedEmotions(emotions: string[]) {
 	selectedEmotions.set(emotions);
+}
+
+export function toggleCategory(key: string) { // 👈 Add this new function
+	selectedCategories.update((list) => {
+		if (list.includes(key)) {
+			return list.filter((item) => item !== key);
+		}
+		return [...list, key];
+	});
 }
