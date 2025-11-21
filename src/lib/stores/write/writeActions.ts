@@ -22,6 +22,7 @@ export function initializeEditorFromDoc(doc: RetrospectDocument) {
 	retrospectType.set(doc.type);
 	answers.set(doc.answers);
 	selectedEmotions.set(doc.selectedEmotions);
+	selectedCategories.set(doc.categories || []);
 	initPreviews();
 }
 
@@ -46,7 +47,8 @@ export async function submitRetrospect() {
 		type: get(retrospectType),
 		title: get(title),
 		answers: get(answers),
-		selectedEmotions: get(selectedEmotions)
+		selectedEmotions: get(selectedEmotions),
+		categories: get(selectedCategories)
 	};
 	const { success, id } = await saveRetrospect(retrospectData, user.uid);
 
@@ -69,7 +71,8 @@ export async function submitModifyRetrospect(id: string) {
 		type: get(retrospectType),
 		title: get(title),
 		answers: get(answers),
-		selectedEmotions: get(selectedEmotions)
+		selectedEmotions: get(selectedEmotions),
+		categories: get(selectedCategories)
 	};
 	const { success } = await updateRetrospect(id, retrospectData, user.uid);
 
@@ -102,7 +105,7 @@ export function setSelectedEmotions(emotions: string[]) {
 	selectedEmotions.set(emotions);
 }
 
-export function toggleCategory(key: string) { // 👈 Add this new function
+export function toggleCategory(key: string) {
 	selectedCategories.update((list) => {
 		if (list.includes(key)) {
 			return list.filter((item) => item !== key);

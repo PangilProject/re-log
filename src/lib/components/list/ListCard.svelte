@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { EMOTIONS } from '$lib/constants/emotions';
+	import { CATEGORIES } from '$lib/constants/categories';
 	import {
 		isDeleteMode,
 		selectedRetrospects,
@@ -10,6 +11,7 @@
 	export let title: string;
 	export let createdAt: { seconds: number } | null = null;
 	export let selectedEmotions: string[];
+	export let categories: string[] = [];
 
 	$: isSelected = $selectedRetrospects.includes(id);
 
@@ -42,6 +44,12 @@
 				<h3>{title}</h3>
 			</div>
 			<div class="flex w-full flex-wrap items-start justify-start gap-2">
+				{#each categories as cat (cat)}
+					<span class="category-chip hover:cursor-default">
+						{CATEGORIES.find((c) => c.key === cat)?.icon}
+						{CATEGORIES.find((c) => c.key === cat)?.label}
+					</span>
+				{/each}
 				{#each selectedEmotions as emo (emo)}
 					<span
 						class="emotion-chip hover:cursor-default"
@@ -93,27 +101,41 @@
 		color: #6b7280;
 	}
 
-	.emotion-chip {
+	.emotion-chip,
+	.category-chip {
 		padding: 0.25rem 0.55rem;
 		border-radius: 9999px;
 		font-size: 0.75rem;
 		font-weight: 600;
-
-		border: 2px solid var(--chip-color, #93c5fd);
-		color: var(--chip-color, #3b82f6);
-		background-color: color-mix(in srgb, var(--chip-color) 14%, white);
-
 		display: inline-flex;
 		align-items: center;
 		gap: 0.25rem;
 		user-select: none;
 		white-space: nowrap;
-
 		transition: all 0.18s ease;
 	}
 
-	.emotion-chip:hover {
+	.emotion-chip:hover,
+	.category-chip:hover {
 		transform: scale(1.03);
+	}
+
+	.emotion-chip {
+		border: 2px solid var(--chip-color, #93c5fd);
+		color: var(--chip-color, #3b82f6);
+		background-color: color-mix(in srgb, var(--chip-color) 14%, white);
+	}
+	.emotion-chip:hover {
+		background-color: color-mix(in srgb, var(--chip-color) 22%, white);
+	}
+
+	.category-chip {
+		--chip-color: #4f46e5;
+		border: 2px solid var(--chip-color);
+		color: var(--chip-color);
+		background-color: color-mix(in srgb, var(--chip-color) 14%, white);
+	}
+	.category-chip:hover {
 		background-color: color-mix(in srgb, var(--chip-color) 22%, white);
 	}
 </style>

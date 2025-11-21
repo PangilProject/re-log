@@ -7,6 +7,7 @@ export const retrospectsData = writable<
 		title: string;
 		createdAt?: CreatedAt;
 		selectedEmotions?: string[];
+		categories?: string[];
 		answers: Record<string, string>;
 	}[]
 >([]);

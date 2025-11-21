@@ -16,6 +16,7 @@ export interface RetrospectDocument {
 	createdAt?: CreatedAt;
 	updatedAt?: UpdatedAt;
 	selectedEmotions: string[];
+	categories?: string[];
 }
 
 export interface RetrospectPayload {
@@ -23,6 +24,7 @@ export interface RetrospectPayload {
 	title: string;
 	answers: RetrospectAnswers | RetrospectAnswersKPT;
 	selectedEmotions: string[];
+	categories?: string[];
 }
 
 export type RetrospectAnswersKPT = {
