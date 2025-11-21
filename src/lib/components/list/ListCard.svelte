@@ -38,30 +38,35 @@
 	<a href={`/detail/${id}`} class="card {isSelected ? 'selected' : ''}" on:click={handleClick}>
 		<div class="flex min-h-[150px] flex-col justify-between">
 			<div class="mb-4 flex w-full flex-col">
-				<p class="date">
-					{createdAt ? new Date(createdAt.seconds * 1000).toLocaleDateString() : '작성일 없음'}
-				</p>
+				<div class="flex justify-between">
+					<p class="date">
+						{createdAt ? new Date(createdAt.seconds * 1000).toLocaleDateString() : '작성일 없음'}
+					</p>
+					<div class="flex flex-wrap items-start justify-end gap-2">
+						{#each categories as cat (cat)}
+							<span class="category-chip hover:cursor-default">
+								# {CATEGORIES.find((c) => c.key === cat)?.label}
+							</span>
+						{/each}
+					</div>
+				</div>
 				<h3>{title}</h3>
 			</div>
-			<div class="flex w-full flex-wrap items-start justify-start gap-2">
-				{#each categories as cat (cat)}
-					<span class="category-chip hover:cursor-default">
-						{CATEGORIES.find((c) => c.key === cat)?.icon}
-						{CATEGORIES.find((c) => c.key === cat)?.label}
-					</span>
-				{/each}
-				{#each selectedEmotions as emo (emo)}
-					<span
-						class="emotion-chip hover:cursor-default"
-						style="--chip-color: {EMOTIONS.find((e) => e.key === emo)?.color || '#3b82f6'}"
-					>
-						{EMOTIONS.find((e) => e.key === emo)?.icon}
-						{EMOTIONS.find((e) => e.key === emo)?.label}
-					</span>
-				{/each}
+			<div class="flex w-full flex-col gap-2">
+				<div class="flex flex-wrap items-start justify-start gap-2">
+					{#each selectedEmotions as emo (emo)}
+						<span
+							class="emotion-chip hover:cursor-default"
+							style="--chip-color: {EMOTIONS.find((e) => e.key === emo)?.color || '#3b82f6'}"
+						>
+							{EMOTIONS.find((e) => e.key === emo)?.icon}
+							{EMOTIONS.find((e) => e.key === emo)?.label}
+						</span>
+					{/each}
+				</div>
 			</div>
-		</div>
-	</a>
+		</div></a
+	>
 </li>
 
 <style>
@@ -101,8 +106,14 @@
 		color: #6b7280;
 	}
 
-	.emotion-chip,
 	.category-chip {
+		/* padding: 0.25rem 0.55rem; */
+		font-size: 0.8rem;
+		font-weight: 600;
+		display: inline-flex;
+		align-items: center;
+	}
+	.emotion-chip {
 		padding: 0.25rem 0.55rem;
 		border-radius: 9999px;
 		font-size: 0.75rem;
@@ -115,8 +126,7 @@
 		transition: all 0.18s ease;
 	}
 
-	.emotion-chip:hover,
-	.category-chip:hover {
+	.emotion-chip:hover {
 		transform: scale(1.03);
 	}
 
@@ -131,11 +141,7 @@
 
 	.category-chip {
 		--chip-color: #4f46e5;
-		border: 2px solid var(--chip-color);
+		/* border: 2px solid var(--chip-color); */
 		color: var(--chip-color);
-		background-color: color-mix(in srgb, var(--chip-color) 14%, white);
-	}
-	.category-chip:hover {
-		background-color: color-mix(in srgb, var(--chip-color) 22%, white);
 	}
 </style>

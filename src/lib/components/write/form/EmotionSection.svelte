@@ -43,6 +43,9 @@
 				{emotion.label}
 			</button>
 		{/each}
+		{#if isDetailMode && $selectedEmotions.length === 0}
+			<p class="text-(--text-secondary)">선택된 감정이 없습니다.</p>
+		{/if}
 	</div>
 </div>
 

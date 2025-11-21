@@ -4,6 +4,7 @@ import {
 	title,
 	retrospectType,
 	selectedEmotions,
+	selectedCategories,
 	resetWriteStore
 } from '$lib/stores/write/writeStore';
 import { get } from 'svelte/store';
@@ -35,7 +36,8 @@ async function runSubmit(mode: 'write' | 'modify', type: 'daily' | 'kpt') {
 		type,
 		title: get(title).trim(),
 		answers: get(answers),
-		selectedEmotions: get(selectedEmotions)
+		selectedEmotions: get(selectedEmotions),
+		categories: get(selectedCategories)
 	};
 
 	if (mode === 'write') {

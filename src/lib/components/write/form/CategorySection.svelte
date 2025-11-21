@@ -33,6 +33,9 @@
 				</button>
 			{/if}
 		{/each}
+		{#if detailCategories.length === 0 && isDetailMode}
+			<p class="text-(--text-secondary)">선택된 카테고리가 없습니다.</p>
+		{/if}
 	</div>
 </div>
 

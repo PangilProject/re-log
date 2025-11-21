@@ -12,8 +12,8 @@
 	<h2>{mode === 'write' ? '✏️ 회고 작성' : '✍🏻 회고 수정'}</h2>
 
 	<TitleSection />
-	<EmotionSection isDetailMode={false} />
 	<CategorySection />
+	<EmotionSection isDetailMode={false} />
 	<RetrospectListSection {mode} />
 	<SubmitButton {mode} />
 </div>
