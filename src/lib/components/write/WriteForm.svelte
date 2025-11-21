@@ -3,6 +3,7 @@
 	import RetrospectListSection from './form/RetrospectListSection.svelte';
 	import SubmitButton from './form/SubmitButtonSection.svelte';
 	import EmotionSection from './form/EmotionSection.svelte';
+	import CategorySection from './form/CategorySection.svelte';
 
 	export let mode: 'write' | 'modify' = 'write';
 </script>
@@ -12,6 +13,7 @@
 
 	<TitleSection />
 	<EmotionSection isDetailMode={false} />
+	<CategorySection />
 	<RetrospectListSection {mode} />
 	<SubmitButton {mode} />
 </div>
