@@ -2,6 +2,7 @@ import { browser } from '$app/environment';
 import MarkdownIt from 'markdown-it';
 import taskLists from 'markdown-it-task-lists';
 import { highlight } from './prism';
+import DOMPurify from 'dompurify';
 
 const md = new MarkdownIt({
 	html: true,
@@ -31,5 +32,9 @@ md.renderer.rules.fence = (tokens, idx, options, env, self) => {
  * @returns 변환된 HTML 문자열
  */
 export function renderMarkdown(markdown: string): string {
-	return md.render(markdown);
+	const renderedHtml = md.render(markdown);
+	if (browser) {
+		return DOMPurify.sanitize(renderedHtml);
+	}
+	return renderedHtml;
 }
