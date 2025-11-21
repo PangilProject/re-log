@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { AuthFields } from '@/types/interfaces/AuthFields';
 	import LoginButton from './LoginButton.svelte';
-	import { goToLogin, goToRegister } from '$lib/utils/navigation';
+	import { goToLogin, goToRegister, goToForgotPassword } from '$lib/utils/navigation';
 
 	export let type: 'login' | 'register' = 'login';
 	export let fields: AuthFields;
@@ -81,8 +81,12 @@
 		/>
 	</div>
 
-	<p class="mt-8 text-center text-sm text-(--brand-secondary)">
+	<div class="mt-8 flex justify-center gap-4 text-sm text-(--brand-secondary)">
 		{#if type === 'login'}
+			<button on:click={goToForgotPassword} class="font-semibold text-blue-500 hover:underline">
+				비밀번호 찾기
+			</button>
+			<span>|</span>
 			아직 회원이 아니신가요?
 			<button on:click={goToRegister} class="font-semibold text-(--brand-primary) hover:underline"
 				>회원가입</button
@@ -93,5 +97,6 @@
 				>로그인</button
 			>
 		{/if}
-	</p>
+	</div>
 </div>
+

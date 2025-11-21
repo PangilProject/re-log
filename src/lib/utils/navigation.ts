@@ -20,6 +20,10 @@ export function goToRegister() {
 	goto('/register');
 }
 
+export function goToForgotPassword() {
+	goto('/forgot-password');
+}
+
 export function goToModify(docId: string) {
 	goto(`/modify/${docId}`);
 }
