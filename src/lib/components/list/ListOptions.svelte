@@ -44,11 +44,15 @@
         "
 		>
 			<span class="text-[0.8rem]">카테고리</span>
-			{#if isOpen}
-				<ChevronUp class="h-4 w-4 transition-transform duration-150" />
-			{:else}
-				<ChevronDown class="h-4 w-4 transition-transform duration-150" />
-			{/if}
+			<svg
+				class="h-4 w-4 text-(--text-secondary) transition-transform duration-150"
+				fill="none"
+				stroke="currentColor"
+				viewBox="0 0 24 24"
+				style="transform: {isOpen ? 'rotate(180deg)' : 'rotate(0deg)'}"
+			>
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+			</svg>
 		</button>
 		<!-- 펼쳐지는 카테고리 목록 -->
 		{#if isOpen}

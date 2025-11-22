@@ -1,13 +1,22 @@
 import { currentUser } from '$lib/stores/user';
 import { getRetrospectListByUser } from '$lib/services/retrospectService';
 import { get } from 'svelte/store';
-import { errorMessage, isLoading, retrospectsData } from './listStore';
+import {
+	errorMessage,
+	isLoading,
+	retrospectsData,
+	lastVisibleDoc,
+	hasMoreData
+} from './listStore';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '$lib/firebase';
 import { errorDeleteRetrospect } from '$lib/utils/toast';
 import { goToList } from '$lib/utils/navigation';
+import { PAGE_SIZE } from '$lib/constants/pagination';
 
-export async function loadRetrospects() {
+export async function loadRetrospects(loadMore = false) {
+	if (get(isLoading) || (loadMore && !get(hasMoreData))) return;
+
 	isLoading.set(true);
 	errorMessage.set(null);
 
@@ -18,12 +27,29 @@ export async function loadRetrospects() {
 			return;
 		}
 
-		const { success, retrospects: data, error: err } = await getRetrospectListByUser(user.uid);
+		const lastDoc = loadMore ? get(lastVisibleDoc) : null;
+		const {
+			success,
+			retrospects: data,
+			lastVisible,
+			error: err
+		} = await getRetrospectListByUser(user.uid, lastDoc);
 
-		if (success) retrospectsData.set(data ?? []);
-		else if (err && typeof err === 'object' && 'message' in err)
+		if (success && data) {
+			if (loadMore) {
+				retrospectsData.update((existing) => [...existing, ...data]);
+			} else {
+				retrospectsData.set(data);
+			}
+			lastVisibleDoc.set(lastVisible);
+			if (data.length < PAGE_SIZE) {
+				hasMoreData.set(false);
+			}
+		} else if (err && typeof err === 'object' && 'message' in err) {
 			errorMessage.set((err as { message: string }).message);
-		else errorMessage.set('데이터를 불러오는 중 오류가 발생했습니다.');
+		} else {
+			errorMessage.set('데이터를 불러오는 중 오류가 발생했습니다.');
+		}
 	} catch (e) {
 		console.error(e);
 		errorMessage.set('서버 오류가 발생했습니다.');

@@ -74,7 +74,7 @@
 		<div
 			class="absolute right-0 z-10 mt-2 w-28 origin-top-right rounded-md border bg-(--white) shadow-lg ring-1 ring-black/5"
 		>
-			{#each options as opt (opt.value)}
+			{#each options as opt}
 				<button
 					class="block w-full px-4 py-2 text-left text-sm hover:cursor-pointer hover:rounded-md hover:bg-gray-100"
 					on:click={() => selectOption(opt.value)}

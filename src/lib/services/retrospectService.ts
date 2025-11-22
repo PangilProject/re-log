@@ -10,10 +10,15 @@ import {
 	getDoc,
 	updateDoc,
 	setDoc,
-	deleteDoc
+	deleteDoc,
+	limit,
+	startAfter,
+	type QueryDocumentSnapshot,
+	type DocumentData
 } from 'firebase/firestore';
 import { db } from '$lib/firebase';
 import type { RetrospectDocument, RetrospectPayload } from '@/types/retrospect';
+import { PAGE_SIZE } from '$lib/constants/pagination';
 
 /**
  * Firestore에 회고 데이터를 추가하는 함수
@@ -39,13 +44,25 @@ export async function saveRetrospect(data: RetrospectPayload, userId: string) {
  * 특정 사용자(userId)의 모든 회고 리스트를 가져오는 함수
  * userId로 필터링한 뒤 작성일(createdAt) 기준으로 내림차순 정렬하여 회고 목록을 반환한다.
  */
-export async function getRetrospectListByUser(userId: string) {
+export async function getRetrospectListByUser(
+	userId: string,
+	lastVisible: QueryDocumentSnapshot<DocumentData> | null
+) {
 	try {
-		const q = query(
-			collection(db, 'retrospectives'),
-			where('userId', '==', userId),
-			orderBy('createdAt', 'desc') // 최신순 정렬
-		);
+		const q = lastVisible
+			? query(
+					collection(db, 'retrospectives'),
+					where('userId', '==', userId),
+					orderBy('createdAt', 'desc'),
+					startAfter(lastVisible),
+					limit(PAGE_SIZE)
+				)
+			: query(
+					collection(db, 'retrospectives'),
+					where('userId', '==', userId),
+					orderBy('createdAt', 'desc'),
+					limit(PAGE_SIZE)
+				);
 
 		const snapshot = await getDocs(q);
 		const retrospects = snapshot.docs.map((doc) => ({
@@ -53,11 +70,11 @@ export async function getRetrospectListByUser(userId: string) {
 			title: doc.data().title,
 			createdAt: doc.data().createdAt,
 			selectedEmotions: doc.data().selectedEmotions,
-			categories: doc.data().categories, // Add categories
+			categories: doc.data().categories,
 			answers: doc.data().answers
 		}));
-
-		return { success: true, retrospects };
+		const lastDoc = snapshot.docs[snapshot.docs.length - 1];
+		return { success: true, retrospects, lastVisible: lastDoc };
 	} catch (error) {
 		console.error('회고 리스트 조회 실패:', error);
 		return { success: false, error };
