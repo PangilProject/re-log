@@ -104,6 +104,7 @@
 	.date {
 		font-size: 0.9rem;
 		color: #6b7280;
+		min-width: 100px;
 	}
 
 	.category-chip {
