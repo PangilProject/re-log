@@ -46,7 +46,7 @@
 		{/each}
 	{/if}
 
-	{#if isAuthenticated && !shareMode}
+	{#if isAuthenticated}
 		<div class="back-box">
 			<a href="/list">← 목록으로 돌아가기</a>
 		</div>

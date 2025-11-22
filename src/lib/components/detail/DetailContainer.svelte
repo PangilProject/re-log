@@ -10,6 +10,7 @@
 	import BackToListSection from '../common/BackToListSection.svelte';
 
 	export let shareMode: boolean = false;
+	export let isLoggedIn: boolean = false;
 
 	const isAuthenticated = derived(currentUser, ($currentUser) => !!$currentUser);
 
@@ -22,7 +23,7 @@
 </script>
 
 <PageContainer isLoading={$isLoading} errorMessage={$errorMessage}>
-	{#if !shareMode}
+	{#if isLoggedIn}
 		<BackToListSection isDetailMode={true} />
 	{/if}
 	{#if $detailData}
