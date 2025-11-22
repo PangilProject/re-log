@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 	import ListHeader from './ListHeader.svelte';
 	import ListOptions from './ListOptions.svelte';
 	import ListCard from './ListCard.svelte';
@@ -17,33 +17,11 @@
 	import FilterEmptyState from './FilterEmptyState.svelte';
 	import { openRetrospectType } from '$lib/utils/retrospectTtype';
 
-	let loadMoreElement: HTMLDivElement;
-	let observer: IntersectionObserver;
-
 	onMount(() => {
 		// Clear existing data and load initial set
 		retrospectsData.set([]);
 		hasMoreData.set(true);
 		loadRetrospects(false);
-
-		observer = new IntersectionObserver(
-			(entries) => {
-				if (entries[0].isIntersecting) {
-					loadRetrospects(true);
-				}
-			},
-			{ threshold: 1.0 }
-		);
-
-		if (loadMoreElement) {
-			observer.observe(loadMoreElement);
-		}
-	});
-
-	onDestroy(() => {
-		if (observer && loadMoreElement) {
-			observer.unobserve(loadMoreElement);
-		}
 	});
 </script>
 
@@ -67,7 +45,6 @@
 				/>
 			{/each}
 		</ul>
-		<div bind:this={loadMoreElement}></div>
 
 		{#if $isLoading && $retrospectsData.length > 0}
 			<p class="mt-6 text-center text-gray-500">로딩 중...</p>
