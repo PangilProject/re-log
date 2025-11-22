@@ -24,7 +24,8 @@
 	const tabs = [
 		{ name: '대시보드', href: '/manage' },
 		{ name: '사용자 목록', href: '/manage/users' },
-		{ name: '회고 목록', href: '/manage/posts' }
+		{ name: '회고 목록', href: '/manage/posts' },
+		{ name: '피드백 목록', href: '/manage/feedbacks' }
 	];
 </script>
 

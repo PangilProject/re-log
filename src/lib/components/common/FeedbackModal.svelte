@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isFeedbackModalOpen } from '$lib/stores/ui/feedbackModalStore';
+	import { feedbackModalStore, openFeedbackModal } from '$lib/stores/ui/feedbackModalStore';
 	import { saveFeedback } from '$lib/services/feedbackService';
 	import toast from 'svelte-5-french-toast';
 	import { Loader2, X } from 'lucide-svelte';
@@ -10,6 +10,8 @@
 	let isSubmitting = false;
 
 	async function handleSubmit() {
+		if ($feedbackModalStore.mode === 'view') return;
+
 		if (!message.trim()) {
 			toast.error('피드백 내용을 입력해주세요.');
 			return;
@@ -24,9 +26,7 @@
 
 			if (success) {
 				toast.success('소중한 의견 감사합니다!');
-				email = '';
-				message = '';
-				isFeedbackModalOpen.set(false);
+				closeModal();
 			} else {
 				toast.error('오류가 발생했습니다. 다시 시도해주세요.');
 			}
@@ -39,7 +39,9 @@
 	}
 
 	function closeModal() {
-		isFeedbackModalOpen.set(false);
+		feedbackModalStore.set({ isOpen: false, mode: 'write', feedback: null });
+		email = '';
+		message = '';
 	}
 
 	function handleGlobalKeydown(event: KeyboardEvent) {
@@ -55,29 +57,53 @@
 			document.removeEventListener('keydown', handleGlobalKeydown);
 		};
 	});
+
+	$: if (
+		$feedbackModalStore.isOpen &&
+		$feedbackModalStore.mode === 'view' &&
+		$feedbackModalStore.feedback
+	) {
+		email = $feedbackModalStore.feedback.email || '';
+		message = $feedbackModalStore.feedback.message || '';
+	}
 </script>
 
-{#if $isFeedbackModalOpen}
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-		<div class="animate-fadeIn w-[90%] max-w-lg rounded-xl bg-white p-6 shadow-lg">
+{#if $feedbackModalStore.isOpen}
+	<div
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+		role="presentation"
+		on:click={closeModal}
+	>
+		<div class="animate-fadeIn w-[90%] max-w-lg rounded-xl border bg-white p-6 shadow-lg">
 			<div class="flex items-start justify-between">
 				<div>
-					<h2 class="text-xl font-bold text-gray-800">피드백 남기기</h2>
-					<p class="mt-1 text-sm text-gray-500">서비스 개선을 위한 소중한 의견을 공유해주세요.</p>
+					<h2 class="text-xl font-bold text-gray-800">
+						{#if $feedbackModalStore.mode === 'view'}
+							피드백 확인
+						{:else}
+							피드백 남기기
+						{/if}
+					</h2>
+					<p class="mt-1 text-sm text-gray-500">
+						{#if $feedbackModalStore.mode === 'write'}
+							서비스 개선을 위한 소중한 의견을 공유해주세요.
+						{/if}
+					</p>
 				</div>
-				<button on:click={closeModal} class="cursor-pointer text-gray-400 hover:text-gray-600">
+				<button on:click={closeModal} class="text-gray-400 hover:text-gray-600">
 					<X />
 				</button>
 			</div>
 
 			<form on:submit|preventDefault={handleSubmit} class="feedback-form mt-6">
 				<div class="form-group">
-					<label for="email">이메일 (선택 사항)</label>
+					<label for="email">이메일</label>
 					<input
 						type="email"
 						id="email"
 						bind:value={email}
 						placeholder="답변을 원하시면 이메일을 남겨주세요."
+						disabled={$feedbackModalStore.mode === 'view'}
 					/>
 				</div>
 				<div class="form-group">
@@ -88,17 +114,20 @@
 						rows="6"
 						placeholder="여기에 의견을 작성해주세요."
 						required
+						disabled={$feedbackModalStore.mode === 'view'}
 						class="resize-none"
 					></textarea>
 				</div>
-				<button type="submit" disabled={isSubmitting} class="submit-btn">
-					{#if isSubmitting}
-						<Loader2 class="animate-spin" />
-						보내는 중...
-					{:else}
-						피드백 보내기
-					{/if}
-				</button>
+				{#if $feedbackModalStore.mode === 'write'}
+					<button type="submit" disabled={isSubmitting} class="submit-btn">
+						{#if isSubmitting}
+							<Loader2 class="animate-spin" />
+							보내는 중...
+						{:else}
+							피드백 보내기
+						{/if}
+					</button>
+				{/if}
 			</form>
 		</div>
 	</div>
@@ -130,6 +159,11 @@
 		transition:
 			border-color 0.2s,
 			box-shadow 0.2s;
+	}
+	input:disabled,
+	textarea:disabled {
+		background-color: #f3f4f6;
+		cursor: not-allowed;
 	}
 	input:focus,
 	textarea:focus {
