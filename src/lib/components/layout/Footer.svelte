@@ -1,6 +1,43 @@
-<footer class="bg-(--white)/80 py-8 text-gray-400">
-	<div class="mx-auto max-w-6xl px-6 text-center">
-		<p class="text-sm">© 2025 re-log. All rights reserved.</p>
-		<p class="mt-2 text-xs">Developed by PangLab | Powered by SvelteKit & Firebase</p>
+<script lang="ts">
+	import { isFeedbackModalOpen } from '$lib/stores/ui/feedbackModalStore';
+
+	const githubUrl = 'https://github.com/pangil5634';
+	const svelteUrl = 'https://svelte.dev';
+
+	function openFeedbackModal() {
+		isFeedbackModalOpen.set(true);
+	}
+</script>
+
+<footer class="bg-white/80 py-10 text-gray-500">
+	<div class="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 text-center">
+		<div class="flex flex-wrap items-center justify-center gap-4 text-sm">
+			<button on:click={openFeedbackModal} class="footer-link">피드백 남기기</button>
+			<span class="divider">·</span>
+
+			<a href={githubUrl} target="_blank" rel="noopener noreferrer" class="footer-link"> GitHub </a>
+			<span class="divider">·</span>
+
+			<a href={svelteUrl} target="_blank" rel="noopener noreferrer" class="footer-link">
+				Svelte 공식 문서
+			</a>
+		</div>
+
+		<p class="text-xs">© 2025 re-log. All rights reserved.</p>
 	</div>
 </footer>
+
+<style>
+	.footer-link {
+		color: inherit;
+		transition: opacity 0.15s ease;
+	}
+	.footer-link:hover {
+		opacity: 0.7;
+		text-decoration: underline;
+	}
+
+	.divider {
+		color: #d1d5db;
+	}
+</style>

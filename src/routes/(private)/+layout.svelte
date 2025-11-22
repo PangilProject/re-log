@@ -5,6 +5,7 @@
 	import PromptModal from '$lib/components/common/PromptModal.svelte';
 	import PrivatePageLayout from '$lib/components/layout/PrivatePageLayout.svelte';
 	import { Toaster } from 'svelte-5-french-toast';
+	import FeedbackModal from '$lib/components/common/FeedbackModal.svelte';
 </script>
 
 <PrivatePageLayout>
@@ -14,4 +15,5 @@
 	<PromptModal />
 	<AlertModal />
 	<ChooseRetrospectTypeModal />
+	<FeedbackModal />
 </PrivatePageLayout>

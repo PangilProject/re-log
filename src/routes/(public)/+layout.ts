@@ -17,11 +17,13 @@ export const load = async ({ url }) => {
 		});
 	});
 
+	const isSharePage = currentPath.startsWith('/share');
+	const isFeedbackPage = currentPath.startsWith('/feedback');
+
 	// 이미 로그인 상태인데 public 페이지 접근한 경우
 	if (user) {
 		// share 페이지는 예외 처리
-		const isSharePage = currentPath.startsWith('/share');
-		if (isSharePage)
+		if (isSharePage || isFeedbackPage)
 			return {
 				isLoggedIn: true
 			};
@@ -30,8 +32,7 @@ export const load = async ({ url }) => {
 	}
 
 	// share 페이지는 예외 처리
-	const isSharePage = currentPath.startsWith('/share');
-	if (isSharePage) return {};
+	if (isSharePage || isFeedbackPage) return {};
 
 	return {};
 };
