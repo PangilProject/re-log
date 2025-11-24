@@ -158,6 +158,28 @@ npm run dev
 - `npm run test`: Vitest를 사용하여 단위/컴포넌트 테스트를 실행합니다.
 - `npm run test:e2e`: Playwright를 사용하여 E2E 테스트를 실행합니다.
 
-```
+<br>
+<br>
+<br>
 
-```
+## 참고 링크
+
+**[0] 기획 단계**
+
+- [MVP 기획서](https://www.notion.so/MVP-2a4dabfdf20a80b3bc7be4b1c9e982a0?pvs=21)
+
+**[1] 데일리 스크럼 (Notion)**
+
+- 총 `21개`의 스크럼 : <a href = "https://www.notion.so/2a1dabfdf20a800cb3a0f304d7e4d67d?pvs=21">보러가기</a>
+
+**[2] 기술 블로그 (우테코 일지)**
+
+- 총 `21개`의 포스트 : 우테코 일지 <a href = "https://pangil-log.tistory.com/category/%E2%9C%8D%F0%9F%8F%BB%20%ED%9A%8C%EA%B3%A0/%EC%9A%B0%ED%85%8C%EC%BD%94">보러가기</a>
+
+**[3] 기술 블로그 (SvelteKit, firebase, CSS 등)**
+
+- 총 `24개`의 포스트 : SvelteKit <a href = "https://pangil-log.tistory.com/category/%F0%9F%92%BB%20%EA%B0%9C%EB%B0%9C/%F0%9F%91%B7%20SveleteKit">보러가기</a>
+
+- 총 `4개`의 포스트 : firebase <a href = "https://pangil-log.tistory.com/category/%F0%9F%92%BB%20%EA%B0%9C%EB%B0%9C/%F0%9F%94%A5%20Firebase">보러가기</a>
+
+- 총 `1개`의 포스트 : CSS <a href = "https://pangil-log.tistory.com/category/%F0%9F%92%BB%20%EA%B0%9C%EB%B0%9C/%F0%9F%8C%88%20CSS">보러가기</a>
