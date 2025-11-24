@@ -13,6 +13,7 @@
 	import { currentUser } from '$lib/stores/user';
 	import DraftButton from './DraftButton.svelte';
 	import BackToListSection from '../common/BackToListSection.svelte';
+	import { errorEmptyField } from '$lib/utils/toast';
 
 	export let mode: 'write' | 'modify' = 'write';
 
@@ -22,9 +23,9 @@
 		timeoutId = setTimeout(func, delay);
 	}
 
-	async function handleSaveDraft() {
+	async function handleSaveDraft(): Promise<boolean> {
 		const user = get(currentUser);
-		if (!user) return;
+		if (!user) return false;
 
 		const dataToSave = {
 			type: get(retrospectType),
@@ -36,13 +37,17 @@
 
 		const hasContent =
 			dataToSave.title.trim() !== '' ||
-			Object.values(dataToSave.answers).some((v) => (v as string).trim() !== '');
+			Object.values(dataToSave.answers).some((v) => (v as string).trim() !== '') ||
+			dataToSave.selectedEmotions.length > 0 ||
+			(dataToSave.categories && dataToSave.categories.length > 0);
 
 		if (!hasContent) {
-			return;
+			errorEmptyField();
+			return false;
 		}
 
 		await saveDraft(user.uid, dataToSave);
+		return true;
 	}
 
 	$: if (mode === 'write') {

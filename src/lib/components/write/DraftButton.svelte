@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { successDraftSave } from '$lib/utils/toast';
 
-	export let onClick: () => Promise<void>;
+	export let onClick: () => Promise<boolean>;
 
 	async function handleClick() {
-		await onClick();
-		successDraftSave();
+		const success = await onClick();
+		if (success) {
+			successDraftSave();
+		}
 	}
 </script>
 
