@@ -61,34 +61,33 @@ export async function loadRetrospects(loadMore = false) {
 }
 
 export async function loadAllRetrospects() {
-    // Only load if not already loading and data is not already present
-    if (get(isAllRetrospectsLoading) || get(allRetrospectsData).length > 0) return;
+	if (get(isAllRetrospectsLoading) || get(allRetrospectsData).length > 0) return;
 
-    isAllRetrospectsLoading.set(true);
-    errorMessage.set(null); // Clear any previous error messages
+	isAllRetrospectsLoading.set(true);
+	errorMessage.set(null);
 
-    try {
-        const user = get(currentUser);
-        if (!user) {
-            errorMessage.set('로그인이 필요합니다.');
-            return;
-        }
+	try {
+		const user = get(currentUser);
+		if (!user) {
+			errorMessage.set('로그인이 필요합니다.');
+			return;
+		}
 
-        const { success, retrospects: data, error: err } = await getAllRetrospectsByUser(user.uid);
+		const { success, retrospects: data, error: err } = await getAllRetrospectsByUser(user.uid);
 
-        if (success && data) {
-            allRetrospectsData.set(data);
-        } else if (err && typeof err === 'object' && 'message' in err) {
-            errorMessage.set((err as { message: string }).message);
-        } else {
-            errorMessage.set('모든 회고 데이터를 불러오는 중 오류가 발생했습니다.');
-        }
-    } catch (e) {
-        console.error(e);
-        errorMessage.set('서버 오류가 발생했습니다.');
-    } finally {
-        isAllRetrospectsLoading.set(false);
-    }
+		if (success && data) {
+			allRetrospectsData.set(data);
+		} else if (err && typeof err === 'object' && 'message' in err) {
+			errorMessage.set((err as { message: string }).message);
+		} else {
+			errorMessage.set('모든 회고 데이터를 불러오는 중 오류가 발생했습니다.');
+		}
+	} catch (e) {
+		console.error(e);
+		errorMessage.set('서버 오류가 발생했습니다.');
+	} finally {
+		isAllRetrospectsLoading.set(false);
+	}
 }
 
 export async function deleteRetrospects(ids: string[]) {

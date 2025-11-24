@@ -103,7 +103,7 @@ export async function getAllRetrospectsByUser(userId: string) {
 			categories: doc.data().categories,
 			answers: doc.data().answers
 		}));
-		return { success: true, retrospects: retrospects as RetrospectDocument[] };
+		return { success: true, retrospects: retrospects };
 	} catch (error) {
 		console.error('모든 회고 리스트 조회 실패:', error);
 		return { success: false, error };

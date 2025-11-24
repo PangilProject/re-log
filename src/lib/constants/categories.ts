@@ -1,4 +1,3 @@
-// src/lib/constants/categories.ts
 export const CATEGORIES = [
 	{ key: 'tech', label: '기술', icon: '💻' },
 	{ key: 'teamwork', label: '팀워크', icon: '🤝' },

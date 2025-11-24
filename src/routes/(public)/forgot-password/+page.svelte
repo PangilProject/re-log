@@ -1,9 +1,7 @@
 <script lang="ts">
 	import AuthPageLayout from '$lib/components/layout/AuthPageLayout.svelte';
-	import { goto } from '$app/navigation';
-	import { loginWithEmail } from '$lib/services/userService';
 	import { getErrorMessage } from '$lib/utils/firebaseError';
-	import { sendPasswordResetEmail } from 'firebase/auth'; // Firebase Auth function
+	import { sendPasswordResetEmail } from 'firebase/auth';
 	import { auth } from '$lib/firebase';
 	import { goToLogin } from '$lib/utils/navigation';
 	import toast from 'svelte-5-french-toast';
@@ -22,7 +20,6 @@
 			await sendPasswordResetEmail(auth, email);
 			successMessage = '비밀번호 재설정 이메일이 발송되었습니다. 받은편지함을 확인해주세요.';
 			toast.success(successMessage);
-			// Optionally, redirect to login after a short delay
 			setTimeout(() => {
 				goToLogin();
 			}, 3000);

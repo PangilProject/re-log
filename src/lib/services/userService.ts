@@ -210,7 +210,6 @@ export async function deleteUserAccount(user: User, password?: string) {
 	} catch (error: unknown) {
 		console.error('회원 탈퇴 오류:', error);
 
-		// FirebaseError 타입가드
 		const firebaseError = error as FirebaseError;
 
 		if (firebaseError.code === 'auth/requires-recent-login') {

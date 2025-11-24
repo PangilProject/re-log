@@ -1,4 +1,3 @@
-// tests/playwright/register.spec.ts
 import { test, expect } from '@playwright/test';
 
 test('사용자는 회원가입을 성공적으로 완료할 수 있다', async ({ page }) => {
@@ -12,7 +11,6 @@ test('사용자는 회원가입을 성공적으로 완료할 수 있다', async 
 	await page.getByRole('textbox', { name: '비밀번호', exact: true }).fill('password123');
 	await page.getByRole('textbox', { name: '비밀번호 확인' }).fill('password123');
 
-	// 회원가입 버튼 → 네비게이션 대기
 	await Promise.all([
 		page.waitForURL('**/list'),
 		page.getByRole('button', { name: '회원가입', exact: true }).click()

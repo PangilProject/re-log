@@ -9,6 +9,7 @@ export type RetrospectAnswers = {
 };
 
 export interface RetrospectDocument {
+	id: string;
 	type: 'daily' | 'kpt';
 	title: string;
 	answers: RetrospectAnswers | RetrospectAnswersKPT;

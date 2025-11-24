@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { feedbackModalStore, openFeedbackModal } from '$lib/stores/ui/feedbackModalStore';
+	import { feedbackModalStore } from '$lib/stores/ui/feedbackModalStore';
 	import { saveFeedback } from '$lib/services/feedbackService';
 	import toast from 'svelte-5-french-toast';
 	import { Loader2, X } from 'lucide-svelte';
-	import { onMount, onDestroy } from 'svelte';
-	import { openConfirm } from '$lib/utils/confirm';
-	import ConfirmModal from './ConfirmModal.svelte';
+	import { onMount } from 'svelte';
 
 	let email = '';
 	let message = '';

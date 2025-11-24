@@ -8,7 +8,6 @@ test.describe('StartButton 컴포넌트', () => {
 
 		const buttons = page.getByRole('button', { name: '시작하기' });
 
-		// Playwright에서는 count()를 직접 확인해야 함
 		const count = await buttons.count();
 		expect(count).toBeGreaterThan(0);
 	});

@@ -6,7 +6,7 @@ export const load: PageLoad = async ({ params }) => {
 	const { id } = params;
 	const result = await getRetrospectById(id);
 
-	if (result.success && result.data) {
+	if (result.success && result.data && result.id) {
 		return {
 			retrospect: { ...result.data, id: result.id }
 		};

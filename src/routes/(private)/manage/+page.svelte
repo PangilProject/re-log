@@ -57,7 +57,7 @@
 		}
 
 		isLoading = false;
-		await tick(); // Wait for the DOM to update
+		await tick();
 
 		if (usersByDay) {
 			usersChart = renderChart(usersCanvas, '일일 가입자 수', usersByDay);

@@ -12,7 +12,6 @@
 	export let searchQuery: Writable<string>;
 	export let sortOrder: Writable<'asc' | 'desc'>;
 
-	// 열기/닫기 상태
 	let isOpen = false;
 
 	const sortOptions = [
@@ -26,11 +25,11 @@
 		);
 	}
 
-    function handleSearchInputFocus() {
-        if (get(allRetrospectsData).length === 0 && !get(isAllRetrospectsLoading)) {
-            loadAllRetrospects();
-        }
-    }
+	function handleSearchInputFocus() {
+		if (get(allRetrospectsData).length === 0 && !get(isAllRetrospectsLoading)) {
+			loadAllRetrospects();
+		}
+	}
 </script>
 
 <div class="flex flex-col">
