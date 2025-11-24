@@ -4,6 +4,8 @@
 	import toast from 'svelte-5-french-toast';
 	import { Loader2, X } from 'lucide-svelte';
 	import { onMount, onDestroy } from 'svelte';
+	import { openConfirm } from '$lib/utils/confirm';
+	import ConfirmModal from './ConfirmModal.svelte';
 
 	let email = '';
 	let message = '';
@@ -38,13 +40,19 @@
 		}
 	}
 
+	function handleOverlayClick(event: MouseEvent) {
+		if (event.currentTarget === event.target) {
+			closeModal();
+		}
+	}
+
 	function closeModal() {
 		feedbackModalStore.set({ isOpen: false, mode: 'write', feedback: null });
 		email = '';
 		message = '';
 	}
 
-	function handleGlobalKeydown(event: KeyboardEvent) {
+	async function handleGlobalKeydown(event: KeyboardEvent) {
 		if (event.key === 'Escape') {
 			closeModal();
 		}
@@ -72,7 +80,7 @@
 	<div
 		class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
 		role="presentation"
-		on:click={closeModal}
+		on:click={handleOverlayClick}
 	>
 		<div class="animate-fadeIn w-[90%] max-w-lg rounded-xl border bg-white p-6 shadow-lg">
 			<div class="flex items-start justify-between">
