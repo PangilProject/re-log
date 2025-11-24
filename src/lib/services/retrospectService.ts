@@ -82,6 +82,35 @@ export async function getRetrospectListByUser(
 }
 
 /**
+ * 특정 사용자(userId)의 모든 회고 리스트를 가져오는 함수 (검색용)
+ * userId로 필터링한 뒤 작성일(createdAt) 기준으로 내림차순 정렬하여 회고 목록을 반환한다.
+ * 이 함수는 모든 데이터를 가져오며 페이지네이션을 사용하지 않는다.
+ */
+export async function getAllRetrospectsByUser(userId: string) {
+	try {
+		const q = query(
+			collection(db, 'retrospectives'),
+			where('userId', '==', userId),
+			orderBy('createdAt', 'desc')
+		);
+
+		const snapshot = await getDocs(q);
+		const retrospects = snapshot.docs.map((doc) => ({
+			id: doc.id,
+			title: doc.data().title,
+			createdAt: doc.data().createdAt,
+			selectedEmotions: doc.data().selectedEmotions,
+			categories: doc.data().categories,
+			answers: doc.data().answers
+		}));
+		return { success: true, retrospects: retrospects as RetrospectDocument[] };
+	} catch (error) {
+		console.error('모든 회고 리스트 조회 실패:', error);
+		return { success: false, error };
+	}
+}
+
+/**
  * 회고 문서 ID(docId)를 기반으로 단일 회고 데이터를 조회하는 함수
  * 문서가 존재하지 않을 경우 에러를 반환하고, 존재할 경우 문서 ID 및 데이터를 함께 반환한다.
  */

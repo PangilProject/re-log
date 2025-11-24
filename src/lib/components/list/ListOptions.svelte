@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { type Writable } from 'svelte/store';
+	import { type Writable, get } from 'svelte/store';
 	import Dropdown from '$lib/components/common/Dropdown.svelte';
 	import DeleteCard from './DeleteCard.svelte';
 	import { isDeleteMode } from '$lib/stores/list/listSelectionStore';
 	import { resetCategories, selectedCategories } from '$lib/stores/list/listFilterStore';
 	import { CATEGORIES } from '$lib/constants/categories';
 	import { RefreshCw, Filter, ChevronDown, ChevronUp } from 'lucide-svelte';
+	import { allRetrospectsData, isAllRetrospectsLoading } from '$lib/stores/list/listStore';
+	import { loadAllRetrospects } from '$lib/stores/list/listActions';
 
 	export let searchQuery: Writable<string>;
 	export let sortOrder: Writable<'asc' | 'desc'>;
@@ -23,6 +25,12 @@
 			prev.includes(key) ? prev.filter((c) => c !== key) : [...prev, key]
 		);
 	}
+
+    function handleSearchInputFocus() {
+        if (get(allRetrospectsData).length === 0 && !get(isAllRetrospectsLoading)) {
+            loadAllRetrospects();
+        }
+    }
 </script>
 
 <div class="flex flex-col">
@@ -81,6 +89,7 @@
 			type="text"
 			placeholder="제목 혹은 내용으로 검색..."
 			bind:value={$searchQuery}
+			on:focus={handleSearchInputFocus}
 			class="w-full rounded-md border-none px-3 py-2 text-sm shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none sm:w-[48.5%]"
 		/>
 

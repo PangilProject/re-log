@@ -11,9 +11,10 @@
 		retrospectsData,
 		errorMessage,
 		isLoading,
-		hasMoreData
+		hasMoreData,
+		isAllRetrospectsLoading // New import
 	} from '$lib/stores/list/listStore';
-	import { filteredRetrospects, searchQuery, sortOrder } from '$lib/stores/list/listFilterStore';
+	import { filteredRetrospects, searchQuery, sortOrder, selectedCategories } from '$lib/stores/list/listFilterStore'; // New imports
 	import FilterEmptyState from './FilterEmptyState.svelte';
 	import { openRetrospectType } from '$lib/utils/retrospectTtype';
 
@@ -23,15 +24,22 @@
 		hasMoreData.set(true);
 		loadRetrospects(false);
 	});
+
+	// Overall loading state for the PageContainer
+	// Should be true if paginated data is loading (and no data yet)
+	// OR if all retrospects data is loading for search
+	$: overallLoading = ($isLoading && $retrospectsData.length === 0) || $isAllRetrospectsLoading;
 </script>
 
-<PageContainer isLoading={$isLoading && $retrospectsData.length === 0} errorMessage={$errorMessage}>
+<PageContainer isLoading={overallLoading} errorMessage={$errorMessage}>
 	<ListHeader title="📘 나의 회고 목록" onNew={openRetrospectType} />
 	<ListOptions {searchQuery} {sortOrder} />
 
-	{#if $retrospectsData.length === 0 && !$isLoading}
+	{#if overallLoading}
+		<p class="mt-6 text-center text-gray-500">데이터를 불러오는 중...</p>
+	{:else if $retrospectsData.length === 0 && !$isLoading}
 		<EmptyState onNew={openRetrospectType} />
-	{:else if $filteredRetrospects.length === 0 && !$isLoading}
+	{:else if $filteredRetrospects.length === 0 && ($searchQuery.trim() || $selectedCategories.length > 0)}
 		<FilterEmptyState onNew={openRetrospectType} />
 	{:else}
 		<ul class="grid gap-6 sm:grid-cols-2">
@@ -48,7 +56,7 @@
 
 		{#if $isLoading && $retrospectsData.length > 0}
 			<p class="mt-6 text-center text-gray-500">로딩 중...</p>
-		{:else if $hasMoreData}
+		{:else if $hasMoreData && !$searchQuery.trim() && $selectedCategories.length === 0}
 			<div class="mt-6 text-center">
 				<button on:click={() => loadRetrospects(true)} class="btn-load-more"> 더 불러오기 </button>
 			</div>

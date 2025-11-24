@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store';
-import { retrospectsData } from './listStore';
+import { retrospectsData, allRetrospectsData, isAllRetrospectsLoading } from './listStore';
 
 export const searchQuery = writable('');
 export const sortOrder = writable<'asc' | 'desc'>('desc');
@@ -10,9 +10,17 @@ export function resetCategories() {
 }
 
 export const filteredRetrospects = derived(
-	[retrospectsData, searchQuery, sortOrder, selectedCategories],
-	([$data, $query, $order, $categories]) => {
-		let filtered = $data;
+	[retrospectsData, allRetrospectsData, searchQuery, sortOrder, selectedCategories, isAllRetrospectsLoading],
+	([$paginatedData, $allData, $query, $order, $categories, $allDataLoading]) => {
+		let filtered = $paginatedData; // Default to paginated data
+
+        // If search query or category filter is active AND all data is loaded, use allData
+        if (($query.trim() || $categories.length > 0) && $allData.length > 0) {
+            filtered = $allData; // Use full data for search and filter
+        } else if ($allDataLoading) {
+            // If full data is still loading, return empty to indicate no results yet from full search.
+            return [];
+        }
 
 		/** 1) 카테고리 필터 적용 */
 		if ($categories.length > 0) {

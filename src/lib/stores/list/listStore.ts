@@ -17,3 +17,15 @@ export const errorMessage = writable<string | null>(null);
 
 export const lastVisibleDoc = writable<QueryDocumentSnapshot<DocumentData> | null>(null);
 export const hasMoreData = writable(true);
+
+export const allRetrospectsData = writable<
+	{
+		id: string;
+		title: string;
+		createdAt?: CreatedAt;
+		selectedEmotions?: string[];
+		categories?: string[];
+		answers: Record<string, string>;
+	}[]
+>([]);
+export const isAllRetrospectsLoading = writable(false);
