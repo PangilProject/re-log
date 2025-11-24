@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { openFeedbackModal } from '$lib/stores/ui/feedbackModalStore';
 
-	const githubUrl = 'https://github.com/pangil5634';
+	const githubUrl = 'https://github.com/PangilProject/re-log';
 	const svelteUrl = 'https://svelte.dev';
 </script>
 
