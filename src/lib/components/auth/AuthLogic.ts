@@ -60,7 +60,7 @@ export async function handleRegister({
 	const { success, error } = await registerWithEmail(name, email, password);
 	setLoading(false);
 
-	await handleAuthResult({ success, error, setError });
+	await handleAuthResult({ success, error, setError, redirect: '/login' });
 }
 
 export async function handleGoogleAuth(

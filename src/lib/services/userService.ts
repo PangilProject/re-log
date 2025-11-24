@@ -56,6 +56,8 @@ export async function registerWithEmail(name: string, email: string, password: s
 			createdAt: serverTimestamp()
 		});
 
+		await signOut(auth);
+
 		return { success: true, user };
 	} catch (error) {
 		console.error('회원가입 오류:', error);
