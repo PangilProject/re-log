@@ -83,7 +83,7 @@
 	a:hover {
 		background-color: #1e40af;
 	}
-	.category-chip {
+	/* .category-chip {
 		--chip-color: #4f46e5;
 		padding: 0.25rem 0.55rem;
 		border-radius: 9999px;
@@ -97,5 +97,5 @@
 		border: 2px solid var(--chip-color);
 		color: var(--chip-color);
 		background-color: color-mix(in srgb, var(--chip-color) 14%, white);
-	}
+	} */
 </style>

@@ -62,7 +62,7 @@
 				rows="6"
 				placeholder="여기에 의견을 작성해주세요."
 				required
-			/>
+			></textarea>
 		</div>
 		<button type="submit" disabled={isSubmitting}>
 			{#if isSubmitting}
