@@ -1,6 +1,10 @@
 import { writable, get } from 'svelte/store';
 import { renderMarkdown } from '$lib/markdown';
-import type { RetrospectAnswers, RetrospectAnswersKPT } from '@/types/retrospect';
+import type {
+	RetrospectAnswers,
+	RetrospectAnswersKPT,
+	RetrospectDocument
+} from '@/types/retrospect';
 import { RETROSPECT_KPT_SECTIONS, RETROSPECT_SECTIONS } from '$lib/constants/retrospect_sections';
 
 export const retrospectType = writable<'daily' | 'kpt'>('daily');
@@ -33,16 +37,14 @@ export function resetWriteStore() {
 		previews.set({ ...emptyDailyAnswers });
 	}
 	selectedEmotions.set([]);
-	selectedCategories.set([]); // 👈 Add this line
+	selectedCategories.set([]);
 }
-export function hydrateWriteStore(doc: {
-	title: string;
-	answers: RetrospectAnswers | RetrospectAnswersKPT;
-	type: 'daily' | 'kpt';
-}) {
+export function hydrateWriteStore(doc: RetrospectDocument) {
 	retrospectType.set(doc.type);
 	title.set(doc.title);
 	answers.set({ ...doc.answers });
+	selectedEmotions.set(doc.selectedEmotions || []);
+	selectedCategories.set(doc.categories || []);
 
 	const renderedPreviews = Object.fromEntries(
 		Object.entries(doc.answers).map(([key, value]) => [key, renderMarkdown(value as string)])

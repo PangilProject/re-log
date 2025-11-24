@@ -3,7 +3,13 @@
 	import WriteForm from './WriteForm.svelte';
 	import { saveDraft } from '$lib/services/retrospectService';
 	import { get } from 'svelte/store';
-	import { answers, retrospectType, selectedEmotions, title } from '$lib/stores/write/writeStore';
+	import {
+		answers,
+		retrospectType,
+		selectedCategories,
+		selectedEmotions,
+		title
+	} from '$lib/stores/write/writeStore';
 	import { currentUser } from '$lib/stores/user';
 	import DraftButton from './DraftButton.svelte';
 	import BackToListSection from '../common/BackToListSection.svelte';
@@ -24,7 +30,8 @@
 			type: get(retrospectType),
 			title: get(title),
 			answers: get(answers),
-			selectedEmotions: get(selectedEmotions)
+			selectedEmotions: get(selectedEmotions),
+			categories: get(selectedCategories)
 		};
 
 		const hasContent =
@@ -39,7 +46,10 @@
 	}
 
 	$: if (mode === 'write') {
-		void [$title, $answers, $selectedEmotions];
+		$title;
+		$answers;
+		$selectedEmotions;
+		$selectedCategories;
 		debounce(handleSaveDraft, 3000);
 	}
 

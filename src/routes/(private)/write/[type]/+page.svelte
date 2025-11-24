@@ -4,7 +4,6 @@
 	import { currentUser } from '$lib/stores/user';
 	import { getDraft } from '$lib/services/retrospectService';
 	import { hydrateWriteStore, resetWriteStore, retrospectType } from '$lib/stores/write/writeStore';
-	import { setSelectedEmotions } from '$lib/stores/write/writeActions';
 	import { openConfirm } from '$lib/utils/confirm';
 	import WriteContainer from '$lib/components/write/WriteContainer.svelte';
 	import type { PageData } from './$types';
@@ -35,9 +34,6 @@
 					);
 					if (userChoice) {
 						hydrateWriteStore(draftData);
-						if (draftData.selectedEmotions) {
-							setSelectedEmotions(draftData.selectedEmotions);
-						}
 					}
 				}
 			} catch (error) {
