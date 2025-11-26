@@ -35,6 +35,7 @@ import {
 	errorNeedReLogin
 } from '$lib/utils/toast';
 import type { FirebaseError } from 'firebase/app';
+import type { UserDoc } from '@/types/interfaces/user';
 
 /**
  * 이메일로 회원가입하는 기능
@@ -247,9 +248,9 @@ export async function getAllUsers() {
 
 		const userSnapshot = await getDocs(q);
 
-		const userList = userSnapshot.docs.map((doc) => ({
+		const userList: UserDoc[] = userSnapshot.docs.map((doc) => ({
 			uid: doc.id,
-			...doc.data()
+			...(doc.data() as Omit<UserDoc, 'uid'>)
 		}));
 		return { success: true, users: userList };
 	} catch (error) {

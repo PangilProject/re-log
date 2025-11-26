@@ -4,6 +4,6 @@ export interface UserDoc {
 	uid: string;
 	displayName: string;
 	email: string;
-	createdAt?: Timestamp | null | undefined;
+	createdAt: Timestamp;
 	updatedAt?: unknown;
 }
