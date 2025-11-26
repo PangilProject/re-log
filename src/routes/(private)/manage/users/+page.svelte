@@ -6,6 +6,7 @@
 	import { openConfirm } from '$lib/utils/confirm';
 	import toast from 'svelte-5-french-toast';
 	import type { UserDoc } from '@/types/interfaces/user';
+	import { formatDate } from '$lib/utils/formatDate';
 
 	let users: UserDoc[] = [];
 	let isLoading = true;
@@ -48,7 +49,8 @@
 		<table class="min-w-full text-sm">
 			<thead class="bg-(--surface-muted)">
 				<tr>
-					<th class="px-6 py-3 text-left font-semibold text-(--text-primary)">UID</th>
+					<!-- <th class="px-6 py-3 text-left font-semibold text-(--text-primary)">UID</th> -->
+					<th class="px-6 py-3 text-left font-semibold text-(--text-primary)">가입일</th>
 					<th class="px-6 py-3 text-left font-semibold text-(--text-primary)">이름</th>
 					<th class="px-6 py-3 text-left font-semibold text-(--text-primary)">이메일</th>
 					<th class="px-6 py-3 text-left font-semibold text-(--text-primary)">작업</th>
@@ -57,7 +59,8 @@
 			<tbody class="divide-y divide-(--border-muted)">
 				{#each users as user (user.uid)}
 					<tr class="hover:bg-(--surface-light)">
-						<td class="px-6 py-4 text-(--text-secondary)">{user.uid}</td>
+						<!-- <td class="px-6 py-4 text-(--text-secondary)">{user.uid}</td> -->
+						<td class="px-6 py-4 text-(--text-secondary)">{formatDate(user.createdAt)}</td>
 						<td class="px-6 py-4 font-medium text-(--text-primary)">{user.displayName}</td>
 						<td class="px-6 py-4 text-(--text-secondary)">{user.email}</td>
 						<td class="px-6 py-4">

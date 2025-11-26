@@ -22,7 +22,8 @@ import {
 	collection,
 	query,
 	where,
-	getDocs
+	getDocs,
+	orderBy
 } from 'firebase/firestore';
 import { auth, db, provider } from '$lib/firebase';
 import {
@@ -241,8 +242,15 @@ export async function deleteUserAccount(user: User, password?: string) {
 export async function getAllUsers() {
 	try {
 		const usersCollection = collection(db, 'users');
-		const userSnapshot = await getDocs(usersCollection);
-		const userList = userSnapshot.docs.map((doc) => doc.data());
+
+		const q = query(usersCollection, orderBy('createdAt', 'desc'));
+
+		const userSnapshot = await getDocs(q);
+
+		const userList = userSnapshot.docs.map((doc) => ({
+			uid: doc.id,
+			...doc.data()
+		}));
 		return { success: true, users: userList };
 	} catch (error) {
 		console.error('사용자 목록 조회 오류:', error);
