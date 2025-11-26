@@ -1,15 +1,11 @@
 import { addDoc, collection, getDocs, orderBy, query, serverTimestamp } from 'firebase/firestore';
 import { db } from '$lib/firebase';
-
-export interface FeedbackPayload {
-	email?: string;
-	message: string;
-}
+import type { PostFeedbackPayload } from '@/types/interfaces/feedback';
 
 /**
  * Firestore에 피드백 데이터를 추가하는 함수
  */
-export async function saveFeedback(data: FeedbackPayload) {
+export async function saveFeedback(data: PostFeedbackPayload) {
 	try {
 		await addDoc(collection(db, 'feedbacks'), {
 			...data,

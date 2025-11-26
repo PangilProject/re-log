@@ -1,30 +1,21 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { FeedbackPayload } from '$lib/services/feedbackService';
 	import { getFeedbacks } from '$lib/services/feedbackService';
-	import { openFeedbackModal } from '$lib/stores/ui/feedbackModalStore';
-	import { formatDate } from '$lib/utils/formatDate';
-	import type { Timestamp } from 'firebase/firestore';
+	import type { GetFeedbackPayload } from '@/types/interfaces/feedback';
+	import FeedbackRow from '$lib/components/feedback/FeedbackRow.svelte';
 
-	interface Feedback extends FeedbackPayload {
-		id: string;
-		createdAt: Timestamp;
-	}
-
-	let feedbacks: Feedback[] = [];
+	let feedbacks: GetFeedbackPayload[] = [];
 	let isLoading = true;
 
+	// 관리자 페이지에서는 클라이언트 렌더링 시점에만 피드백 목록을 가져옵니다.
+	// (SSR 시 Firestore 접근을 하지 않기 위해 onMount에서 비동기 호출 수행)
 	onMount(async () => {
 		const { success, feedbacks: data } = await getFeedbacks();
 		if (success && data) {
-			feedbacks = data as Feedback[];
+			feedbacks = data as GetFeedbackPayload[];
 		}
 		isLoading = false;
 	});
-
-	function handleViewFeedback(feedback: Feedback) {
-		openFeedbackModal(feedback, 'view');
-	}
 </script>
 
 <div class="space-y-4">
@@ -46,13 +37,7 @@
 				</thead>
 				<tbody class="divide-y divide-gray-200">
 					{#each feedbacks as feedback (feedback.id)}
-						<tr class="cursor-pointer hover:bg-gray-50" on:click={() => handleViewFeedback(feedback)}>
-							<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-								{formatDate(feedback.createdAt)}
-							</td>
-							<td class="whitespace-nowrap px-6 py-4 text-gray-800">{feedback.email || '-'}</td>
-							<td class="max-w-md truncate px-6 py-4 text-gray-800">{feedback.message}</td>
-						</tr>
+						<FeedbackRow {feedback}></FeedbackRow>
 					{/each}
 				</tbody>
 			</table>

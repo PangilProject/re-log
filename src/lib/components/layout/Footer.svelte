@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { openFeedbackModal } from '$lib/stores/ui/feedbackModalStore';
+	import { openWriteFeedbackModal } from '$lib/stores/ui/feedbackModalStore';
 
 	const githubUrl = 'https://github.com/PangilProject/re-log';
 	const svelteUrl = 'https://svelte.dev';
@@ -8,7 +8,7 @@
 <footer class="bg-white/80 py-10 text-gray-500">
 	<div class="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 text-center">
 		<div class="flex flex-wrap items-center justify-center gap-4 text-sm">
-			<button on:click={() => openFeedbackModal()} class="footer-link">피드백 남기기</button>
+			<button on:click={() => openWriteFeedbackModal()} class="footer-link">피드백 남기기</button>
 			<span class="divider">·</span>
 
 			<a href={githubUrl} target="_blank" rel="noopener noreferrer" class="footer-link"> GitHub </a>
